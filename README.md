@@ -1,6 +1,6 @@
 # 🛡️ Alwar Cyber Crime Help & Guidance Portal
 
-A lightweight, mobile-first, and senior-citizen-accessible web application designed to empower citizens of Alwar, Rajasthan with instant access to cybercrime reporting, emergency helplines, automated complaint drafting, and digital safety guidance.
+A lightweight, mobile-first, and senior-citizen-accessible web application designed to empower citizens of Alwar, Rajasthan with instant access to cybercrime reporting, emergency helplines, automated complaint drafting, and digital safety guidance. Built by interns Amritanshu, Rajveer, Aayush & Rishabh ✌️
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
