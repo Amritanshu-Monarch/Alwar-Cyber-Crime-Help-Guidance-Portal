@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alwar Cyber Crime Help & Guidance Portal</title>
+  <link rel="icon" type="image/png" href="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.85; }
+    }
+    .pulse-slow {
+      animation: pulse-slow 2.5s infinite ease-in-out;
+    }
+    .slide-fixed-height {
+      min-height: 120px;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
+
+  <!-- Desktop Container Layout -->
+  <div class="max-w-6xl mx-auto min-h-screen bg-white shadow-xl flex flex-col justify-between relative">
+
+    <div>
+      <!-- Main Header Section -->
+      <header class="bg-slate-900 text-white border-b-4 border-amber-500 shadow-md">
+        <div class="p-3.5 md:p-6 flex items-center justify-between gap-2.5">
+          <div class="flex items-center space-x-2.5 md:space-x-4">
+            <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Rajasthan Police Logo" class="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain flex-shrink-0">
+            <div>
+              <h1 id="portal-title" class="text-base sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight">
+                Alwar Cyber Crime<br class="block sm:hidden"> Help & Guidance Portal
+              </h1>
+            </div>
+          </div>
+
+          <!-- Language Switcher Button -->
+          <button id="lang-toggle-btn" onclick="toggleLanguage()" class="flex-shrink-0 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-1.5 px-3 md:px-4 rounded-full text-xs md:text-sm shadow-md transition-all duration-200 flex items-center gap-1.5">
+            <i class="fa-solid fa-language text-sm md:text-lg"></i>
+            <span id="lang-btn-text">हिंदी में देखें</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content Body -->
+      <main class="p-3 md:p-6 space-y-3.5 md:space-y-6 pb-2">
+
+        <!-- Sliding Banner Carousel with Police Image Background Overlay -->
+        <section class="relative rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-900 text-white">
+          <div class="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent z-0"></div>
+
+          <div class="relative z-10 p-4 md:p-6 slide-fixed-height flex items-center">
+            
+            <!-- Slide 1: Digital Evidence Warning (Default First) -->
+            <div id="slide-1" class="carousel-slide flex items-center gap-3 md:gap-4 w-full">
+              <div class="p-2.5 bg-amber-500/20 border border-amber-400/40 rounded-xl pulse-slow flex-shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl md:text-3xl"></i>
+              </div>
+              <div>
+                <p id="slide1-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-amber-100">
+                  Do NOT delete any APK file, malicious app, WhatsApp chat, screenshot, or call log! These are vital digital evidence for police investigation.
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 2: Golden Hour Reporting -->
+            <div id="slide-2" class="carousel-slide hidden flex items-center gap-3 md:gap-4 w-full">
+              <div class="p-2.5 bg-red-500/20 border border-red-400/40 rounded-xl pulse-slow flex-shrink-0">
+                <i class="fa-solid fa-clock-rotate-left text-red-400 text-xl md:text-3xl"></i>
+              </div>
+              <div>
+                <p id="slide2-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-slate-100">
+                  Golden Hour Rule: Report any online financial fraud immediately on 1930 or to Alwar Control Room (8764874306) within 2 hours to freeze stolen money!
+                </p>
+              </div>
+            </div>
+
+            <!-- Slide 3: Citizen Awareness -->
+            <div id="slide-3" class="carousel-slide hidden flex items-center gap-3 md:gap-4 w-full">
+              <div class="p-2.5 bg-blue-500/20 border border-blue-400/40 rounded-xl pulse-slow flex-shrink-0">
+                <i class="fa-solid fa-shield-halved text-blue-400 text-xl md:text-3xl"></i>
+              </div>
+              <div>
+                <p id="slide3-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-slate-100">
+                  Police or Bank officials will NEVER ask for your OTP, Banking Password, or request screen sharing app installations!
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Carousel Indicator Dots -->
+          <div class="relative z-10 flex justify-center space-x-2 pb-2.5">
+            <button onclick="setSlide(0)" id="dot-0" class="w-2.5 h-2.5 rounded-full bg-amber-400 transition-all"></button>
+            <button onclick="setSlide(1)" id="dot-1" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
+            <button onclick="setSlide(2)" id="dot-2" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
+          </div>
+        </section>
+
+        <!-- Services Grid Section - 2 Columns on Mobile -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-4">
+
+          <!-- Card 1: Complaint Letter Generator -->
+          <div onclick="openModal('complaint-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 text-blue-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </div>
+              <h3 id="card1-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Complaint Letter Generator</h3>
+              <p id="card1-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Draft a formal application to SHO easily in 1 minute.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-blue-700 font-semibold text-xs md:text-sm">
+              <span id="card1-action">Draft Letter</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </div>
+
+          <!-- Card 2: Emergency Helplines -->
+          <div onclick="openModal('helpline-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 text-red-600 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-phone-volume"></i>
+              </div>
+              <h3 id="card2-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Emergency Helplines</h3>
+              <p id="card2-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Direct numbers for Alwar Cyber Control, 1930 & 112.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-red-600 font-semibold text-xs md:text-sm">
+              <span id="card2-action">Call Helplines</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </div>
+
+          <!-- Card 3: WhatsApp Police Help -->
+          <div onclick="openWhatsApp()" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-100 text-emerald-600 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <h3 id="card3-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">WhatsApp Police Help</h3>
+              <p id="card3-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Direct chat assistance with Alwar Police Cyber Crime Desk.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-emerald-600 font-semibold text-xs md:text-sm">
+              <span id="card3-action">Chat Now</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </div>
+
+          <!-- Card 4: Official Cyber Portal Redirection -->
+          <a href="https://cybercrime.gov.in" target="_blank" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-100 text-amber-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+              <h3 id="card4-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">National Cyber Portal</h3>
+              <p id="card4-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Official Government portal cybercrime.gov.in portal.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-amber-700 font-semibold text-xs md:text-sm">
+              <span id="card4-action">Visit Portal</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </a>
+
+          <!-- Card 5: Nearest Police Station -->
+          <div onclick="openModal('station-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-purple-100 text-purple-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <h3 id="card5-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Nearest Police Station</h3>
+              <p id="card5-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Find location & map route to local Thana in Alwar.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-purple-700 font-semibold text-xs md:text-sm">
+              <span id="card5-action">Find Station</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </div>
+
+          <!-- Card 6: Tenant / Servant Verification -->
+          <div onclick="openModal('tenant-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-teal-100 text-teal-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-id-card"></i>
+              </div>
+              <h3 id="card6-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Tenant Verification</h3>
+              <p id="card6-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Verification guidelines & form for home security.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-teal-700 font-semibold text-xs md:text-sm">
+              <span id="card6-action">View Details</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </div>
+
+          <!-- Card 7: Chakshu Suspected Fraud Reporting -->
+          <a href="https://sancharsaathi.gov.in/sfc/Home/sfc-complaint.jsp" target="_blank" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-indigo-100 text-indigo-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+              <h3 id="card7-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Report Fake Call / SMS</h3>
+              <p id="card7-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Chakshu portal redirect for suspicious SMS & calls.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-indigo-700 font-semibold text-xs md:text-sm">
+              <span id="card7-action">Report Fraud</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </a>
+
+          <!-- Card 8: Cyber Safety Rules -->
+          <div onclick="openModal('safety-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-orange-100 text-orange-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <h3 id="card8-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Cyber Safety Rules</h3>
+              <p id="card8-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Simple rules & precautions to stay safe from cheats.</p>
+            </div>
+            <div class="mt-2.5 md:mt-4 flex items-center text-orange-700 font-semibold text-xs md:text-sm">
+              <span id="card8-action">Read Rules</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- Footer Section Positioned Upwards -->
+    <footer class="bg-slate-900 text-white mt-3 border-t border-slate-800">
+      <div class="py-3 px-4 text-center">
+        <div class="flex items-center justify-center gap-2 mb-1">
+          <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Logo" class="h-6 w-6 object-contain">
+          <span id="footer-dept" class="font-bold text-base text-white">Alwar Police</span>
+        </div>
+        <p id="footer-motto" class="text-slate-300 font-medium text-xs md:text-sm">
+          Fear among criminals, Faith in common men
+        </p>
+      </div>
+
+      <!-- Quick Action Sticky/Pinned Emergency Bar with Enlarged Fonts -->
+      <div class="sticky bottom-0 z-40 grid grid-cols-2 bg-slate-950 p-2 md:p-2.5 gap-2 border-t border-slate-800 shadow-2xl">
+        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-xl font-bold flex items-center justify-center gap-2.5 shadow transition">
+          <i class="fa-solid fa-phone text-lg sm:text-xl md:text-2xl"></i>
+          <div class="text-left leading-tight">
+            <span id="btm-btn1-label" class="block text-[11px] sm:text-xs md:text-sm uppercase tracking-wider text-red-100 font-bold">CYBER CONTROL ROOM</span>
+            <span class="text-sm sm:text-base md:text-xl font-black tracking-tight">8764874306</span>
+          </div>
+        </a>
+        
+        <a href="tel:1930" class="bg-amber-500 hover:bg-amber-600 text-slate-950 p-3 rounded-xl font-bold flex items-center justify-center gap-2.5 shadow transition">
+          <i class="fa-solid fa-phone text-slate-950 text-lg sm:text-xl md:text-2xl"></i>
+          <div class="text-left leading-tight">
+            <span id="btm-btn2-label" class="block text-[11px] sm:text-xs md:text-sm uppercase tracking-wider text-slate-900 font-extrabold">NATIONAL HELPLINE</span>
+            <span class="text-sm sm:text-base md:text-xl font-black tracking-tight">CALL 1930</span>
+          </div>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+
+  <!-- ================= MODALS SECTION ================= -->
+
+  <!-- Modal 1: Complaint Letter Generator -->
+  <div id="complaint-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-5 md:p-6 shadow-2xl relative">
+      <button onclick="closeModal('complaint-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center text-lg">
+          <i class="fa-solid fa-file-signature"></i>
+        </div>
+        <h2 id="modal-comp-title" class="text-lg md:text-xl font-bold text-slate-900">Complaint Letter Draft Generator</h2>
+      </div>
+
+      <div class="space-y-3.5">
+        <div>
+          <label id="lbl-fullname" class="block text-xs font-bold text-slate-700 uppercase mb-1">Applicant Full Name</label>
+          <input type="text" id="comp-name" placeholder="e.g. Ramesh Chandra Sharma" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+        </div>
+
+        <div>
+          <label id="lbl-phone" class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone Number</label>
+          <input type="tel" id="comp-phone" placeholder="e.g. 98290XXXXX" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+        </div>
+
+        <div>
+          <label id="lbl-station" class="block text-xs font-bold text-slate-700 uppercase mb-1">Police Station Name (Alwar)</label>
+          <input type="text" id="comp-station" placeholder="e.g. Kotwali Alwar / NEB Alwar" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+        </div>
+
+        <div>
+          <label id="lbl-type" class="block text-xs font-bold text-slate-700 uppercase mb-1">Incident Category</label>
+          <select id="comp-type" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-white">
+            <option value="Online Financial Fraud / OTP Theft">Online Financial Fraud / OTP Theft</option>
+            <option value="WhatsApp / Fake Call Impersonation">WhatsApp / Fake Call Impersonation</option>
+            <option value="Social Media Harassment / Fake Profile">Social Media Harassment / Fake Profile</option>
+            <option value="ATM / Credit Card Fraud">ATM / Credit Card Fraud</option>
+            <option value="Job / Loan Scam">Job / Loan Scam</option>
+          </select>
+        </div>
+
+        <div>
+          <label id="lbl-details" class="block text-xs font-bold text-slate-700 uppercase mb-1">Incident Brief Details & Amount</label>
+          <textarea id="comp-details" rows="3" placeholder="Specify date, transaction ID, bank name, cheated amount, caller number..." class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"></textarea>
+        </div>
+
+        <button onclick="generateLetter()" id="btn-generate-letter" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md transition text-sm">
+          Generate Complaint Letter Text
+        </button>
+
+        <div id="letter-output-box" class="hidden mt-4">
+          <label id="lbl-preview" class="block text-xs font-bold text-slate-700 uppercase mb-1">Generated Draft Preview</label>
+          <div id="letter-text" class="p-4 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono whitespace-pre-wrap text-slate-800 leading-relaxed max-h-56 overflow-y-auto select-all"></div>
+          
+          <div class="grid grid-cols-2 gap-2 mt-3">
+            <button onclick="copyLetter()" id="btn-copy" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+              <i class="fa-regular fa-copy"></i> <span id="copy-btn-text">Copy Text</span>
+            </button>
+            <button onclick="printLetter()" id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-print"></i> <span id="print-btn-text">Print / Save PDF</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal 2: Emergency Helplines Directory -->
+  <div id="helpline-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+      <button onclick="closeModal('helpline-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-lg">
+          <i class="fa-solid fa-phone-volume"></i>
+        </div>
+        <h2 id="modal-help-title" class="text-xl font-bold text-slate-900">Emergency Numbers</h2>
+      </div>
+
+      <div class="space-y-3">
+        <!-- Alwar Cyber Control Room First -->
+        <div class="p-3 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between">
+          <div>
+            <span id="help-tag1" class="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full uppercase">Cyber Control Room</span>
+            <div class="font-bold text-slate-900 text-base mt-1">8764874306</div>
+            <p id="help-desc1" class="text-xs text-slate-600">Alwar Police Cyber Crime Desk</p>
+          </div>
+          <a href="tel:8764874306" class="bg-red-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-700">CALL</a>
+        </div>
+
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
+          <div>
+            <span id="help-tag2" class="text-[10px] font-bold bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full uppercase">National Cyber Portal</span>
+            <div class="font-bold text-slate-900 text-base mt-1">1930</div>
+            <p id="help-desc2" class="text-xs text-slate-600">Golden Hour Cyber Helpline</p>
+          </div>
+          <a href="tel:1930" class="bg-amber-500 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold hover:bg-amber-600">CALL</a>
+        </div>
+
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
+          <div>
+            <span id="help-tag3" class="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase">Police Emergency</span>
+            <div class="font-bold text-slate-900 text-base mt-1">112</div>
+            <p id="help-desc3" class="text-xs text-slate-600">24x7 Rajasthan Police Response</p>
+          </div>
+          <a href="tel:112" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-700">CALL</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal 3: Police Stations Directory -->
+  <div id="station-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+      <button onclick="closeModal('station-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-lg">
+          <i class="fa-solid fa-map-location-dot"></i>
+        </div>
+        <h2 id="modal-station-title" class="text-xl font-bold text-slate-900">Alwar Key Police Stations</h2>
+      </div>
+
+      <div class="space-y-3 max-h-72 overflow-y-auto pr-1">
+        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Kotwali Police Station</div>
+            <p class="text-xs text-slate-500">Alwar City</p>
+          </div>
+          <a href="https://maps.google.com/?q=Kotwali+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+            <i class="fa-solid fa-directions mr-1"></i> Map
+          </a>
+        </div>
+
+        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-900 text-sm">NEB Police Station</div>
+            <p class="text-xs text-slate-500">Alwar City</p>
+          </div>
+          <a href="https://maps.google.com/?q=NEB+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+            <i class="fa-solid fa-directions mr-1"></i> Map
+          </a>
+        </div>
+
+        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Aravali Vihar Thana</div>
+            <p class="text-xs text-slate-500">Alwar</p>
+          </div>
+          <a href="https://maps.google.com/?q=Aravali+Vihar+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+            <i class="fa-solid fa-directions mr-1"></i> Map
+          </a>
+        </div>
+
+        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Mahila Thana Alwar</div>
+            <p class="text-xs text-slate-500">Alwar Women Desk</p>
+          </div>
+          <a href="https://maps.google.com/?q=Mahila+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+            <i class="fa-solid fa-directions mr-1"></i> Map
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal 4: Tenant Verification -->
+  <div id="tenant-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+      <button onclick="closeModal('tenant-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center text-lg">
+          <i class="fa-solid fa-id-card"></i>
+        </div>
+        <h2 id="modal-tenant-title" class="text-xl font-bold text-slate-900">Tenant / Servant Verification</h2>
+      </div>
+
+      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <p id="tenant-p1">Verification of tenants and household help is mandatory for domestic safety. Ensure you keep copies of their official ID proof before renting.</p>
+        
+        <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl space-y-2">
+          <div class="font-bold text-teal-900" id="tenant-req-head">Required Documents:</div>
+          <ul class="list-disc pl-5 text-xs text-teal-800 space-y-1" id="tenant-req-list">
+            <li>Aadhaar Card or Voter Identity Card copy</li>
+            <li>2 Passport size photographs</li>
+            <li>Permanent address & phone number of previous employer</li>
+          </ul>
+        </div>
+
+        <a href="https://police.rajasthan.gov.in" target="_blank" id="btn-tenant-portal" class="block text-center w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition text-sm">
+          Go to RajCop Citizen Services
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal 5: Safety Rules -->
+  <div id="safety-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+      <button onclick="closeModal('safety-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-orange-100 text-orange-700 rounded-xl flex items-center justify-center text-lg">
+          <i class="fa-solid fa-shield-cat"></i>
+        </div>
+        <h2 id="modal-safety-title" class="text-xl font-bold text-slate-900">Cyber Safety Golden Rules</h2>
+      </div>
+
+      <div class="space-y-3 text-xs md:text-sm text-slate-700">
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
+          <span class="text-red-500 font-bold text-base">1.</span>
+          <p id="rule-1">Never share your Bank OTP, Card PIN, or Internet Banking password with anyone.</p>
+        </div>
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
+          <span class="text-red-500 font-bold text-base">2.</span>
+          <p id="rule-2">Do not install screen sharing apps (AnyDesk, TeamViewer, RustDesk) on caller's request.</p>
+        </div>
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
+          <span class="text-red-500 font-bold text-base">3.</span>
+          <p id="rule-3">Do NOT delete any APK, suspicious application, WhatsApp chat, or call log after a fraud.</p>
+        </div>
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
+          <span class="text-red-500 font-bold text-base">4.</span>
+          <p id="rule-4">In case of any fraud, immediately dial 1930 or call Alwar Control Room at 8764874306.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JavaScript Logic -->
+  <script>
+    // State management
+    let currentLang = 'en'; // 'en' or 'hi'
+    let currentSlide = 0;
+    let slideTimer = null;
+
+    // Translation Data Store
+    const translations = {
+      en: {
+        portalTitle: "Alwar Cyber Crime<br class=\"block sm:hidden\"> Help & Guidance Portal",
+        langBtn: "हिंदी में देखें",
+        slide1: "Do NOT delete any APK file, malicious app, WhatsApp chat, screenshot, or call log! These are vital digital evidence for police investigation.",
+        slide2: "Golden Hour Rule: Report any online financial fraud immediately on 1930 or to Alwar Control Room (8764874306) within 2 hours to freeze stolen money!",
+        slide3: "Police or Bank officials will NEVER ask for your OTP, Banking Password, or request screen sharing app installations!",
+        card1Title: "Complaint Letter Generator",
+        card1Desc: "Draft a formal application to SHO easily in 1 minute.",
+        card1Action: "Draft Letter",
+        card2Title: "Emergency Helplines",
+        card2Desc: "Direct numbers for Alwar Cyber Control, 1930 & 112.",
+        card2Action: "Call Helplines",
+        card3Title: "WhatsApp Police Help",
+        card3Desc: "Direct chat assistance with Alwar Police Cyber Crime Desk.",
+        card3Action: "Report Cyber Fraud",
+        card4Title: "National Cyber Portal",
+        card4Desc: "Official Government portal cybercrime.gov.in portal.",
+        card4Action: "Visit Portal",
+        card5Title: "Nearest Police Station",
+        card5Desc: "Find location & map route to local Thana in Alwar.",
+        card5Action: "Find Station",
+        card6Title: "Tenant Verification",
+        card6Desc: "Verification guidelines & form for home security.",
+        card6Action: "View Details",
+        card7Title: "Report Fake Call / SMS",
+        card7Desc: "Chakshu portal redirect for suspicious SMS & calls.",
+        card7Action: "Report Fraud",
+        card8Title: "Cyber Safety Rules",
+        card8Desc: "Simple rules & precautions to stay safe from cheats.",
+        card8Action: "Read Rules",
+        footerDept: "Alwar Police",
+        footerMotto: "Fear among criminals, Faith in common men",
+        btmBtn1Label: "CYBER CONTROL ROOM",
+        btmBtn2Label: "NATIONAL HELPLINE",
+        modalCompTitle: "Complaint Letter Draft Generator",
+        lblFullName: "Applicant Full Name",
+        lblPhone: "Phone Number",
+        lblStation: "Police Station Name (Alwar)",
+        lblType: "Incident Category",
+        lblDetails: "Incident Brief Details & Amount",
+        btnGenerate: "Generate Complaint Letter Text",
+        lblPreview: "Generated Draft Preview",
+        btnCopy: "Copy Text",
+        btnPrint: "Print / Save PDF",
+        modalHelpTitle: "Emergency Numbers",
+        helpTag1: "CYBER CONTROL ROOM",
+        helpDesc1: "Alwar Police Cyber Crime Desk",
+        helpTag2: "NATIONAL CYBER PORTAL",
+        helpDesc2: "Golden Hour Cyber Helpline",
+        helpTag3: "POLICE EMERGENCY",
+        helpDesc3: "24x7 Rajasthan Police Response",
+        modalStationTitle: "Alwar Key Police Stations",
+        modalTenantTitle: "Tenant / Servant Verification",
+        tenantP1: "Verification of tenants and household help is mandatory for domestic safety. Ensure you keep copies of their official ID proof before renting.",
+        tenantReqHead: "Required Documents:",
+        tenantReqList: "<li>Aadhaar Card or Voter Identity Card copy</li><li>2 Passport size photographs</li><li>Permanent address & phone number of previous employer</li>",
+        btnTenantPortal: "Go to RajCop Citizen Services",
+        modalSafetyTitle: "Cyber Safety Golden Rules",
+        rule1: "Never share your Bank OTP, Card PIN, or Internet Banking password with anyone.",
+        rule2: "Do not install screen sharing apps (AnyDesk, TeamViewer, RustDesk) on caller's request.",
+        rule3: "Do NOT delete any APK, suspicious application, WhatsApp chat, or call log after a fraud.",
+        rule4: "In case of any fraud, immediately dial 1930 or call Alwar Control Room at 8764874306."
+      },
+      hi: {
+        portalTitle: "अलवर साइबर अपराध<br class=\"block sm:hidden\"> सहायता एवं मार्गदर्शन पोर्टल",
+        langBtn: "In English",
+        slide1: "कोई भी APK फ़ाइल, संदिग्ध ऐप, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल लॉग बिल्कुल भी डिलीट न करें! ये पुलिस जांच के लिए महत्वपूर्ण डिजिटल साक्ष्य (सबूत) हैं।",
+        slide2: "गोल्डन आवर नियम: किसी भी ऑनलाइन ठगी की स्थिति में तुरंत 1930 या अलवर कंट्रोल रूम (8764874306) पर सूचित करें ताकि पैसे फ्रीज किए जा सकें!",
+        slide3: "पुलिस या बैंक अधिकारी आपसे कभी भी आपका ओटीपी, पासवर्ड या स्क्रीन शेयरिंग ऐप डाउनलोड करने के लिए नहीं कहेंगे!",
+        card1Title: "शिकायत पत्र जनरेटर",
+        card1Desc: "थानाधिकारी (SHO) को औपचारिक आवेदन 1 मिनट में तैयार करें।",
+        card1Action: "पत्र ड्राफ्ट करें",
+        card2Title: "आपातकालीन हेल्पलाइन",
+        card2Desc: "अलवर साइबर कंट्रोल रूम, 1930 एवं 112 के सीधे नंबर।",
+        card2Action: "हेल्पलाइन कॉल करें",
+        card3Title: "व्हाट्सएप पुलिस सहायता",
+        card3Desc: "अलवर पुलिस साइबर डेस्क से व्हाट्सएप पर सीधी बात करें।",
+        card3Action: "साइबर फ्रॉड रिपोर्ट करें",
+        card4Title: "राष्ट्रीय साइबर पोर्टल",
+        card4Desc: "अधि‍कृत सरकारी पोर्टल cybercrime.gov.in लिंक।",
+        card4Action: "पोर्टल पर जाएं",
+        card5Title: "नजदीकी पुलिस थाना",
+        card5Desc: "अलवर के स्थानीय थाने की लोकेशन व रास्ता खोजें।",
+        card5Action: "थाना खोजें",
+        card6Title: "किरायेदार सत्यापन",
+        card6Desc: "घर की सुरक्षा हेतु किरायेदार/नौकर सत्यापन नियम।",
+        card6Action: "विवरण देखें",
+        card7Title: "फर्जी कॉल / मैसेज रिपोर्ट",
+        card7Desc: "संदिग्ध कॉल और मैसेज की चक्षु (Chakshu) पोर्टल पर रिपोर्ट।",
+        card7Action: "फ्रॉड रिपोर्ट करें",
+        card8Title: "साइबर सुरक्षा नियम",
+        card8Desc: "ऑनलाइन ठगी से बचने के सरल और जरूरी नियम।",
+        card8Action: "नियम पढ़ें",
+        footerDept: "अलवर पुलिस",
+        footerMotto: "अपराधियों में डर, आमजन में विश्वास",
+        btmBtn1Label: "साइबर कंट्रोल रूम",
+        btmBtn2Label: "राष्ट्रीय हेल्पलाइन",
+        modalCompTitle: "शिकायत आवेदन पत्र जनरेटर",
+        lblFullName: "आवेदक का पूरा नाम",
+        lblPhone: "मोबाइल नंबर",
+        lblStation: "पुलिस थाना का नाम (अलवर)",
+        lblType: "घटना की श्रेणी",
+        lblDetails: "घटना का संक्षिप्त विवरण एवं ठगी राशि",
+        btnGenerate: "शिकायत पत्र तैयार करें",
+        lblPreview: "तैयार आवेदन पत्र का प्रारूप",
+        btnCopy: "टेक्स्ट कॉपी करें",
+        btnPrint: "प्रिंट / पीडीएफ सेव करें",
+        modalHelpTitle: "आपातकालीन नंबर निर्देशिका",
+        helpTag1: "साइबर कंट्रोल रूम",
+        helpDesc1: "अलवर पुलिस साइबर अपराध डेस्क",
+        helpTag2: "राष्ट्रीय साइबर पोर्टल",
+        helpDesc2: "गोल्डन आवर साइबर हेल्पलाइन",
+        helpTag3: "पुलिस आपातकालीन",
+        helpDesc3: "24x7 राजस्थान पुलिस सेवा",
+        modalStationTitle: "अलवर के प्रमुख पुलिस थाने",
+        modalTenantTitle: "किरायेदार एवं घरेलू नौकर सत्यापन",
+        tenantP1: "घर एवं मोहल्ले की सुरक्षा के लिए किरायेदार व नौकर का सत्यापन आवश्यक है। किराये पर देने से पहले पहचान पत्र अवश्य लें।",
+        tenantReqHead: "आवश्यक दस्तावेज़:",
+        tenantReqList: "<li>आधार कार्ड या वोटर आईडी कार्ड की प्रति</li><li>2 पासपोर्ट साइज फोटो</li><li>स्थायी पता और पूर्व नियोक्ता का फोन नंबर</li>",
+        btnTenantPortal: "राजकॉप नागरिक सेवा पर जाएं",
+        modalSafetyTitle: "साइबर सुरक्षा के मुख्य नियम",
+        rule1: "अपना बैंक ओटीपी, कार्ड पिन या पासवर्ड किसी के साथ साझा न करें।",
+        rule2: "अज्ञात कॉलर के कहने पर मोबाइल में एनीडेस्क (AnyDesk) जैसी ऐप्स डाउनलोड न करें।",
+        rule3: "ठगी होने के बाद मोबाइल से कोई भी APK, व्हाट्सएप चैट या स्क्रीनशॉट डिलीट न करें।",
+        rule4: "साइबर फ्रॉड होते ही तुरंत 1930 या अलवर कंट्रोल रूम 8764874306 पर कॉल करें।"
+      }
+    };
+
+    // Toggle Language Function
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'hi' : 'en';
+      const langData = translations[currentLang];
+
+      // Header & Title
+      document.getElementById('portal-title').innerHTML = langData.portalTitle;
+      document.getElementById('lang-btn-text').innerText = langData.langBtn;
+
+      // Banner Slides
+      document.getElementById('slide1-text').innerText = langData.slide1;
+      document.getElementById('slide2-text').innerText = langData.slide2;
+      document.getElementById('slide3-text').innerText = langData.slide3;
+
+      // Cards
+      document.getElementById('card1-title').innerText = langData.card1Title;
+      document.getElementById('card1-desc').innerText = langData.card1Desc;
+      document.getElementById('card1-action').innerText = langData.card1Action;
+
+      document.getElementById('card2-title').innerText = langData.card2Title;
+      document.getElementById('card2-desc').innerText = langData.card2Desc;
+      document.getElementById('card2-action').innerText = langData.card2Action;
+
+      document.getElementById('card3-title').innerText = langData.card3Title;
+      document.getElementById('card3-desc').innerText = langData.card3Desc;
+      document.getElementById('card3-action').innerText = langData.card3Action;
+
+      document.getElementById('card4-title').innerText = langData.card4Title;
+      document.getElementById('card4-desc').innerText = langData.card4Desc;
+      document.getElementById('card4-action').innerText = langData.card4Action;
+
+      document.getElementById('card5-title').innerText = langData.card5Title;
+      document.getElementById('card5-desc').innerText = langData.card5Desc;
+      document.getElementById('card5-action').innerText = langData.card5Action;
+
+      document.getElementById('card6-title').innerText = langData.card6Title;
+      document.getElementById('card6-desc').innerText = langData.card6Desc;
+      document.getElementById('card6-action').innerText = langData.card6Action;
+
+      document.getElementById('card7-title').innerText = langData.card7Title;
+      document.getElementById('card7-desc').innerText = langData.card7Desc;
+      document.getElementById('card7-action').innerText = langData.card7Action;
+
+      document.getElementById('card8-title').innerText = langData.card8Title;
+      document.getElementById('card8-desc').innerText = langData.card8Desc;
+      document.getElementById('card8-action').innerText = langData.card8Action;
+
+      // Footer
+      document.getElementById('footer-dept').innerText = langData.footerDept;
+      document.getElementById('footer-motto').innerText = langData.footerMotto;
+      document.getElementById('btm-btn1-label').innerText = langData.btmBtn1Label;
+      document.getElementById('btm-btn2-label').innerText = langData.btmBtn2Label;
+
+      // Modals
+      document.getElementById('modal-comp-title').innerText = langData.modalCompTitle;
+      document.getElementById('lbl-fullname').innerText = langData.lblFullName;
+      document.getElementById('lbl-phone').innerText = langData.lblPhone;
+      document.getElementById('lbl-station').innerText = langData.lblStation;
+      document.getElementById('lbl-type').innerText = langData.lblType;
+      document.getElementById('lbl-details').innerText = langData.lblDetails;
+      document.getElementById('btn-generate-letter').innerText = langData.btnGenerate;
+      document.getElementById('lbl-preview').innerText = langData.lblPreview;
+      document.getElementById('copy-btn-text').innerText = langData.btnCopy;
+      document.getElementById('print-btn-text').innerText = langData.btnPrint;
+
+      document.getElementById('modal-help-title').innerText = langData.modalHelpTitle;
+      document.getElementById('help-tag1').innerText = langData.helpTag1;
+      document.getElementById('help-desc1').innerText = langData.helpDesc1;
+      document.getElementById('help-tag2').innerText = langData.helpTag2;
+      document.getElementById('help-desc2').innerText = langData.helpDesc2;
+      document.getElementById('help-tag3').innerText = langData.helpTag3;
+      document.getElementById('help-desc3').innerText = langData.helpDesc3;
+
+      document.getElementById('modal-station-title').innerText = langData.modalStationTitle;
+      document.getElementById('modal-tenant-title').innerText = langData.modalTenantTitle;
+      document.getElementById('tenant-p1').innerText = langData.tenantP1;
+      document.getElementById('tenant-req-head').innerText = langData.tenantReqHead;
+      document.getElementById('tenant-req-list').innerHTML = langData.tenantReqList;
+      document.getElementById('btn-tenant-portal').innerText = langData.btnTenantPortal;
+
+      document.getElementById('modal-safety-title').innerText = langData.modalSafetyTitle;
+      document.getElementById('rule-1').innerText = langData.rule1;
+      document.getElementById('rule-2').innerText = langData.rule2;
+      document.getElementById('rule-3').innerText = langData.rule3;
+      document.getElementById('rule-4').innerText = langData.rule4;
+    }
+
+    // Carousel Slider Logic
+    function showSlide(index) {
+      currentSlide = index;
+      for (let i = 1; i <= 3; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        const dot = document.getElementById(`dot-${i-1}`);
+        if (i === index + 1) {
+          slide.classList.remove('hidden');
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 transition-all';
+        } else {
+          slide.classList.add('hidden');
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-500 transition-all';
+        }
+      }
+    }
+
+    function setSlide(index) {
+      showSlide(index);
+      resetSlideTimer();
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % 3;
+      showSlide(currentSlide);
+    }
+
+    function resetSlideTimer() {
+      if (slideTimer) clearInterval(slideTimer);
+      slideTimer = setInterval(nextSlide, 5000);
+    }
+
+    // Modal Control Functions
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // Direct WhatsApp Redirection to Alwar Police Cyber Control Room
+    function openWhatsApp() {
+      const message = encodeURIComponent("Hello Alwar Cyber Police, I need guidance regarding a cyber incident/fraud.");
+      window.open(`https://wa.me/918764874306?text=${message}`, '_blank');
+    }
+
+    // Complaint Letter Generation Logic
+    function generateLetter() {
+      const name = document.getElementById('comp-name').value.trim() || "[Applicant Name]";
+      const phone = document.getElementById('comp-phone').value.trim() || "[Phone Number]";
+      const station = document.getElementById('comp-station').value.trim() || "[Police Station Alwar]";
+      const category = document.getElementById('comp-type').value;
+      const details = document.getElementById('comp-details').value.trim() || "[Details of transaction, fraud link, or caller]";
+      const dateStr = new Date().toLocaleDateString('en-IN');
+
+      let letterText = "";
+
+      if (currentLang === 'hi') {
+        letterText = `सेवा में,\nश्रीमान थानाधिकारी महोदय,\nपुलिस थाना: ${station}, जिला अलवर (राजस्थान)\n\nविषय: ${category} के संबंध में शिकायत पत्र।\n\nमहोदय,\nसविनय निवेदन है कि मेरा नाम ${name} है, मोबाइल नंबर ${phone} है।\n\nघटना का विवरण:\n${details}\n\nउक्त घटना दिनांक ${dateStr} को घटित हुई है। अतः श्रीमान जी से निवेदन है कि मामले की जांच कर उचित कानूनी कार्रवाई करने की कृपा करें।\n\nसंलग्न दस्तावेज़:\n1. बैंक स्टेटमेंट / ट्रांजैक्शन रसीद\n2. स्क्रीनशॉट / कॉल विवरण\n\nभवदीय,\nनाम: ${name}\nफ़ोन: ${phone}\nदिनांक: ${dateStr}`;
+      } else {
+        letterText = `To,\nThe Station House Officer (SHO),\nPolice Station: ${station}, Alwar District (Rajasthan)\n\nSubject: Formal complaint regarding ${category}.\n\nRespected Sir,\nI am writing to bring to your notice an incident of cybercrime. My name is ${name}, residing at Alwar, Contact No: ${phone}.\n\nIncident Description:\n${details}\n\nThe incident occurred around ${dateStr}. I request you to kindly register my complaint and initiate necessary legal investigation into this matter.\n\nEnclosures:\n1. Bank Statement / Transaction Receipt\n2. Screenshots / Call Log Evidence\n\nSincerely,\nName: ${name}\nPhone: ${phone}\nDate: ${dateStr}`;
+      }
+
+      document.getElementById('letter-text').innerText = letterText;
+      document.getElementById('letter-output-box').classList.remove('hidden');
+    }
+
+    function copyLetter() {
+      const text = document.getElementById('letter-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert(currentLang === 'hi' ? 'शिकायत पत्र कॉपी कर लिया गया है!' : 'Complaint draft copied to clipboard!');
+      });
+    }
+
+    function printLetter() {
+      const text = document.getElementById('letter-text').innerText;
+      const printWindow = window.open('', '', 'width=800,height=600');
+      printWindow.document.write(`<pre style="font-family: sans-serif; padding: 30px; font-size: 14px; line-height: 1.6; whitespace: pre-wrap;">${text}</pre>`);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+    }
+
+    // Initialize Auto-slide Carousel on Page Load
+    resetSlideTimer();
+  </script>
+</body>
+</html>
