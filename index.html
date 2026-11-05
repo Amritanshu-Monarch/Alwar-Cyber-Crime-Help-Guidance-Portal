@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Security Posture Enhancements -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://police.rajasthan.gov.in https://sancharsaathi.gov.in https://cybercrime.gov.in https://images.unsplash.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <title>Alwar Cyber Crime Help & Guidance Portal</title>
   <link rel="icon" type="image/png" href="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png">
   
@@ -13,15 +19,25 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    @keyframes pulse-slow {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.15); opacity: 0.85; }
-    }
-    .pulse-slow {
-      animation: pulse-slow 2.5s infinite ease-in-out;
-    }
     .slide-fixed-height {
-      min-height: 120px;
+      min-height: 110px;
+    }
+
+    /* Responsive auto-scaling (zoom-in & zoom-out) for all screen sizes */
+    @media (max-width: 359px) {
+      body { zoom: 0.92; }
+    }
+    @media (min-width: 360px) and (max-width: 639px) {
+      body { zoom: 1; }
+    }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      body { zoom: 1.05; }
+    }
+    @media (min-width: 1024px) and (max-width: 1439px) {
+      body { zoom: 1.12; }
+    }
+    @media (min-width: 1440px) {
+      body { zoom: 1.22; }
     }
   </style>
 </head>
@@ -33,7 +49,7 @@
     <div>
       <!-- Main Header Section -->
       <header class="bg-slate-900 text-white border-b-4 border-amber-500 shadow-md">
-        <div class="p-3.5 md:p-6 flex items-center justify-between gap-2.5">
+        <div class="p-3 md:p-5 flex items-center justify-between gap-2.5">
           <div class="flex items-center space-x-2.5 md:space-x-4">
             <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Rajasthan Police Logo" class="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain flex-shrink-0">
             <div>
@@ -52,47 +68,47 @@
       </header>
 
       <!-- Main Content Body -->
-      <main class="p-3 md:p-6 space-y-3.5 md:space-y-6 pb-2">
+      <main class="p-3 md:p-6 space-y-3.5 md:space-y-5 pb-3">
 
-        <!-- Sliding Banner Carousel with Police Image Background Overlay -->
+        <!-- Sliding Banner Carousel with Rajasthan Police Background Overlay -->
         <section class="relative rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-900 text-white">
-          <div class="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80');"></div>
+          <div class="absolute inset-0 z-0 opacity-20 bg-no-repeat bg-right bg-contain" style="background-image: url('https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png');"></div>
           <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent z-0"></div>
 
-          <div class="relative z-10 p-4 md:p-6 slide-fixed-height flex items-center">
+          <div class="relative z-10 p-3.5 md:p-5 slide-fixed-height flex items-center">
             
             <!-- Slide 1: Digital Evidence Warning (Default First) -->
             <div id="slide-1" class="carousel-slide flex items-center gap-3 md:gap-4 w-full">
-              <div class="p-2.5 bg-amber-500/20 border border-amber-400/40 rounded-xl pulse-slow flex-shrink-0">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl md:text-3xl"></i>
+              <div class="p-2 bg-amber-500/20 border border-amber-400/40 rounded-xl flex-shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-lg md:text-2xl"></i>
               </div>
               <div>
                 <p id="slide1-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-amber-100">
-                  Do NOT delete any APK file, malicious app, WhatsApp chat, screenshot, or call log! These are vital digital evidence for police investigation.
+                  Do NOT delete APKs, WhatsApp chats, screenshots, or call logs! They are vital police evidence.
                 </p>
               </div>
             </div>
 
             <!-- Slide 2: Golden Hour Reporting -->
             <div id="slide-2" class="carousel-slide hidden flex items-center gap-3 md:gap-4 w-full">
-              <div class="p-2.5 bg-red-500/20 border border-red-400/40 rounded-xl pulse-slow flex-shrink-0">
-                <i class="fa-solid fa-clock-rotate-left text-red-400 text-xl md:text-3xl"></i>
+              <div class="p-2 bg-red-500/20 border border-red-400/40 rounded-xl flex-shrink-0">
+                <i class="fa-solid fa-clock-rotate-left text-red-400 text-lg md:text-2xl"></i>
               </div>
               <div>
                 <p id="slide2-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-slate-100">
-                  Golden Hour Rule: Report any online financial fraud immediately on 1930 or to Alwar Control Room (8764874306) within 2 hours to freeze stolen money!
+                  Report online fraud on <a href="tel:1930" class="underline font-bold hover:text-amber-300">1930</a> or <a href="tel:8764874306" class="underline font-bold hover:text-amber-300">8764874306</a> within 2 hours (Golden Hour) to freeze stolen money!
                 </p>
               </div>
             </div>
 
             <!-- Slide 3: Citizen Awareness -->
             <div id="slide-3" class="carousel-slide hidden flex items-center gap-3 md:gap-4 w-full">
-              <div class="p-2.5 bg-blue-500/20 border border-blue-400/40 rounded-xl pulse-slow flex-shrink-0">
-                <i class="fa-solid fa-shield-halved text-blue-400 text-xl md:text-3xl"></i>
+              <div class="p-2 bg-blue-500/20 border border-blue-400/40 rounded-xl flex-shrink-0">
+                <i class="fa-solid fa-shield-halved text-blue-400 text-lg md:text-2xl"></i>
               </div>
               <div>
                 <p id="slide3-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-slate-100">
-                  Police or Bank officials will NEVER ask for your OTP, Banking Password, or request screen sharing app installations!
+                  Police or banks NEVER ask for OTPs, passwords, or screen sharing app downloads!
                 </p>
               </div>
             </div>
@@ -100,7 +116,7 @@
           </div>
 
           <!-- Carousel Indicator Dots -->
-          <div class="relative z-10 flex justify-center space-x-2 pb-2.5">
+          <div class="relative z-10 flex justify-center space-x-2 pb-2">
             <button onclick="setSlide(0)" id="dot-0" class="w-2.5 h-2.5 rounded-full bg-amber-400 transition-all"></button>
             <button onclick="setSlide(1)" id="dot-1" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
             <button onclick="setSlide(2)" id="dot-2" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
@@ -111,114 +127,114 @@
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-4">
 
           <!-- Card 1: Complaint Letter Generator -->
-          <div onclick="openModal('complaint-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <div onclick="openModal('complaint-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-100 text-blue-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-blue-100 text-blue-700 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
-              <h3 id="card1-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Complaint Letter Generator</h3>
+              <h3 id="card1-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">Complaint Letter Generator</h3>
               <p id="card1-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Draft a formal application to SHO easily in 1 minute.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-blue-700 font-semibold text-xs md:text-sm">
-              <span id="card1-action">Draft Letter</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-blue-700 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card1-action">Draft Letter</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </div>
 
           <!-- Card 2: Emergency Helplines -->
-          <div onclick="openModal('helpline-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <div onclick="openModal('helpline-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-red-100 text-red-600 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-red-100 text-red-600 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-phone-volume"></i>
               </div>
-              <h3 id="card2-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Emergency Helplines</h3>
+              <h3 id="card2-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">Emergency Helplines</h3>
               <p id="card2-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Direct numbers for Alwar Cyber Control, 1930 & 112.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-red-600 font-semibold text-xs md:text-sm">
-              <span id="card2-action">Call Helplines</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-red-600 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card2-action">Call Helplines</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </div>
 
           <!-- Card 3: WhatsApp Police Help -->
-          <div onclick="openWhatsApp()" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <div onclick="openWhatsApp()" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-100 text-emerald-600 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-emerald-100 text-emerald-600 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-brands fa-whatsapp"></i>
               </div>
-              <h3 id="card3-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">WhatsApp Police Help</h3>
+              <h3 id="card3-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">WhatsApp Police Help</h3>
               <p id="card3-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Direct chat assistance with Alwar Police Cyber Crime Desk.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-emerald-600 font-semibold text-xs md:text-sm">
-              <span id="card3-action">Chat Now</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-emerald-600 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card3-action">Chat Now</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </div>
 
           <!-- Card 4: Official Cyber Portal Redirection -->
-          <a href="https://cybercrime.gov.in" target="_blank" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-100 text-amber-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-amber-100 text-amber-700 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-globe"></i>
               </div>
-              <h3 id="card4-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">National Cyber Portal</h3>
+              <h3 id="card4-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">National Cyber Portal</h3>
               <p id="card4-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Official Government portal cybercrime.gov.in portal.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-amber-700 font-semibold text-xs md:text-sm">
-              <span id="card4-action">Visit Portal</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-amber-700 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card4-action">Visit Portal</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </a>
 
           <!-- Card 5: Nearest Police Station -->
-          <div onclick="openModal('station-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <div onclick="openModal('station-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-purple-100 text-purple-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-purple-100 text-purple-700 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-location-dot"></i>
               </div>
-              <h3 id="card5-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Nearest Police Station</h3>
+              <h3 id="card5-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">Nearest Police Station</h3>
               <p id="card5-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Find location & map route to local Thana in Alwar.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-purple-700 font-semibold text-xs md:text-sm">
-              <span id="card5-action">Find Station</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-purple-700 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card5-action">Find Station</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </div>
 
           <!-- Card 6: Tenant / Servant Verification -->
-          <div onclick="openModal('tenant-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <div onclick="openModal('tenant-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-teal-100 text-teal-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-teal-100 text-teal-700 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-id-card"></i>
               </div>
-              <h3 id="card6-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Tenant Verification</h3>
+              <h3 id="card6-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">Tenant Verification</h3>
               <p id="card6-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Verification guidelines & form for home security.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-teal-700 font-semibold text-xs md:text-sm">
-              <span id="card6-action">View Details</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-teal-700 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card6-action">View Details</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </div>
 
           <!-- Card 7: Chakshu Suspected Fraud Reporting -->
-          <a href="https://sancharsaathi.gov.in/sfc/Home/sfc-complaint.jsp" target="_blank" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <a href="https://sancharsaathi.gov.in/sfc/" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-indigo-100 text-indigo-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-indigo-100 text-indigo-700 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-bell"></i>
               </div>
-              <h3 id="card7-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Report Fake Call / SMS</h3>
+              <h3 id="card7-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">Report Fake Call / SMS</h3>
               <p id="card7-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Chakshu portal redirect for suspicious SMS & calls.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-indigo-700 font-semibold text-xs md:text-sm">
-              <span id="card7-action">Report Fraud</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-indigo-700 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card7-action">Report Fraud</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </a>
 
           <!-- Card 8: Cyber Safety Rules -->
-          <div onclick="openModal('safety-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-5 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
+          <div onclick="openModal('safety-modal')" class="bg-white hover:bg-slate-50 p-3 md:p-4 rounded-2xl border-2 border-slate-200 shadow-sm hover:shadow-md cursor-pointer transition duration-200 flex flex-col justify-between">
             <div>
-              <div class="w-10 h-10 md:w-12 md:h-12 bg-orange-100 text-orange-700 rounded-xl md:rounded-2xl flex items-center justify-center text-lg md:text-xl mb-2 md:mb-3">
+              <div class="w-9 h-9 md:w-11 md:h-11 bg-orange-100 text-orange-700 rounded-xl md:rounded-2xl flex items-center justify-center text-base md:text-lg mb-2">
                 <i class="fa-solid fa-user-shield"></i>
               </div>
-              <h3 id="card8-title" class="font-bold text-xs sm:text-sm md:text-lg text-slate-900 leading-snug">Cyber Safety Rules</h3>
+              <h3 id="card8-title" class="font-bold text-xs sm:text-sm md:text-base text-slate-900 leading-snug">Cyber Safety Rules</h3>
               <p id="card8-desc" class="text-xs text-slate-600 mt-1 leading-normal hidden sm:block">Simple rules & precautions to stay safe from cheats.</p>
             </div>
-            <div class="mt-2.5 md:mt-4 flex items-center text-orange-700 font-semibold text-xs md:text-sm">
-              <span id="card8-action">Read Rules</span> <i class="fa-solid fa-chevron-right ml-1 md:ml-2 text-[10px] md:text-xs"></i>
+            <div class="mt-2.5 md:mt-3 flex items-center text-orange-700 font-semibold text-[11px] sm:text-xs md:text-sm">
+              <span id="card8-action">Read Rules</span> <i class="fa-solid fa-chevron-right ml-1 text-[10px]"></i>
             </div>
           </div>
 
@@ -226,33 +242,37 @@
       </main>
     </div>
 
-    <!-- Footer Section Positioned Upwards -->
-    <footer class="bg-slate-900 text-white mt-3 border-t border-slate-800">
-      <div class="py-3 px-4 text-center">
-        <div class="flex items-center justify-center gap-2 mb-1">
+    <!-- Footer Section (Moved upwards with compact spacing) -->
+    <footer class="bg-slate-900 text-white mt-1 border-t border-slate-800">
+      <div class="px-3 py-2.5 text-center">
+        <div class="flex items-center justify-center gap-2 mb-0.5">
           <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Logo" class="h-6 w-6 object-contain">
-          <span id="footer-dept" class="font-bold text-base text-white">Alwar Police</span>
+          <span id="footer-dept" class="font-bold text-sm md:text-base text-white">Alwar Police</span>
         </div>
-        <p id="footer-motto" class="text-slate-300 font-medium text-xs md:text-sm">
+        <p id="footer-motto" class="text-slate-300 font-medium text-[11px] md:text-xs">
           Fear among criminals, Faith in common men
+        </p>
+        <p id="footer-copy" class="text-slate-400 text-[10px] sm:text-xs mt-1.5 leading-relaxed tracking-wide">
+          <span class="inline-block">© <span id="copy-year">2026</span> Developed by Amritanshu, Aayush, Rajveer and Rishabh.</span> 
+          <span class="inline-block">All rights reserved.</span>
         </p>
       </div>
 
-      <!-- Quick Action Sticky/Pinned Emergency Bar with Enlarged Fonts -->
-      <div class="sticky bottom-0 z-40 grid grid-cols-2 bg-slate-950 p-2 md:p-2.5 gap-2 border-t border-slate-800 shadow-2xl">
-        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-xl font-bold flex items-center justify-center gap-2.5 shadow transition">
-          <i class="fa-solid fa-phone text-lg sm:text-xl md:text-2xl"></i>
+      <!-- Quick Action Sticky/Pinned Emergency Bar -->
+      <div class="sticky bottom-0 z-40 grid grid-cols-2 bg-slate-950/95 backdrop-blur-md p-1.5 md:p-2 gap-2 border-t border-slate-800 shadow-2xl">
+        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 text-white p-2 md:p-2.5 rounded-xl font-bold flex items-center justify-center gap-2 text-xs md:text-sm shadow">
+          <i class="fa-solid fa-phone text-xs md:text-base"></i>
           <div class="text-left leading-tight">
-            <span id="btm-btn1-label" class="block text-[11px] sm:text-xs md:text-sm uppercase tracking-wider text-red-100 font-bold">CYBER CONTROL ROOM</span>
-            <span class="text-sm sm:text-base md:text-xl font-black tracking-tight">8764874306</span>
+            <span id="btm-btn1-label" class="block text-[9px] md:text-[10px] uppercase tracking-wider text-red-200">CYBER CONTROL ROOM</span>
+            <span class="text-xs sm:text-sm md:text-base font-extrabold">8764874306</span>
           </div>
         </a>
         
-        <a href="tel:1930" class="bg-amber-500 hover:bg-amber-600 text-slate-950 p-3 rounded-xl font-bold flex items-center justify-center gap-2.5 shadow transition">
-          <i class="fa-solid fa-phone text-slate-950 text-lg sm:text-xl md:text-2xl"></i>
+        <a href="tel:1930" class="bg-amber-500 hover:bg-amber-600 text-slate-950 p-2 md:p-2.5 rounded-xl font-bold flex items-center justify-center gap-2 text-xs md:text-sm shadow">
+          <i class="fa-solid fa-phone text-slate-950 text-xs md:text-base"></i>
           <div class="text-left leading-tight">
-            <span id="btm-btn2-label" class="block text-[11px] sm:text-xs md:text-sm uppercase tracking-wider text-slate-900 font-extrabold">NATIONAL HELPLINE</span>
-            <span class="text-sm sm:text-base md:text-xl font-black tracking-tight">CALL 1930</span>
+            <span id="btm-btn2-label" class="block text-[9px] md:text-[10px] uppercase tracking-wider text-slate-900 font-semibold">NATIONAL HELPLINE</span>
+            <span class="text-xs sm:text-sm md:text-base font-extrabold">CALL 1930</span>
           </div>
         </a>
       </div>
@@ -260,12 +280,11 @@
 
   </div>
 
-
   <!-- ================= MODALS SECTION ================= -->
 
   <!-- Modal 1: Complaint Letter Generator -->
   <div id="complaint-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-5 md:p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-4 md:p-6 shadow-2xl relative">
       <button onclick="closeModal('complaint-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -274,10 +293,10 @@
         <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center text-lg">
           <i class="fa-solid fa-file-signature"></i>
         </div>
-        <h2 id="modal-comp-title" class="text-lg md:text-xl font-bold text-slate-900">Complaint Letter Draft Generator</h2>
+        <h2 id="modal-comp-title" class="text-base md:text-xl font-bold text-slate-900">Complaint Letter Draft Generator</h2>
       </div>
 
-      <div class="space-y-3.5">
+      <div class="space-y-3">
         <div>
           <label id="lbl-fullname" class="block text-xs font-bold text-slate-700 uppercase mb-1">Applicant Full Name</label>
           <input type="text" id="comp-name" placeholder="e.g. Ramesh Chandra Sharma" class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm">
@@ -309,19 +328,19 @@
           <textarea id="comp-details" rows="3" placeholder="Specify date, transaction ID, bank name, cheated amount, caller number..." class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"></textarea>
         </div>
 
-        <button onclick="generateLetter()" id="btn-generate-letter" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md transition text-sm">
+        <button onclick="generateLetter()" id="btn-generate-letter" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl shadow-md transition text-sm">
           Generate Complaint Letter Text
         </button>
 
-        <div id="letter-output-box" class="hidden mt-4">
+        <div id="letter-output-box" class="hidden mt-3">
           <label id="lbl-preview" class="block text-xs font-bold text-slate-700 uppercase mb-1">Generated Draft Preview</label>
-          <div id="letter-text" class="p-4 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono whitespace-pre-wrap text-slate-800 leading-relaxed max-h-56 overflow-y-auto select-all"></div>
+          <div id="letter-text" class="p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono whitespace-pre-wrap text-slate-800 leading-relaxed max-h-52 overflow-y-auto select-all"></div>
           
-          <div class="grid grid-cols-2 gap-2 mt-3">
-            <button onclick="copyLetter()" id="btn-copy" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+          <div class="grid grid-cols-2 gap-2 mt-2.5">
+            <button onclick="copyLetter()" id="btn-copy" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
               <i class="fa-regular fa-copy"></i> <span id="copy-btn-text">Copy Text</span>
             </button>
-            <button onclick="printLetter()" id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+            <button onclick="printLetter()" id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-print"></i> <span id="print-btn-text">Print / Save PDF</span>
             </button>
           </div>
@@ -333,7 +352,7 @@
 
   <!-- Modal 2: Emergency Helplines Directory -->
   <div id="helpline-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl w-full max-w-md p-5 shadow-2xl relative">
       <button onclick="closeModal('helpline-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -342,36 +361,36 @@
         <div class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-lg">
           <i class="fa-solid fa-phone-volume"></i>
         </div>
-        <h2 id="modal-help-title" class="text-xl font-bold text-slate-900">Emergency Numbers</h2>
+        <h2 id="modal-help-title" class="text-lg md:text-xl font-bold text-slate-900">Emergency Numbers</h2>
       </div>
 
-      <div class="space-y-3">
+      <div class="space-y-2.5">
         <!-- Alwar Cyber Control Room First -->
         <div class="p-3 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between">
           <div>
             <span id="help-tag1" class="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full uppercase">Cyber Control Room</span>
-            <div class="font-bold text-slate-900 text-base mt-1">8764874306</div>
+            <div class="font-bold text-slate-900 text-base mt-0.5">8764874306</div>
             <p id="help-desc1" class="text-xs text-slate-600">Alwar Police Cyber Crime Desk</p>
           </div>
-          <a href="tel:8764874306" class="bg-red-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-700">CALL</a>
+          <a href="tel:8764874306" class="bg-red-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-red-700">CALL</a>
         </div>
 
         <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
           <div>
             <span id="help-tag2" class="text-[10px] font-bold bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full uppercase">National Cyber Portal</span>
-            <div class="font-bold text-slate-900 text-base mt-1">1930</div>
+            <div class="font-bold text-slate-900 text-base mt-0.5">1930</div>
             <p id="help-desc2" class="text-xs text-slate-600">Golden Hour Cyber Helpline</p>
           </div>
-          <a href="tel:1930" class="bg-amber-500 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold hover:bg-amber-600">CALL</a>
+          <a href="tel:1930" class="bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-amber-600">CALL</a>
         </div>
 
         <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
           <div>
             <span id="help-tag3" class="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase">Police Emergency</span>
-            <div class="font-bold text-slate-900 text-base mt-1">112</div>
+            <div class="font-bold text-slate-900 text-base mt-0.5">112</div>
             <p id="help-desc3" class="text-xs text-slate-600">24x7 Rajasthan Police Response</p>
           </div>
-          <a href="tel:112" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-700">CALL</a>
+          <a href="tel:112" class="bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-700">CALL</a>
         </div>
       </div>
     </div>
@@ -380,7 +399,7 @@
 
   <!-- Modal 3: Police Stations Directory -->
   <div id="station-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-5 shadow-2xl relative">
       <button onclick="closeModal('station-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -389,46 +408,46 @@
         <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-lg">
           <i class="fa-solid fa-map-location-dot"></i>
         </div>
-        <h2 id="modal-station-title" class="text-xl font-bold text-slate-900">Alwar Key Police Stations</h2>
+        <h2 id="modal-station-title" class="text-lg md:text-xl font-bold text-slate-900">Alwar Key Police Stations</h2>
       </div>
 
-      <div class="space-y-3 max-h-72 overflow-y-auto pr-1">
-        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+      <div class="space-y-2.5 max-h-64 overflow-y-auto pr-1">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
           <div>
             <div class="font-bold text-slate-900 text-sm">Kotwali Police Station</div>
             <p class="text-xs text-slate-500">Alwar City</p>
           </div>
-          <a href="https://maps.google.com/?q=Kotwali+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+          <a href="https://maps.google.com/?q=Kotwali+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
             <i class="fa-solid fa-directions mr-1"></i> Map
           </a>
         </div>
 
-        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
           <div>
             <div class="font-bold text-slate-900 text-sm">NEB Police Station</div>
             <p class="text-xs text-slate-500">Alwar City</p>
           </div>
-          <a href="https://maps.google.com/?q=NEB+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+          <a href="https://maps.google.com/?q=NEB+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
             <i class="fa-solid fa-directions mr-1"></i> Map
           </a>
         </div>
 
-        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
           <div>
             <div class="font-bold text-slate-900 text-sm">Aravali Vihar Thana</div>
             <p class="text-xs text-slate-500">Alwar</p>
           </div>
-          <a href="https://maps.google.com/?q=Aravali+Vihar+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+          <a href="https://maps.google.com/?q=Aravali+Vihar+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
             <i class="fa-solid fa-directions mr-1"></i> Map
           </a>
         </div>
 
-        <div class="p-3 border border-slate-200 rounded-xl flex items-center justify-between">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
           <div>
             <div class="font-bold text-slate-900 text-sm">Mahila Thana Alwar</div>
             <p class="text-xs text-slate-500">Alwar Women Desk</p>
           </div>
-          <a href="https://maps.google.com/?q=Mahila+Police+Station+Alwar" target="_blank" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200">
+          <a href="https://maps.google.com/?q=Mahila+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
             <i class="fa-solid fa-directions mr-1"></i> Map
           </a>
         </div>
@@ -439,7 +458,7 @@
 
   <!-- Modal 4: Tenant Verification -->
   <div id="tenant-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-5 shadow-2xl relative">
       <button onclick="closeModal('tenant-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -448,13 +467,13 @@
         <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center text-lg">
           <i class="fa-solid fa-id-card"></i>
         </div>
-        <h2 id="modal-tenant-title" class="text-xl font-bold text-slate-900">Tenant / Servant Verification</h2>
+        <h2 id="modal-tenant-title" class="text-lg md:text-xl font-bold text-slate-900">Tenant / Servant Verification</h2>
       </div>
 
-      <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+      <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
         <p id="tenant-p1">Verification of tenants and household help is mandatory for domestic safety. Ensure you keep copies of their official ID proof before renting.</p>
         
-        <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl space-y-2">
+        <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl space-y-1.5">
           <div class="font-bold text-teal-900" id="tenant-req-head">Required Documents:</div>
           <ul class="list-disc pl-5 text-xs text-teal-800 space-y-1" id="tenant-req-list">
             <li>Aadhaar Card or Voter Identity Card copy</li>
@@ -463,7 +482,7 @@
           </ul>
         </div>
 
-        <a href="https://police.rajasthan.gov.in" target="_blank" id="btn-tenant-portal" class="block text-center w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition text-sm">
+        <a href="https://police.rajasthan.gov.in" target="_blank" rel="noopener noreferrer" id="btn-tenant-portal" class="block text-center w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition text-sm">
           Go to RajCop Citizen Services
         </a>
       </div>
@@ -473,7 +492,7 @@
 
   <!-- Modal 5: Safety Rules -->
   <div id="safety-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl w-full max-w-lg p-5 shadow-2xl relative">
       <button onclick="closeModal('safety-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -482,30 +501,29 @@
         <div class="w-10 h-10 bg-orange-100 text-orange-700 rounded-xl flex items-center justify-center text-lg">
           <i class="fa-solid fa-shield-cat"></i>
         </div>
-        <h2 id="modal-safety-title" class="text-xl font-bold text-slate-900">Cyber Safety Golden Rules</h2>
+        <h2 id="modal-safety-title" class="text-lg md:text-xl font-bold text-slate-900">Cyber Safety Golden Rules</h2>
       </div>
 
-      <div class="space-y-3 text-xs md:text-sm text-slate-700">
-        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
-          <span class="text-red-500 font-bold text-base">1.</span>
+      <div class="space-y-2.5 text-xs md:text-sm text-slate-700">
+        <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex gap-2.5">
+          <span class="text-red-500 font-bold text-sm">1.</span>
           <p id="rule-1">Never share your Bank OTP, Card PIN, or Internet Banking password with anyone.</p>
         </div>
-        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
-          <span class="text-red-500 font-bold text-base">2.</span>
+        <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex gap-2.5">
+          <span class="text-red-500 font-bold text-sm">2.</span>
           <p id="rule-2">Do not install screen sharing apps (AnyDesk, TeamViewer, RustDesk) on caller's request.</p>
         </div>
-        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
-          <span class="text-red-500 font-bold text-base">3.</span>
+        <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex gap-2.5">
+          <span class="text-red-500 font-bold text-sm">3.</span>
           <p id="rule-3">Do NOT delete any APK, suspicious application, WhatsApp chat, or call log after a fraud.</p>
         </div>
-        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex gap-3">
-          <span class="text-red-500 font-bold text-base">4.</span>
-          <p id="rule-4">In case of any fraud, immediately dial 1930 or call Alwar Control Room at 8764874306.</p>
+        <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex gap-2.5">
+          <span class="text-red-500 font-bold text-sm">4.</span>
+          <p id="rule-4">In case of any fraud, immediately dial <a href="tel:1930" class="underline font-bold text-red-600">1930</a> or call Alwar Control Room at <a href="tel:8764874306" class="underline font-bold text-red-600">8764874306</a>.</p>
         </div>
       </div>
     </div>
   </div>
-
 
   <!-- JavaScript Logic -->
   <script>
@@ -519,9 +537,9 @@
       en: {
         portalTitle: "Alwar Cyber Crime<br class=\"block sm:hidden\"> Help & Guidance Portal",
         langBtn: "हिंदी में देखें",
-        slide1: "Do NOT delete any APK file, malicious app, WhatsApp chat, screenshot, or call log! These are vital digital evidence for police investigation.",
-        slide2: "Golden Hour Rule: Report any online financial fraud immediately on 1930 or to Alwar Control Room (8764874306) within 2 hours to freeze stolen money!",
-        slide3: "Police or Bank officials will NEVER ask for your OTP, Banking Password, or request screen sharing app installations!",
+        slide1: "Do NOT delete APKs, WhatsApp chats, screenshots, or call logs! They are vital police evidence.",
+        slide2: "Report online fraud on <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> or <a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a> within 2 hours (Golden Hour) to freeze stolen money!",
+        slide3: "Police or banks NEVER ask for OTPs, passwords, or screen sharing app downloads!",
         card1Title: "Complaint Letter Generator",
         card1Desc: "Draft a formal application to SHO easily in 1 minute.",
         card1Action: "Draft Letter",
@@ -548,6 +566,7 @@
         card8Action: "Read Rules",
         footerDept: "Alwar Police",
         footerMotto: "Fear among criminals, Faith in common men",
+        footerCopy: "<span class=\"inline-block\">© <span id=\"copy-year\">2026</span> Developed by Amritanshu, Aayush, Rajveer and Rishabh.</span> <span class=\"inline-block\">All rights reserved.</span>",
         btmBtn1Label: "CYBER CONTROL ROOM",
         btmBtn2Label: "NATIONAL HELPLINE",
         modalCompTitle: "Complaint Letter Draft Generator",
@@ -577,14 +596,14 @@
         rule1: "Never share your Bank OTP, Card PIN, or Internet Banking password with anyone.",
         rule2: "Do not install screen sharing apps (AnyDesk, TeamViewer, RustDesk) on caller's request.",
         rule3: "Do NOT delete any APK, suspicious application, WhatsApp chat, or call log after a fraud.",
-        rule4: "In case of any fraud, immediately dial 1930 or call Alwar Control Room at 8764874306."
+        rule4: "In case of any fraud, immediately dial <a href=\"tel:1930\" class=\"underline font-bold text-red-600\">1930</a> or call Alwar Control Room at <a href=\"tel:8764874306\" class=\"underline font-bold text-red-600\">8764874306</a>."
       },
       hi: {
         portalTitle: "अलवर साइबर अपराध<br class=\"block sm:hidden\"> सहायता एवं मार्गदर्शन पोर्टल",
         langBtn: "In English",
-        slide1: "कोई भी APK फ़ाइल, संदिग्ध ऐप, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल लॉग बिल्कुल भी डिलीट न करें! ये पुलिस जांच के लिए महत्वपूर्ण डिजिटल साक्ष्य (सबूत) हैं।",
-        slide2: "गोल्डन आवर नियम: किसी भी ऑनलाइन ठगी की स्थिति में तुरंत 1930 या अलवर कंट्रोल रूम (8764874306) पर सूचित करें ताकि पैसे फ्रीज किए जा सकें!",
-        slide3: "पुलिस या बैंक अधिकारी आपसे कभी भी आपका ओटीपी, पासवर्ड या स्क्रीन शेयरिंग ऐप डाउनलोड करने के लिए नहीं कहेंगे!",
+        slide1: "APK ऐप्स, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल लॉग न मिटाएं! ये पुलिस के लिए जरूरी सबूत हैं।",
+        slide2: "वित्तीय ठगी की रिपोर्ट 2 घंटे के भीतर <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> या <a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a> पर करके पैसे फ्रीज कराएं!",
+        slide3: "पुलिस या बैंक अधिकारी कभी भी आपसे OTP, पासवर्ड या ऐप डाउनलोड नहीं करवाएंगे!",
         card1Title: "शिकायत पत्र जनरेटर",
         card1Desc: "थानाधिकारी (SHO) को औपचारिक आवेदन 1 मिनट में तैयार करें।",
         card1Action: "पत्र ड्राफ्ट करें",
@@ -611,6 +630,7 @@
         card8Action: "नियम पढ़ें",
         footerDept: "अलवर पुलिस",
         footerMotto: "अपराधियों में डर, आमजन में विश्वास",
+        footerCopy: "<span class=\"inline-block\">© <span id=\"copy-year\">2026</span> अम्रितांशु, आयुष, राजवीर एवं ऋषभ द्वारा विकसित।</span> <span class=\"inline-block\">सर्वाधिकार सुरक्षित।</span>",
         btmBtn1Label: "साइबर कंट्रोल रूम",
         btmBtn2Label: "राष्ट्रीय हेल्पलाइन",
         modalCompTitle: "शिकायत आवेदन पत्र जनरेटर",
@@ -640,7 +660,7 @@
         rule1: "अपना बैंक ओटीपी, कार्ड पिन या पासवर्ड किसी के साथ साझा न करें।",
         rule2: "अज्ञात कॉलर के कहने पर मोबाइल में एनीडेस्क (AnyDesk) जैसी ऐप्स डाउनलोड न करें।",
         rule3: "ठगी होने के बाद मोबाइल से कोई भी APK, व्हाट्सएप चैट या स्क्रीनशॉट डिलीट न करें।",
-        rule4: "साइबर फ्रॉड होते ही तुरंत 1930 या अलवर कंट्रोल रूम 8764874306 पर कॉल करें।"
+        rule4: "साइबर फ्रॉड होते ही तुरंत <a href=\"tel:1930\" class=\"underline font-bold text-red-600\">1930</a> या अलवर कंट्रोल रूम <a href=\"tel:8764874306\" class=\"underline font-bold text-red-600\">8764874306</a> पर कॉल करें।"
       }
     };
 
@@ -654,9 +674,9 @@
       document.getElementById('lang-btn-text').innerText = langData.langBtn;
 
       // Banner Slides
-      document.getElementById('slide1-text').innerText = langData.slide1;
-      document.getElementById('slide2-text').innerText = langData.slide2;
-      document.getElementById('slide3-text').innerText = langData.slide3;
+      document.getElementById('slide1-text').innerHTML = langData.slide1;
+      document.getElementById('slide2-text').innerHTML = langData.slide2;
+      document.getElementById('slide3-text').innerHTML = langData.slide3;
 
       // Cards
       document.getElementById('card1-title').innerText = langData.card1Title;
@@ -694,6 +714,10 @@
       // Footer
       document.getElementById('footer-dept').innerText = langData.footerDept;
       document.getElementById('footer-motto').innerText = langData.footerMotto;
+      if (document.getElementById('footer-copy')) {
+        document.getElementById('footer-copy').innerHTML = langData.footerCopy;
+      }
+      updateCopyYear();
       document.getElementById('btm-btn1-label').innerText = langData.btmBtn1Label;
       document.getElementById('btm-btn2-label').innerText = langData.btmBtn2Label;
 
@@ -728,7 +752,14 @@
       document.getElementById('rule-1').innerText = langData.rule1;
       document.getElementById('rule-2').innerText = langData.rule2;
       document.getElementById('rule-3').innerText = langData.rule3;
-      document.getElementById('rule-4').innerText = langData.rule4;
+      document.getElementById('rule-4').innerHTML = langData.rule4;
+    }
+
+    function updateCopyYear() {
+      const yearEl = document.getElementById('copy-year');
+      if (yearEl) {
+        yearEl.innerText = new Date().getFullYear();
+      }
     }
 
     // Carousel Slider Logic
@@ -815,6 +846,7 @@
     }
 
     // Initialize Auto-slide Carousel on Page Load
+    updateCopyYear();
     resetSlideTimer();
   </script>
 </body>
