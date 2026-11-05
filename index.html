@@ -22,22 +22,26 @@
     .slide-fixed-height {
       min-height: 110px;
     }
-
-    /* Responsive auto-scaling (zoom-in & zoom-out) for all screen sizes */
-    @media (max-width: 359px) {
-      body { zoom: 0.92; }
-    }
-    @media (min-width: 360px) and (max-width: 639px) {
-      body { zoom: 1; }
+    /* Dynamic Screen-Fit Auto-Scaling across all device sizes */
+    @media (max-width: 360px) {
+      body {
+        zoom: 0.92;
+      }
     }
     @media (min-width: 640px) and (max-width: 1023px) {
-      body { zoom: 1.05; }
+      body {
+        zoom: 1.05;
+      }
     }
     @media (min-width: 1024px) and (max-width: 1439px) {
-      body { zoom: 1.12; }
+      body {
+        zoom: 1.12;
+      }
     }
     @media (min-width: 1440px) {
-      body { zoom: 1.22; }
+      body {
+        zoom: 1.22;
+      }
     }
   </style>
 </head>
@@ -244,17 +248,16 @@
 
     <!-- Footer Section (Moved upwards with compact spacing) -->
     <footer class="bg-slate-900 text-white mt-1 border-t border-slate-800">
-      <div class="px-3 py-2.5 text-center">
-        <div class="flex items-center justify-center gap-2 mb-0.5">
+      <div class="px-3 py-2.5 text-center space-y-1">
+        <div class="flex items-center justify-center gap-2">
           <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Logo" class="h-6 w-6 object-contain">
           <span id="footer-dept" class="font-bold text-sm md:text-base text-white">Alwar Police</span>
         </div>
         <p id="footer-motto" class="text-slate-300 font-medium text-[11px] md:text-xs">
           Fear among criminals, Faith in common men
         </p>
-        <p id="footer-copy" class="text-slate-400 text-[10px] sm:text-xs mt-1.5 leading-relaxed tracking-wide">
-          <span class="inline-block">© <span id="copy-year">2026</span> Developed by Amritanshu, Aayush, Rajveer and Rishabh.</span> 
-          <span class="inline-block">All rights reserved.</span>
+        <p id="footer-copy" class="text-slate-400 text-[10px] md:text-xs pt-1 border-t border-slate-800/80 leading-normal">
+          © <span id="copy-year">2026</span> <span class="block sm:inline">Developed by Amritanshu, Aayush, Rajveer and Rishabh.</span> <span class="block sm:inline">All rights reserved.</span>
         </p>
       </div>
 
@@ -566,7 +569,7 @@
         card8Action: "Read Rules",
         footerDept: "Alwar Police",
         footerMotto: "Fear among criminals, Faith in common men",
-        footerCopy: "<span class=\"inline-block\">© <span id=\"copy-year\">2026</span> Developed by Amritanshu, Aayush, Rajveer and Rishabh.</span> <span class=\"inline-block\">All rights reserved.</span>",
+        footerCopy: "© {YEAR} <span class=\"block sm:inline\">Developed by Amritanshu, Aayush, Rajveer and Rishabh.</span> <span class=\"block sm:inline\">All rights reserved.</span>",
         btmBtn1Label: "CYBER CONTROL ROOM",
         btmBtn2Label: "NATIONAL HELPLINE",
         modalCompTitle: "Complaint Letter Draft Generator",
@@ -630,7 +633,7 @@
         card8Action: "नियम पढ़ें",
         footerDept: "अलवर पुलिस",
         footerMotto: "अपराधियों में डर, आमजन में विश्वास",
-        footerCopy: "<span class=\"inline-block\">© <span id=\"copy-year\">2026</span> अम्रितांशु, आयुष, राजवीर एवं ऋषभ द्वारा विकसित।</span> <span class=\"inline-block\">सर्वाधिकार सुरक्षित।</span>",
+        footerCopy: "© {YEAR} <span class=\"block sm:inline\">अमृतांशु, आयुष, राजवीर एवं ऋषभ द्वारा विकसित।</span> <span class=\"block sm:inline\">सर्वाधिकार सुरक्षित।</span>",
         btmBtn1Label: "साइबर कंट्रोल रूम",
         btmBtn2Label: "राष्ट्रीय हेल्पलाइन",
         modalCompTitle: "शिकायत आवेदन पत्र जनरेटर",
@@ -714,10 +717,8 @@
       // Footer
       document.getElementById('footer-dept').innerText = langData.footerDept;
       document.getElementById('footer-motto').innerText = langData.footerMotto;
-      if (document.getElementById('footer-copy')) {
-        document.getElementById('footer-copy').innerHTML = langData.footerCopy;
-      }
-      updateCopyYear();
+      const currentYear = new Date().getFullYear();
+      document.getElementById('footer-copy').innerHTML = langData.footerCopy.replace('{YEAR}', currentYear);
       document.getElementById('btm-btn1-label').innerText = langData.btmBtn1Label;
       document.getElementById('btm-btn2-label').innerText = langData.btmBtn2Label;
 
