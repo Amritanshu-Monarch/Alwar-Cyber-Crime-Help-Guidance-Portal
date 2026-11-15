@@ -18,6 +18,11 @@ from app.services.speech import ALLOWED_AUDIO_MIME
 
 log = logging.getLogger("app")
 DEVANAGARI = re.compile(r"[ऀ-ॿ]")
+HINDI_INTENT_PATTERN = re.compile(
+    r"\b(in\s+hindi|hindi\s+me|hindi\s+mein|hindi\s+mai|shikayat\s+hindi|patra\s+hindi|application\s+hindi|application\s+in\s+hindi|hindi\s+me\s+do|hindi\s+mein\s+do)\b|[ऀ-ॿ]",
+    re.IGNORECASE,
+)
+ENGLISH_INTENT_PATTERN = re.compile(r"\b(in\s+english|english\s+me|english\s+mein)\b", re.IGNORECASE)
 
 
 def create_app(settings: Settings | None = None, agent=None, speech=None) -> FastAPI:
@@ -85,7 +90,12 @@ def create_app(settings: Settings | None = None, agent=None, speech=None) -> Fas
 
     @app.post("/api/chat", response_model=AgentResult)
     async def chat(request: Request, body: ChatIn):
-        return await run_agent(request, body.session_id, body.message, body.lang)
+        lang = body.lang
+        if HINDI_INTENT_PATTERN.search(body.message):
+            lang = "hi"
+        elif ENGLISH_INTENT_PATTERN.search(body.message):
+            lang = "en"
+        return await run_agent(request, body.session_id, body.message, lang)
 
     @app.post("/api/voice", response_model=VoiceOut)
     async def voice(

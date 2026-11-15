@@ -98,3 +98,23 @@ def test_search_knowledge_wraps_hits_and_errors(monkeypatch):
     assert tools.search_knowledge("fraud")["status"] == "ok"
     monkeypatch.setattr(tools, "get_kb", lambda: Boom())
     assert tools.search_knowledge("fraud")["status"] == "error"
+
+
+def test_letter_deepfake_has_media_enclosures_not_bank():
+    r = tools.draft_complaint_letter(
+        applicant_name="Rajveer",
+        phone="[Phone Number]",
+        police_station="Neb Thana",
+        incident_category="Social Media Harassment / Fake Profile",
+        incident_details="Deepfake video created by Kritarth",
+        incident_date="4 November 2026",
+        language="en",
+    )
+    assert r["status"] == "ok"
+    assert "Rajveer" in r["letter"]
+    assert "Neb Thana" in r["letter"]
+    assert "Kritarth" in r["letter"]
+    assert "deepfake" in r["letter"].lower()
+    assert "Bank statement" not in r["letter"]
+    assert "morphed media" in r["letter"].lower() or "video" in r["letter"].lower()
+

@@ -14,17 +14,17 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=BASE_DIR / ".env", extra="ignore")
 
     google_api_key: str = ""
-    agent_model: str = "gemini-3.1-flash-lite"
+    agent_model: str = "gemini-3.5-flash-lite"
     # used automatically when the primary model is overloaded (503) or rate limited (429)
-    agent_fallback_model: str = "gemini-3.8-flash"
-    stt_model: str = "gemini-3.1-flash-lite"
+    agent_fallback_model: str = "gemini-3.5-flash-lite"
+    stt_model: str = "gemini-3.5-flash-lite"
     tts_model: str = "gemini-3.8-flash-tts"
     tts_voice: str = "Kore"
     embed_model: str = "gemini-embedding-001"
     embed_dims: int = 768
     # LLM rerank costs one extra Gemini call per search; the free tier allows ~15/min per model. Opt in with RERANK=true
     rerank: bool = False
-    rerank_model: str = "gemini-3.1-flash-lite"
+    rerank_model: str = "gemini-3.5-flash-lite"
 
     # "null" = index.html opened straight from disk (file://); the others are common local dev servers
     allowed_origins: list[str] = [
@@ -38,8 +38,8 @@ class Settings(BaseSettings):
         "http://localhost:8000",
     ]
     rate_limit: str = "30/minute"
-    agent_timeout_s: float = 45.0  # fallback model (last attempt)
-    agent_primary_timeout_s: float = 25.0  # give up on a slow/overloaded primary sooner and fall back
+    agent_timeout_s: float = 25.0  # fallback model (last attempt)
+    agent_primary_timeout_s: float = 15.0  # give up on a slow/overloaded primary sooner and fall back
 
     max_audio_bytes: int = 5 * 1024 * 1024
     max_text_chars: int = 1000
