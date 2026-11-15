@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Security Posture Enhancements -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://police.rajasthan.gov.in https://sancharsaathi.gov.in https://cybercrime.gov.in https://images.unsplash.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://police.rajasthan.gov.in https://sancharsaathi.gov.in https://cybercrime.gov.in https://images.unsplash.com; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 https:; media-src 'self' blob: data:; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -20,7 +20,7 @@
   
   <style>
     .slide-fixed-height {
-      min-height: 110px;
+      min-height: 130px; } @media (min-width: 640px) { .slide-fixed-height { min-height: 95px; }
     }
     /* Dynamic Screen-Fit Auto-Scaling across all device sizes */
     @media (max-width: 360px) {
@@ -261,10 +261,10 @@
         </p>
       </div>
 
-      <!-- Quick Action Sticky/Pinned Emergency Bar -->
-      <div class="sticky bottom-0 z-40 grid grid-cols-2 bg-slate-950/95 backdrop-blur-md p-1.5 md:p-2 gap-2 border-t border-slate-800 shadow-2xl">
-        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 text-white p-2 md:p-2.5 rounded-xl font-bold flex items-center justify-center gap-2 text-xs md:text-sm shadow">
-          <i class="fa-solid fa-phone text-xs md:text-base"></i>
+      <!-- Quick Action Sticky/Pinned Emergency Bar with Enlarged Fonts -->
+      <div class="sticky bottom-0 z-40 grid grid-cols-2 bg-slate-950 p-2 md:p-2.5 gap-2 border-t border-slate-800 shadow-2xl" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
+        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-xl font-bold flex items-center justify-center gap-2.5 shadow transition">
+          <i class="fa-solid fa-phone text-lg sm:text-xl md:text-2xl"></i>
           <div class="text-left leading-tight">
             <span id="btm-btn1-label" class="block text-[9px] md:text-[10px] uppercase tracking-wider text-red-200">CYBER CONTROL ROOM</span>
             <span class="text-xs sm:text-sm md:text-base font-extrabold">8764874306</span>
@@ -540,9 +540,9 @@
       en: {
         portalTitle: "Alwar Cyber Crime<br class=\"block sm:hidden\"> Help & Guidance Portal",
         langBtn: "हिंदी में देखें",
-        slide1: "Do NOT delete APKs, WhatsApp chats, screenshots, or call logs! They are vital police evidence.",
-        slide2: "Report online fraud on <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> or <a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a> within 2 hours (Golden Hour) to freeze stolen money!",
-        slide3: "Police or banks NEVER ask for OTPs, passwords, or screen sharing app downloads!",
+        slide1: "Do NOT delete any APK file, malicious app, WhatsApp chat, screenshot, or call log! These are vital digital evidence for police investigation.",
+        slide2: "Golden Hour Rule: Report any online financial fraud immediately on <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> or to Alwar Control Room (<a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a>) within 2 hours to freeze stolen money!",
+        slide3: "Police or Bank officials will NEVER ask for your OTP, Banking Password, or request screen sharing app installations!",
         card1Title: "Complaint Letter Generator",
         card1Desc: "Draft a formal application to SHO easily in 1 minute.",
         card1Action: "Draft Letter",
@@ -604,7 +604,7 @@
       hi: {
         portalTitle: "अलवर साइबर अपराध<br class=\"block sm:hidden\"> सहायता एवं मार्गदर्शन पोर्टल",
         langBtn: "In English",
-        slide1: "APK ऐप्स, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल लॉग न मिटाएं! ये पुलिस के लिए जरूरी सबूत हैं।",
+        slide1: "किसी भी संदिग्ध APK, फ़ाइल, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल रिकॉर्डिंग को डिलीट न करें! ये पुलिस के लिए जरूरी सबूत हैं।",
         slide2: "वित्तीय ठगी की रिपोर्ट 2 घंटे के भीतर <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> या <a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a> पर करके पैसे फ्रीज कराएं!",
         slide3: "पुलिस या बैंक अधिकारी कभी भी आपसे OTP, पासवर्ड या ऐप डाउनलोड नहीं करवाएंगे!",
         card1Title: "शिकायत पत्र जनरेटर",
@@ -718,7 +718,9 @@
       document.getElementById('footer-dept').innerText = langData.footerDept;
       document.getElementById('footer-motto').innerText = langData.footerMotto;
       const currentYear = new Date().getFullYear();
-      document.getElementById('footer-copy').innerHTML = langData.footerCopy.replace('{YEAR}', currentYear);
+      if (document.getElementById('footer-copy')) {
+        document.getElementById('footer-copy').innerHTML = langData.footerCopy.replace('{YEAR}', currentYear);
+      }
       document.getElementById('btm-btn1-label').innerText = langData.btmBtn1Label;
       document.getElementById('btm-btn2-label').innerText = langData.btmBtn2Label;
 
@@ -754,13 +756,6 @@
       document.getElementById('rule-2').innerText = langData.rule2;
       document.getElementById('rule-3').innerText = langData.rule3;
       document.getElementById('rule-4').innerHTML = langData.rule4;
-    }
-
-    function updateCopyYear() {
-      const yearEl = document.getElementById('copy-year');
-      if (yearEl) {
-        yearEl.innerText = new Date().getFullYear();
-      }
     }
 
     // Carousel Slider Logic
@@ -846,9 +841,525 @@
       printWindow.print();
     }
 
+    function updateCopyYear() {
+      const yearEl = document.getElementById('copy-year');
+      if (yearEl) {
+        yearEl.innerText = new Date().getFullYear();
+      }
+    }
+
     // Initialize Auto-slide Carousel on Page Load
     updateCopyYear();
     resetSlideTimer();
+  </script>
+
+  <!-- ===== Cyber Help Assistant widget (additive: does not change anything above) ===== -->
+  <button id="ca-fab" type="button" aria-label="Open cyber help assistant" class="fixed right-3 bottom-20 sm:right-6 sm:bottom-24 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-2xl hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all duration-200">
+    <i class="fa-solid fa-headset text-lg"></i><span id="ca-fab-label">Ask Cyber Assistant</span>
+  </button>
+
+  <section id="ca-panel" role="dialog" aria-label="Cyber help assistant" class="hidden overflow-hidden border border-slate-200 bg-white shadow-2xl">
+    <div class="flex h-full flex-col">
+      <div class="flex items-center justify-between bg-slate-900 px-3.5 py-3 text-white border-b border-slate-800" style="padding-top: max(0.75rem, env(safe-area-inset-top));">
+        <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-amber-400"></i><span id="ca-title" class="text-sm font-bold">Cyber Help Assistant</span></div>
+        <div class="flex items-center gap-1">
+          <button id="ca-new" type="button" aria-label="New chat" class="rounded px-2 py-1 text-xs hover:bg-slate-700"><i class="fa-solid fa-rotate-right"></i></button>
+          <button id="ca-expand" type="button" aria-label="Expand" class="hidden rounded px-2 py-1 text-xs hover:bg-slate-700 sm:inline-block"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+          <button id="ca-close" type="button" aria-label="Close" class="rounded px-2 py-1 hover:bg-slate-700"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <div class="relative min-h-0 flex-1">
+        <div id="ca-log" aria-live="polite" class="h-full space-y-2 overflow-y-auto bg-slate-50 p-3 text-sm"></div>
+
+        <!-- voice stage: shown while listening / thinking / speaking -->
+        <div id="ca-voice" class="hidden absolute inset-0 z-20 flex-col items-center justify-center gap-4 bg-slate-900/95 backdrop-blur-md p-6 text-white text-center" role="status" aria-live="assertive">
+          <div class="ca-orb-wrap">
+            <span class="ca-ring"></span><span class="ca-ring" style="animation-delay:.6s"></span>
+            <div id="ca-orb" class="ca-orb"><i id="ca-voice-icon" class="fa-solid fa-microphone text-3xl"></i></div>
+          </div>
+          <div id="ca-bars" class="flex h-12 items-center gap-1.5" aria-hidden="true">
+            <span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span>
+          </div>
+          <p id="ca-voice-text" class="text-center text-sm font-semibold"></p>
+          <div class="flex gap-2">
+            <button id="ca-voice-main" type="button" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-900 hover:bg-slate-200"></button>
+            <button id="ca-voice-cancel" type="button" class="hidden rounded-full border border-white/40 px-5 py-2 text-sm font-semibold hover:bg-white/10"></button>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        /* panel: full-screen sheet on phones, floating window from 640px, wide mode via the expand button */
+        #ca-panel { position: fixed; z-index: 60; inset: 0; width: 100%; height: 100vh; height: 100dvh; border-radius: 0; border: 0; padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        #ca-panel #ca-input { font-size: 16px; }          /* 16px stops iOS zooming into the field */
+        #ca-panel #ca-log { overscroll-behavior: contain; }
+        @media (min-width: 640px) {
+          #ca-panel { inset: auto 1.5rem 5.5rem auto; width: min(450px, calc(100vw - 3rem)); height: min(680px, calc(100dvh - 7rem)); border-radius: 1.25rem; border: 1px solid #cbd5e1; padding-bottom: 0; transition: width .25s cubic-bezier(0.16, 1, 0.3, 1), height .25s cubic-bezier(0.16, 1, 0.3, 1); }
+          #ca-panel #ca-input { font-size: 14px; }
+        }
+        @media (min-width: 1024px) { #ca-panel { width: min(500px, calc(100vw - 2rem)); height: min(740px, calc(100dvh - 7.5rem)); } }
+        @media (min-width: 640px) { #ca-panel.ca-wide { width: min(880px, calc(100vw - 3rem)); height: min(750px, calc(100dvh - 7rem)); } }
+        #ca-panel.ca-wide #ca-log { font-size: 15px; } #ca-chips { -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; } #ca-chips::-webkit-scrollbar { display: none; }
+        @media (max-height: 480px) { #ca-chips { display: none; } }   /* landscape phones: keep room for the chat */
+        .ca-orb-wrap { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; }
+        .ca-orb { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: #2563eb; transition: transform .08s linear, background .3s; }
+        .ca-ring { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid rgba(96,165,250,.7); animation: ca-ring 1.8s ease-out infinite; }
+        .ca-bar { width: 6px; height: 100%; border-radius: 9999px; background: #60a5fa; transform: scaleY(.15); transform-origin: center; transition: transform .08s linear; }
+        #ca-voice[data-state="speaking"] .ca-bar { animation: ca-eq 0.9s ease-in-out infinite; }
+        #ca-voice[data-state="speaking"] .ca-bar:nth-child(2n) { animation-delay: .15s; background: #34d399; }
+        #ca-voice[data-state="speaking"] .ca-bar:nth-child(3n) { animation-delay: .3s; }
+        #ca-voice[data-state="speaking"] .ca-orb { background: #059669; }
+        #ca-voice[data-state="listening"] .ca-orb { background: #dc2626; }
+        #ca-voice[data-state="listening"] .ca-ring { border-color: rgba(248,113,113,.7); }
+        #ca-voice[data-state="thinking"] .ca-ring { animation-play-state: paused; opacity: 0; }
+        #ca-voice[data-state="thinking"] .ca-orb { background: #7c3aed; animation: ca-think 1.2s ease-in-out infinite; }
+        #ca-voice[data-state="thinking"] .ca-bar { animation: ca-wave 1.1s ease-in-out infinite; background: #a78bfa; }
+        #ca-voice[data-state="thinking"] .ca-bar:nth-child(2) { animation-delay: .1s; } #ca-voice[data-state="thinking"] .ca-bar:nth-child(3) { animation-delay: .2s; }
+        #ca-voice[data-state="thinking"] .ca-bar:nth-child(4) { animation-delay: .3s; } #ca-voice[data-state="thinking"] .ca-bar:nth-child(5) { animation-delay: .4s; }
+        #ca-voice[data-state="thinking"] .ca-bar:nth-child(6) { animation-delay: .5s; } #ca-voice[data-state="thinking"] .ca-bar:nth-child(7) { animation-delay: .6s; }
+        @keyframes ca-ring { 0% { transform: scale(.75); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+        @keyframes ca-eq { 0%, 100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
+        @keyframes ca-wave { 0%, 100% { transform: scaleY(.2); opacity: .5; } 50% { transform: scaleY(.6); opacity: 1; } }
+        @keyframes ca-think { 0%, 100% { transform: scale(.92); } 50% { transform: scale(1.08); } }
+        @media (prefers-reduced-motion: reduce) { .ca-ring, .ca-bar, .ca-orb { animation: none !important; } }
+      </style>
+      <div id="ca-chips" class="flex gap-1.5 overflow-x-auto border-t border-slate-200 bg-white px-2 py-2"></div>
+
+      <form id="ca-form" class="flex items-center gap-2 border-t border-slate-200 bg-white p-2.5">
+        <button id="ca-mic" type="button" aria-label="Speak" class="h-11 w-11 flex-shrink-0 rounded-full bg-blue-600 text-white hover:bg-blue-700"><i class="fa-solid fa-microphone"></i></button>
+        <input id="ca-input" type="text" maxlength="1000" autocomplete="off" class="min-w-0 flex-1 rounded-xl border border-slate-300 p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+        <button id="ca-send" type="submit" aria-label="Send" class="h-11 w-11 flex-shrink-0 rounded-full bg-slate-900 text-white hover:bg-slate-700 disabled:opacity-40"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+      <p id="ca-disclaimer" class="bg-white px-3 pb-2 text-[10px] leading-tight text-slate-500"></p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      // Backend API configuration:
+      // When testing locally, it connects to http://localhost:8000.
+      // Once deployed on Render/Railway, set your URL below (or define window.CYBER_AGENT_API):
+      const REMOTE_BACKEND_URL = ''; // e.g., 'https://alwar-cyber-backend.onrender.com'
+      const isLocalHost = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+      const API = window.CYBER_AGENT_API || (isLocalHost ? (location.port === '8000' ? '' : 'http://localhost:8000') : REMOTE_BACKEND_URL);
+      const SESSION_KEY = 'ca-session';
+      const MAX_RECORD_MS = 60000;
+      const TARGET_RATE = 16000;
+
+      const T = {
+        en: {
+          fab: 'Ask Cyber Assistant', title: 'Cyber Help Assistant',
+          welcome: 'Namaste. I help with cyber crime: how to report, where to complain, which documents to carry and what to tell. Ask by typing or tap the mic.',
+          placeholder: 'Type your question…', listening: 'Listening… tap the mic to send', thinking: 'Thinking…',
+          listen: 'Listen', stop: 'Stop', copy: 'Copy', copied: 'Copied', print: 'Print / Save PDF',
+          disclaimer: 'AI assistant for guidance only. Emergency: 112. Fraud: call 1930 now. Never share OTP or PIN.',
+          chips: ['I lost money in an online fraud', 'How do I file a cyber complaint?', 'Documents needed for complaint', 'Help me write a complaint letter', 'How to verify a tenant?', 'Report a fake call or SMS'],
+          errNet: 'Cannot reach the assistant. Please check the connection or call 1930.',
+          errSpeech: 'I could not hear anything. Please try again.', errBig: 'Recording too long. Please keep it short.',
+          errRate: 'Too many requests. Please wait a minute or call 1930.', errMic: 'Microphone is blocked or not supported. Please type instead.',
+          errGeneric: 'The assistant is unavailable right now. Please call 1930 or 8764874306.',
+          errNoSound: 'No sound from the microphone. Check that the right mic is selected in the browser (lock icon in the address bar) and Windows sound settings, then try again.',
+          voice: { listening: 'Listening… speak now', thinking: 'Understanding your question…', speaking: 'Speaking…', send: 'Done, send', cancel: 'Cancel', stop: 'Stop' }
+        },
+        hi: {
+          fab: 'साइबर सहायक से पूछें', title: 'साइबर सहायता असिस्टेंट',
+          welcome: 'नमस्ते। मैं साइबर अपराध में मदद करता हूँ: कहाँ और कैसे शिकायत करें, कौन से दस्तावेज़ ले जाएं और क्या बताएं। लिखकर पूछें या माइक दबाएं।',
+          placeholder: 'अपना सवाल लिखें…', listening: 'सुन रहा हूँ… भेजने के लिए माइक दबाएं', thinking: 'सोच रहा हूँ…',
+          listen: 'सुनें', stop: 'रोकें', copy: 'कॉपी', copied: 'कॉपी हो गया', print: 'प्रिंट / PDF सेव',
+          disclaimer: 'यह केवल मार्गदर्शन हेतु AI असिस्टेंट है। आपातकाल: 112। ठगी: तुरंत 1930। OTP या PIN कभी साझा न करें।',
+          chips: ['मेरे साथ ऑनलाइन ठगी हुई है', 'साइबर शिकायत कैसे करें?', 'शिकायत के लिए कौन से दस्तावेज़ चाहिए', 'शिकायत पत्र लिखने में मदद करें', 'किरायेदार का सत्यापन कैसे करें?', 'फर्जी कॉल या SMS रिपोर्ट करें'],
+          errNet: 'असिस्टेंट से संपर्क नहीं हो पाया। कृपया इंटरनेट जांचें या 1930 पर कॉल करें।',
+          errSpeech: 'कुछ सुनाई नहीं दिया। कृपया फिर कोशिश करें।', errBig: 'रिकॉर्डिंग बहुत लंबी है। कृपया छोटी रखें।',
+          errRate: 'बहुत अधिक अनुरोध। कृपया एक मिनट रुकें या 1930 पर कॉल करें।', errMic: 'माइक्रोफ़ोन बंद है या समर्थित नहीं है। कृपया टाइप करें।',
+          errGeneric: 'असिस्टेंट अभी उपलब्ध नहीं है। कृपया 1930 या 8764874306 पर कॉल करें।',
+          errNoSound: 'माइक्रोफ़ोन से आवाज़ नहीं आ रही। ब्राउज़र (एड्रेस बार का लॉक आइकन) और Windows साउंड सेटिंग में सही माइक चुनें, फिर दोबारा कोशिश करें।',
+          voice: { listening: 'सुन रहा हूँ… अब बोलिए', thinking: 'आपका सवाल समझ रहा हूँ…', speaking: 'बोल रहा हूँ…', send: 'हो गया, भेजें', cancel: 'रद्द करें', stop: 'रोकें' }
+        }
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const lang = () => (typeof currentLang !== 'undefined' && currentLang === 'hi' ? 'hi' : 'en');
+      const t = () => T[lang()];
+
+      let sessionId = sessionStorage.getItem(SESSION_KEY) || crypto.randomUUID();
+      sessionStorage.setItem(SESSION_KEY, sessionId);
+      let busy = false, recorder = null, recordTimer = null, audioEl = null, thinkingEl = null;
+
+      function el(tag, cls, text) {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text !== undefined) n.textContent = text;
+        return n;
+      }
+
+      function scrollLog() { const log = $('ca-log'); log.scrollTop = log.scrollHeight; }
+
+      // ---- speech output -------------------------------------------------------------------
+      // ---- voice stage (animated overlay) ---------------------------------------------------
+      const SILENT_WAV = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+      let voiceState = null, speakToken = 0, meterRaf = 0, meterCtx = null, discard = false;
+      const player = new Audio();   // one element, "unlocked" by the mic tap so later autoplay is allowed
+
+      function unlockAudio() { player.src = SILENT_WAV; player.play().catch(() => {}); }
+
+      function setVoice(state) {
+        voiceState = state;
+        const box = $('ca-voice');
+        box.classList.toggle('hidden', !state);
+        box.classList.toggle('flex', !!state);
+        if (!state) { resetBars(); return; }
+        box.dataset.state = state;
+        const s = t().voice;
+        $('ca-voice-icon').className = 'fa-solid text-3xl ' + { listening: 'fa-microphone', thinking: 'fa-brain', speaking: 'fa-volume-high' }[state];
+        $('ca-voice-text').textContent = s[state];
+        $('ca-voice-main').textContent = { listening: s.send, thinking: s.cancel, speaking: s.stop }[state];
+        $('ca-voice-cancel').textContent = s.cancel;
+        $('ca-voice-cancel').classList.toggle('hidden', state !== 'listening');
+      }
+
+      function resetBars() {
+        document.querySelectorAll('.ca-bar').forEach((b) => (b.style.transform = ''));
+        $('ca-orb').style.transform = '';
+      }
+
+      const SPEECH_LEVEL = 0.022;    // mean spectrum level that counts as "user is talking"
+      const NO_SOUND_LEVEL = 0.006;  // peak below this for the whole recording = mic is not picking anything up
+      const SILENCE_MS = 2800;       // auto-send after this much quiet once speech was heard
+      let heardSpeech = false, peakLevel = 0, lastVoiceAt = 0;
+
+      function startMeter(stream) {
+        meterCtx = new AudioContext();
+        meterCtx.resume();
+        const analyser = meterCtx.createAnalyser();
+        analyser.fftSize = 64;
+        meterCtx.createMediaStreamSource(stream).connect(analyser);
+        const data = new Uint8Array(analyser.frequencyBinCount);
+        const bars = document.querySelectorAll('.ca-bar');
+        heardSpeech = false; peakLevel = 0; lastVoiceAt = performance.now();
+        const tick = () => {
+          analyser.getByteFrequencyData(data);
+          bars.forEach((b, i) => { b.style.transform = 'scaleY(' + Math.min(1, Math.max(0.12, (data[i + 1] / 255) * 1.6)).toFixed(2) + ')'; });
+          let vocalSum = 0; for (let i = 1; i < 15; i++) vocalSum += data[i]; const level = vocalSum / 14 / 255;
+          $('ca-orb').style.transform = 'scale(' + (1 + Math.min(level * 1.5, 0.5)).toFixed(2) + ')';
+          peakLevel = Math.max(peakLevel, level);
+          const now = performance.now();
+          if (level > SPEECH_LEVEL) { heardSpeech = true; lastVoiceAt = now; }
+          if (heardSpeech && now - lastVoiceAt > SILENCE_MS && recorder) { recorder.stop(); return; }
+          meterRaf = requestAnimationFrame(tick);
+        };
+        tick();
+      }
+
+      function stopMeter() {
+        cancelAnimationFrame(meterRaf);
+        if (meterCtx) { meterCtx.close(); meterCtx = null; }
+      }
+
+      function endSpeaking(token) { if (token === speakToken && voiceState === 'speaking') setVoice(null); }
+
+      function stopSpeaking() {
+        speakToken++;
+        player.pause();
+        if ('speechSynthesis' in window) speechSynthesis.cancel();
+        if (voiceState === 'speaking') setVoice(null);
+      }
+
+      async function speak(text) {
+        stopSpeaking();
+        const token = speakToken;
+        const spoken = (text || '').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1').replace(/#{1,6}\s*/g, '').replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1').replace(/[`_~]/g, '').replace(/^[•\-\*]\s+/gm, '').replace(/\b\d{3,}\b/g, (m) => m.split('').join(' ')).trim(); if (!spoken) return; unlockAudio(); setTimeout(() => endSpeaking(token), 30000);
+        setVoice('speaking');
+        try {
+          const res = await fetch(API + '/api/tts', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: spoken })
+          });
+          if (!res.ok) throw new Error('tts');
+          const url = URL.createObjectURL(await res.blob());
+          if (token !== speakToken) { URL.revokeObjectURL(url); return; }
+          player.onended = player.onerror = () => { URL.revokeObjectURL(url); endSpeaking(token); };
+          player.src = url;
+          await player.play();
+        } catch {
+          if (token !== speakToken) return;
+          if (!('speechSynthesis' in window)) { endSpeaking(token); return; }
+          const u = new SpeechSynthesisUtterance(spoken);
+          u.lang = lang() === 'hi' ? 'hi-IN' : 'en-IN';
+          u.onend = u.onerror = () => endSpeaking(token);
+          speechSynthesis.speak(u);
+        }
+      }
+
+      // ---- rendering -----------------------------------------------------------------------
+      function printText(text, title) {
+        const w = window.open('', '_blank');
+        if (!w) return;
+        w.document.title = title;
+        const pre = w.document.createElement('pre');
+        pre.style.cssText = 'font:14px/1.6 sans-serif;white-space:pre-wrap;padding:30px';
+        pre.textContent = text;
+        w.document.body.appendChild(pre);
+        w.print();
+      }
+
+      function artifactCard(art) {
+        const card = el('div', 'mt-2 rounded-xl border border-slate-300 bg-white p-2.5');
+        card.appendChild(el('div', 'mb-1 text-xs font-bold uppercase text-slate-700', art.title || (art.type === 'letter' ? 'Complaint letter' : 'Checklist')));
+        card.appendChild(el('div', 'max-h-64 overflow-y-auto whitespace-pre-wrap text-xs leading-relaxed text-slate-800', art.text));
+        const row = el('div', 'mt-2 flex gap-2');
+        const copy = el('button', 'rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-900', t().copy);
+        copy.type = 'button';
+        copy.onclick = async () => {
+          try { await navigator.clipboard.writeText(art.text); copy.textContent = t().copied; setTimeout(() => (copy.textContent = t().copy), 2000); } catch { /* text is selectable */ }
+        };
+        const print = el('button', 'rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700', t().print);
+        print.type = 'button';
+        print.onclick = () => printText(art.text, art.title || 'Cyber Help');
+        row.append(copy, print);
+        card.appendChild(row);
+        return card;
+      }
+
+      function addBubble(role, text, artifacts) {
+        const wrap = el('div', 'flex ' + (role === 'user' ? 'justify-end' : 'justify-start'));
+        const bubble = el('div', 'max-w-[88%] sm:max-w-[78%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed shadow-sm ' + (role === 'user' ? 'bg-blue-600 text-white rounded-br-sm' : 'border border-slate-200 bg-white text-slate-800 rounded-tl-sm'));
+        bubble.appendChild(el('p', 'whitespace-pre-wrap', text));
+        (artifacts || []).forEach((a) => bubble.appendChild(artifactCard(a)));
+        if (role === 'assistant') {
+          const listen = el('button', 'mt-1.5 text-xs font-semibold text-blue-700 hover:underline', t().listen);
+          listen.type = 'button';
+          listen.onclick = () => speak(text);
+          bubble.appendChild(listen);
+        }
+        wrap.appendChild(bubble);
+        $('ca-log').appendChild(wrap);
+        scrollLog();
+      }
+
+      function addNote(text, isError) {
+        $('ca-log').appendChild(el('div', 'rounded-lg px-3 py-2 text-xs ' + (isError ? 'bg-red-50 text-red-700' : 'text-slate-500'), text));
+        scrollLog();
+      }
+
+      function renderChips() {
+        const box = $('ca-chips');
+        box.replaceChildren();
+        t().chips.forEach((q) => {
+          const b = el('button', 'flex-shrink-0 whitespace-nowrap rounded-full border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs hover:bg-slate-100', q);
+          b.type = 'button';
+          b.onclick = () => ask(q);
+          box.appendChild(b);
+        });
+      }
+
+      function applyLabels() {
+        $('ca-fab-label').textContent = t().fab;
+        $('ca-title').textContent = t().title;
+        $('ca-input').placeholder = recorder ? t().listening : t().placeholder;
+        $('ca-disclaimer').textContent = t().disclaimer;
+        const w = $('ca-welcome');
+        if (w) w.textContent = t().welcome;
+        renderChips();
+      }
+
+      function resetLog() {
+        $('ca-log').replaceChildren();
+        const w = el('div', 'rounded-2xl border border-slate-200 bg-white px-3 py-2 text-slate-800', t().welcome);
+        w.id = 'ca-welcome';
+        $('ca-log').appendChild(w);
+      }
+
+      // ---- backend calls -------------------------------------------------------------------
+      function errorText(status) {
+        if (status === undefined) return t().errNet;
+        if (status === 422) return t().errSpeech;
+        if (status === 413) return t().errBig;
+        if (status === 429) return t().errRate;
+        return t().errGeneric;
+      }
+
+      function setBusy(on) {
+        busy = on;
+        $('ca-send').disabled = on;
+        $('ca-input').disabled = on;
+        $('ca-mic').disabled = on;
+        if (on) {
+          thinkingEl = el('div', 'flex items-center gap-2 text-xs text-slate-500');
+          thinkingEl.append(el('i', 'fa-solid fa-circle-notch fa-spin'), el('span', '', t().thinking));
+          $('ca-log').appendChild(thinkingEl);
+          scrollLog();
+        } else if (thinkingEl) {
+          thinkingEl.remove();
+          thinkingEl = null;
+        }
+      }
+
+      let abortCtl = null;
+
+      async function call(path, init, isVoice) {
+        setBusy(true);
+        abortCtl = new AbortController();
+        if (isVoice) setVoice('thinking');
+        try {
+          const res = await fetch(API + path, { ...init, signal: abortCtl.signal });
+          if (!res.ok) { const e = new Error('http'); e.status = res.status; throw e; }
+          const data = await res.json();
+          if (isVoice) addBubble('user', data.transcript);
+          addBubble('assistant', data.reply, data.artifacts);
+          if (isVoice) speak(data.reply);
+        } catch (e) {
+          if (isVoice) setVoice(null);
+          if (e.name !== 'AbortError') addNote(errorText(e.status), true);
+        } finally {
+          abortCtl = null;
+          setBusy(false);
+          if (!isVoice) $('ca-input').focus();
+        }
+      }
+
+      function ask(text) {
+        const clean = text.trim();
+        if (!clean || busy) return;
+        stopSpeaking();
+        addBubble('user', clean);
+        $('ca-input').value = '';
+        return call('/api/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId, message: clean, lang: lang() })
+        });
+      }
+
+      // ---- microphone: record, convert to 16 kHz mono WAV (Gemini accepts WAV), send ---------
+      function encodeWav(samples, rate) {
+        const bytes = samples.length * 2;
+        const v = new DataView(new ArrayBuffer(44 + bytes));
+        const str = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+        str(0, 'RIFF'); v.setUint32(4, 36 + bytes, true); str(8, 'WAVE'); str(12, 'fmt ');
+        v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+        v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+        str(36, 'data'); v.setUint32(40, bytes, true);
+        samples.forEach((s, i) => v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, s)) * 0x7fff, true));
+        return new Blob([v], { type: 'audio/wav' });
+      }
+
+      async function toWav16k(recording) {
+        const ctx = new AudioContext();
+        try {
+          const decoded = await ctx.decodeAudioData(await recording.arrayBuffer());
+          const off = new OfflineAudioContext(1, Math.ceil(decoded.duration * TARGET_RATE), TARGET_RATE);
+          const src = off.createBufferSource();
+          src.buffer = decoded; src.connect(off.destination); src.start();
+          const samples = (await off.startRendering()).getChannelData(0);
+          // quiet mics: boost to a clear level (max 12x) so speech recognition can hear it
+          const peak = samples.reduce((m, s) => Math.max(m, Math.abs(s)), 0);
+          const gain = peak > 0 && peak < 0.7 ? Math.min(0.9 / peak, 12) : 1;
+          return encodeWav(gain === 1 ? samples : samples.map((s) => s * gain), TARGET_RATE);
+        } finally { ctx.close(); }
+      }
+
+      function setRecording(on) {
+        $('ca-mic').classList.toggle('bg-red-600', on);
+        $('ca-mic').classList.toggle('animate-pulse', on);
+        $('ca-mic').classList.toggle('bg-blue-600', !on);
+        $('ca-mic').firstElementChild.className = on ? 'fa-solid fa-stop' : 'fa-solid fa-microphone';
+        $('ca-input').disabled = on;
+        $('ca-input').placeholder = on ? t().listening : t().placeholder;
+      }
+
+      const MIN_AUDIO_BYTES = 2000;   // below this the recording is just a tap, no speech
+
+      async function toggleRecording() {
+        if (recorder) { recorder.stop(); return; }
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { addNote(t().errMic, true); return; }
+        unlockAudio();
+        let stream;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+        } catch { addNote(t().errMic, true); return; }
+        stopSpeaking();
+        discard = false;
+        const chunks = [];
+        const mime = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'].find((m) => MediaRecorder.isTypeSupported(m));
+        const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+        rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+        rec.onstop = async () => {
+          clearTimeout(recordTimer);
+          stopMeter();
+          stream.getTracks().forEach((tr) => tr.stop());
+          recorder = null;
+          setRecording(false);
+          const blob = new Blob(chunks, { type: rec.mimeType });
+          if (discard) { setVoice(null); return; }
+          if (!heardSpeech && peakLevel < NO_SOUND_LEVEL) { setVoice(null); addNote(t().errNoSound, true); return; }
+          if (blob.size < MIN_AUDIO_BYTES) { setVoice(null); addNote(t().errSpeech, true); return; }
+          setVoice('thinking');
+          try {
+            const form = new FormData();
+            form.append('session_id', sessionId);
+            form.append('lang', lang());
+            form.append('audio', await toWav16k(blob), 'speech.wav');
+            await call('/api/voice', { method: 'POST', body: form }, true);
+          } catch { setVoice(null); addNote(t().errMic, true); }
+        };
+        recorder = rec;
+        rec.start(250);
+        setRecording(true);
+        setVoice('listening');
+        startMeter(stream);
+        recordTimer = setTimeout(() => rec.state === 'recording' && rec.stop(), MAX_RECORD_MS);
+      }
+
+      $('ca-voice-main').onclick = () => {
+        if (voiceState === 'listening' && recorder) recorder.stop();
+        else if (voiceState === 'speaking') stopSpeaking();
+        else if (voiceState === 'thinking' && abortCtl) abortCtl.abort();
+      };
+      $('ca-voice-cancel').onclick = () => { discard = true; if (recorder) recorder.stop(); };
+
+      // ---- wiring --------------------------------------------------------------------------
+      function togglePanel(open) {
+        const p = $('ca-panel');
+        const show = open ?? p.classList.contains('hidden');
+        p.classList.toggle('hidden', !show);
+        $('ca-fab').classList.toggle('hidden', show);   // hide fab while panel is open on both mobile and pc
+        document.body.style.overflow = show && window.innerWidth < 640 ? 'hidden' : '';
+        if (show) { $('ca-input').focus(); return; }
+        stopSpeaking();
+        if (recorder) { discard = true; recorder.stop(); }
+        if (abortCtl) abortCtl.abort();
+      }
+
+      $('ca-fab').onclick = () => togglePanel();
+      $('ca-close').onclick = () => togglePanel(false);
+      $('ca-expand').onclick = () => {
+        const wide = $('ca-panel').classList.toggle('ca-wide');
+        $('ca-expand').firstElementChild.className = 'fa-solid ' + (wide ? 'fa-down-left-and-up-right-to-center' : 'fa-up-right-and-down-left-from-center');
+        scrollLog();
+      };
+      window.addEventListener('resize', () => {
+        const open = !$('ca-panel').classList.contains('hidden');
+        $('ca-fab').classList.toggle('hidden', open);
+        document.body.style.overflow = open && window.innerWidth < 640 ? 'hidden' : '';
+      });
+      $('ca-mic').onclick = toggleRecording;
+      $('ca-form').onsubmit = (e) => { e.preventDefault(); ask($('ca-input').value); };
+      $('ca-new').onclick = () => {
+        stopSpeaking();
+        sessionId = crypto.randomUUID();
+        sessionStorage.setItem(SESSION_KEY, sessionId);
+        resetLog();
+      };
+
+      // the page's own Hindi/English button also switches the assistant (existing code stays untouched)
+      if (typeof window.toggleLanguage === 'function') {
+        const original = window.toggleLanguage;
+        window.toggleLanguage = function () { const r = original.apply(this, arguments); applyLabels(); return r; };
+      }
+
+      resetLog();
+      applyLabels();
+    })();
   </script>
 </body>
 </html>

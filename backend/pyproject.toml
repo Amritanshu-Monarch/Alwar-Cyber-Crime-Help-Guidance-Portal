@@ -1,0 +1,24 @@
+[project]
+name = "alwar-cyber-agent"
+version = "0.1.0"
+description = "Voice + RAG agent backend for the Alwar Cyber Crime Help & Guidance Portal"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "google-adk",
+  "google-genai",
+  "chromadb",
+  "pydantic-settings",
+  "python-multipart",
+  "python-dotenv",
+  "slowapi",
+  "rank-bm25",
+]
+
+[dependency-groups]
+dev = ["pytest", "httpx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
