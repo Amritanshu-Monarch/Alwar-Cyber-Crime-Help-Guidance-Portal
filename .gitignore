@@ -1,0 +1,45 @@
+# Environment & Secrets (CRITICAL: NEVER push to GitHub)
+.env
+.env*.local
+*.env
+backend/.env
+
+# Python & Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testing, Linting & Caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Vector database & embeddings (auto-generated at runtime)
+.chroma/
+chroma_db/
+backend/.chroma/
+backend/chroma_db/
+
+# Scratch, debug & testing artifacts
+test_stt_scratch.py
+backend/test_stt_scratch.py
+.playwright-mcp/
+*.log
+
+# Frontend & build artifacts
+node_modules/
+dist/
+.parcel-cache/
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Project report (internal)
+PROJECT-REPORT.md
