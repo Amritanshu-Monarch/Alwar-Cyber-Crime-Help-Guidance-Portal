@@ -52,7 +52,7 @@
 <body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
 
   <!-- Desktop Container Layout -->
-  <div class="max-w-6xl mx-auto min-h-screen bg-white shadow-xl flex flex-col relative w-full overflow-x-hidden">
+  <div class="min-h-screen bg-white flex flex-col relative w-full overflow-x-hidden">
 
     <!-- Main Header Section -->
     <header class="bg-slate-900 text-white border-b-4 border-amber-500 shadow-md flex-shrink-0">
@@ -949,7 +949,7 @@
         alert(currentLang === 'hi' ? 'प्रिंट पॉपअप ब्लॉक हो गया है। कृपया ब्राउज़र में पॉपअप अनुमति दें।' : 'Print popup blocked. Please allow popups.');
         return;
       }
-      printWindow.document.write(`<html><head><title>Complaint Letter - Alwar Police</title><style>body{font-family:sans-serif;padding:30px;font-size:14px;line-height:1.6;white-space:pre-wrap;color:#1e293b;}</style></head><body><pre>${text}</pre></body></html>`);
+      printWindow.document.write(`<html><head><title>Complaint Letter - Alwar Police<\/title><style>body{font-family:sans-serif;padding:30px;font-size:14px;line-height:1.6;white-space:pre-wrap;color:#1e293b;}<\/style><\/head><body><pre>${text}<\/pre><\/body><\/html>`);
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
@@ -1126,7 +1126,7 @@
       // When deployed, you can point to your live Render backend or leave blank for instant client-side AI
       const REMOTE_BACKEND_URL = ''; // e.g. 'https://alwar-cyber-backend.onrender.com'
       const isLocalHost = ['localhost', '127.0.0.1', ''].includes(location.hostname);
-      const API = window.CYBER_AGENT_API || (isLocalHost ? (location.port === '8000' ? '' : 'http://localhost:8000') : REMOTE_BACKEND_URL);
+      const API = window.CYBER_AGENT_API || (isLocalHost ? (['8000', '3000'].includes(location.port) ? '' : 'http://localhost:8000') : REMOTE_BACKEND_URL);
       const SESSION_KEY = 'ca-session';
 
       const T = {
@@ -1182,8 +1182,26 @@
       const lang = () => (typeof currentLang !== 'undefined' && currentLang === 'hi' ? 'hi' : 'en');
       const t = () => T[lang()];
 
-      let sessionId = sessionStorage.getItem(SESSION_KEY) || crypto.randomUUID();
-      sessionStorage.setItem(SESSION_KEY, sessionId);
+      function createSessionId() {
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+          try { return crypto.randomUUID(); } catch (e) {}
+        }
+        return 'sess-' + Math.random().toString(36).substring(2, 10) + '-' + Date.now().toString(36);
+      }
+
+      function getSessionId() {
+        try {
+          const saved = sessionStorage.getItem(SESSION_KEY);
+          if (saved && /^[A-Za-z0-9-]{8,64}$/.test(saved)) return saved;
+          const fresh = createSessionId();
+          sessionStorage.setItem(SESSION_KEY, fresh);
+          return fresh;
+        } catch (e) {
+          return createSessionId();
+        }
+      }
+
+      let sessionId = getSessionId();
       let busy = false, audioRecorder = null, thinkingEl = null;
 
       function el(tag, cls, text) {
@@ -1290,23 +1308,29 @@
       function artifactCard(art) {
         const card = el('div', 'mt-2 rounded-xl border border-slate-300 bg-white p-3 shadow-sm');
         card.appendChild(el('div', 'mb-1.5 text-xs font-bold uppercase text-slate-700 flex items-center gap-1.5', (art.title || (art.type === 'letter' ? 'Formal Complaint Letter' : 'Checklist & Action Guide'))));
-        card.appendChild(el('div', 'max-h-60 overflow-y-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-slate-800 p-2 bg-slate-50 rounded-lg border border-slate-200 select-all', art.text));
+        
+        let bodyText = (art.text || '').trim();
+        if (art.title && bodyText.toLowerCase().startsWith(art.title.toLowerCase())) {
+          bodyText = bodyText.substring(art.title.length).trim();
+        }
+
+        card.appendChild(el('div', 'max-h-60 overflow-y-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-slate-800 p-2 bg-slate-50 rounded-lg border border-slate-200 select-all', bodyText));
         
         const row = el('div', 'mt-2.5 flex gap-2');
         const copy = el('button', 'rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-900 active:scale-95 transition cursor-pointer', t().copy);
         copy.type = 'button';
         copy.onclick = async () => {
           if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(art.text);
+            await navigator.clipboard.writeText(bodyText);
           } else {
-            fallbackCopy(art.text);
+            fallbackCopy(bodyText);
           }
           copy.textContent = t().copied;
           setTimeout(() => (copy.textContent = t().copy), 2000);
         };
         const print = el('button', 'rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 active:scale-95 transition cursor-pointer', t().print);
         print.type = 'button';
-        print.onclick = () => printText(art.text, art.title || 'Cyber Help Alwar');
+        print.onclick = () => printText(bodyText, art.title || 'Cyber Help Alwar');
         row.append(copy, print);
         card.appendChild(row);
         return card;
@@ -1315,12 +1339,32 @@
       function addBubble(role, text, artifacts) {
         const wrap = el('div', 'flex ' + (role === 'user' ? 'justify-end' : 'justify-start'));
         const bubble = el('div', 'max-w-[88%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed shadow-sm ' + (role === 'user' ? 'bg-blue-600 text-white rounded-br-sm' : 'border border-slate-200 bg-white text-slate-800 rounded-tl-sm'));
-        bubble.appendChild(el('p', 'whitespace-pre-wrap', text));
+        
+        let cleanText = text || '';
+        const hasLetter = (artifacts || []).some(a => a.type === 'letter');
+        if (hasLetter && cleanText) {
+          const markers = [
+            'To,\nThe Station House Officer',
+            'To,\r\nThe Station House Officer',
+            'To, \nThe Station House Officer',
+            'सेवा में,\nश्रीमान थानाधिकारी',
+            'सेवा में,\r\nश्रीमान थानाधिकारी'
+          ];
+          for (const m of markers) {
+            const idx = cleanText.indexOf(m);
+            if (idx !== -1) {
+              cleanText = cleanText.substring(0, idx).trim();
+              break;
+            }
+          }
+        }
+
+        bubble.appendChild(el('p', 'whitespace-pre-wrap', cleanText));
         (artifacts || []).forEach((a) => bubble.appendChild(artifactCard(a)));
         if (role === 'assistant') {
           const listen = el('button', 'mt-1.5 text-xs font-semibold text-blue-700 hover:underline flex items-center gap-1 cursor-pointer', '🔊 ' + t().listen);
           listen.type = 'button';
-          listen.onclick = () => speak(text);
+          listen.onclick = () => speak(cleanText);
           bubble.appendChild(listen);
         }
         wrap.appendChild(bubble);
@@ -1379,129 +1423,284 @@
       }
 
       // ================= CLIENT-SIDE ALWAR CYBER INTELLIGENCE =================
-      // High-accuracy fallback engine when backend is offline or on GitHub Pages static deployment
+      // High-accuracy intelligence engine covering all major cyber incidents
+      // Functions both as instant fallback and as full client agent for static GitHub Pages
       function getClientSideReply(query, currentLanguage) {
         const q = (query || '').toLowerCase().trim();
         const isHi = currentLanguage === 'hi';
         const dateStr = new Date().toLocaleDateString('en-IN');
 
-        // 1. Money Lost / Online Financial Fraud
-        if (q.includes('lost money') || q.includes('fraud') || q.includes('ठगी') || q.includes('पैसे कट') || q.includes('financial') || q.includes('online fraud')) {
+        // Helper test function
+        const match = (regex) => regex.test(q);
+
+        // 1. Sextortion / Video Call Blackmail / Morphing / Intimate Photos
+        if (match(/(sextortion|blackmail|nude|video call|photo.*morph|morph.*photo|leaked|threat|धमकी|न्यूड|अश्लील|वीडियो कॉल|ब्लेकमेल|फोटो वायरल)/i)) {
           if (isHi) {
             return {
-              reply: "🚨 वित्तीय ठगी के तुरंत बाद 'गोल्डन आवर' (Golden Hour) में ये कदम उठाएं:\n\n1. तुरंत राष्ट्रीय हेल्पलाइन 1930 पर कॉल करें।\n2. अलवर पुलिस साइबर कंट्रोल रूम: 8764874306 पर कॉल करें।\n3. अपने बैंक को कॉल करके कार्ड / UPI तुरंत ब्लॉक करवाएं।\n4. नेशनल पोर्टल cybercrime.gov.in पर शिकायत दर्ज करें।\n5. महत्वपूर्ण: मोबाइल से कोई भी APK, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल रिकॉर्डिंग डिलीट न करें!",
+              reply: "🛑 सेक्सटॉर्शन / वीडियो कॉल ब्लैकमेलिंग से निपटने हेतु अति-महत्वपूर्ण दिशानिर्देश:\n\n1. पैसे बिल्कुल न दें: ब्लैकमेलर्स को पैसे देने से वे कभी शांत नहीं होते, बल्कि और ज्यादा पैसों की मांग करते हैं।\n2. घबराएं नहीं और नंबर ब्लॉक करें: कॉलर से बहस न करें, नंबर ब्लॉक करें और अपने सोशल मीडिया अकाउंट को तुरंत प्राइवेट करें।\n3. साक्ष्य सुरक्षित रखें: वीडियो कॉल का नंबर, चैट स्क्रीनशॉट, बैंक/UPI आईडी डिलीट न करें।\n4. StopNCII.org पर जाएं: अगर आपकी अंतरंग तस्वीरें या वीडियो की धमकी दी जा रही है, तो StopNCII.org पर रजिस्टर करें (यह मेटा, इंस्टाग्राम और फेसबुक पर फोटो अपलोड होने से ब्लॉक कर देता है)।\n5. तुरंत अलवर साइबर कंट्रोल रूम (8764874306) या 1930 पर सूचित करें। IT Act की धारा 67/67A के तहत पीड़ितों की पहचान कानूनन पूरी तरह गोपनीय रखी जाती है।",
               artifacts: [{
                 type: 'guide',
-                title: 'वित्तीय ठगी आपातकालीन एक्शन चेकलिस्ट',
-                text: "1. कॉल करें: 1930 (राष्ट्रीय साइबर हेल्पलाइन)\n2. कॉल करें: 8764874306 (अलवर साइबर कंट्रोल रूम)\n3. बैंक को सूचना: कार्ड व नेटबैंकिंग ब्लॉक करवाएं और UTR नंबर लें\n4. साक्ष्य सुरक्षित रखें: ट्रांजैक्शन SMS, चैट स्क्रीनशॉट, APK फाइल\n5. शिकायत पोर्टल: https://cybercrime.gov.in पर रिपोर्ट दर्ज करें"
+                title: 'सेक्सटॉर्शन / वीडियो ब्लैकमेल आपातकालीन सुरक्षा कदम',
+                text: "1. कभी पैसे न भेजें (पैसे देने से ब्लैकमेलिंग नहीं रुकती)\n2. डरें नहीं, तुरंत संदिग्ध नंबर को ब्लॉक करें\n3. सभी चैट, कॉल लॉग व स्क्रीनशॉट का बैकअप लें\n4. StopNCII.org पर इमेज हैश सबमिट करें ताकि सोशल मीडिया पर वायरल न हो\n5. कॉल करें: अलवर साइबर कंट्रोल रूम 8764874306 या राष्ट्रीय हेल्पलाइन 1930"
               }]
             };
           } else {
             return {
-              reply: "🚨 Immediate Golden Hour Action Steps for Online Fraud:\n\n1. Dial National Cyber Helpline 1930 immediately.\n2. Call Alwar Police Cyber Control Room at 8764874306.\n3. Inform your bank branch or helpline to block your card/UPI & freeze beneficiary accounts.\n4. Register your formal complaint at cybercrime.gov.in.\n5. Crucial: Do NOT delete any APK, suspicious app, WhatsApp chats, screenshots, or call logs—they are vital evidence!",
+              reply: "🛑 Critical Guidance for Sextortion & Video Call Blackmail:\n\n1. NEVER PAY ANY MONEY: Giving in to extortion only triggers repeated, escalated demands. They will not delete anything upon payment.\n2. Do NOT panic & Block the caller: Stop all communication, set your social media profiles to private, and block the perpetrator.\n3. Preserve all digital evidence: Keep screenshots of threat messages, caller phone numbers, and payment QR codes.\n4. Register on StopNCII.org: This global platform creates digital hashes of intimate images so platforms (Facebook, Instagram, etc.) automatically prevent them from being uploaded.\n5. Contact Alwar Police Cyber Control Room at 8764874306 or dial 1930. Under Sections 67 & 67A of the IT Act, victim identity is strictly safeguarded.",
               artifacts: [{
                 type: 'guide',
-                title: 'Financial Fraud Emergency Checklist',
-                text: "1. Call: 1930 (National Cyber Crime Helpline - Golden Hour)\n2. Call: 8764874306 (Alwar Police Cyber Crime Desk)\n3. Bank Dispute: Get Card/UPI blocked and note the UTR & Dispute Reference No.\n4. Preserve Evidence: Keep transaction screenshots, chat logs, caller IDs\n5. Register online: https://cybercrime.gov.in"
+                title: 'Sextortion Defense & Emergency Protocol',
+                text: "1. Zero Money: Never send funds to extortionists\n2. Block: Cut communication and privatize social profiles\n3. Protect Identity: Submit hash on https://stopncii.org\n4. Preserve Proof: Export chat logs and phone records\n5. Report: Contact Alwar Cyber Cell at 8764874306 or 1930"
               }]
             };
           }
         }
 
-        // 2. Complaint Letter / Help me write a complaint
-        if (q.includes('letter') || q.includes('पत्र') || q.includes('application') || q.includes('आवेदन') || q.includes('draft') || q.includes('write')) {
+        // 2. Part-Time Job Scam / Telegram Task Scam / Work From Home
+        if (match(/(job scam|task scam|task.*fraud|telegram|part time.*job|work from home|wfh|prepaid.*task|youtube.*like|rating.*scam|review scam|टास्क|टेलीग्राम|जॉब फ्रॉड|पार्ट टाइम)/i)) {
           if (isHi) {
             return {
-              reply: "मैंने आपके लिए थानाधिकारी (SHO) महोदय को प्रेषित किए जाने वाले शिकायत पत्र का प्रारूप तैयार कर दिया है। आप नीचे दिए गए बॉक्स से इसे कॉपी या सीधे प्रिंट / PDF सेव कर सकते हैं:",
+              reply: "⚠️ पार्ट-टाइम जॉब / टेलीग्राम टास्क फ्रॉड से सावधान रहें:\n\n1. तुरंत पैसे भेजना बंद करें: शुरुआत में यूट्यूब वीडियो लाइक करने या होटल रिव्यू पर मिलने वाले ₹150-₹500 केवल आपका विश्वास जीतने का चारा (Bait) होते हैं। बाद में 'प्रीपेड टास्क' या 'क्रिप्टो बैलेंस' के नाम पर लाखों रुपये ठग लिए जाते हैं।\n2. कभी भी पैसे निकालने हेतु 'टैक्स' या 'पेनाल्टी' न भरें: फ्रॉडस्टर कहते हैं कि पैसे विथड्रॉ करने के लिए 30% और जमा करें—यह पूरी तरह ठगी है।\n3. तुरंत 1930 व अलवर साइबर कंट्रोल (8764874306) पर कॉल करें।\n4. जिस टेलीग्राम ग्रुप में आपको जोड़ा गया था, उसके एडमिन के यूजरनेम, ग्रुप लिंक और सभी बैंक UTR नंबर का स्क्रीनशॉट लेकर cybercrime.gov.in पर रिपोर्ट दर्ज करें।",
+              artifacts: [{
+                type: 'guide',
+                title: 'टेलीग्राम टास्क / जॉब फ्रॉड एक्शन चेकलिस्ट',
+                text: "1. तुरंत किसी भी 'विथड्रॉल फीस' या 'टैक्स' का भुगतान बंद करें\n2. बैंक ट्रांजैक्शन की UTR संख्या नोट करें\n3. टेलीग्राम चैट व ग्रुप सदस्यों की सूची का स्क्रीनशॉट लें\n4. तुरंत 1930 पर कॉल कर बैंक ट्रांजैक्शन पर रोक लगवाएं\n5. नेशनल पोर्टल cybercrime.gov.in पर रिपोर्ट करें"
+              }]
+            };
+          } else {
+            return {
+              reply: "⚠️ Warning: Part-Time Job / Telegram Task Scam:\n\n1. STOP SENDING MONEY IMMEDIATELY: The initial payouts of ₹200-₹500 for YouTube likes or hotel reviews are fraudulent bait to lure you into 'prepaid investment tasks'.\n2. Do NOT pay withdrawal fees or clearance taxes: Fraudsters always invent excuses claiming your funds are locked and require further deposits. You will never get it back by paying more.\n3. Dial 1930 immediately to freeze beneficiary bank accounts linked to your transactions.\n4. Capture screenshots of the Telegram group, admin usernames, WhatsApp invitation numbers, and all bank UTR reference numbers, then lodge a complaint on cybercrime.gov.in.",
+              artifacts: [{
+                type: 'guide',
+                title: 'Task / Job Scam Emergency Checklist',
+                text: "1. Cease all payments immediately (ignore threats of forfeiture)\n2. Note all payment UTR numbers & beneficiary bank names\n3. Save Telegram chat history and user IDs as evidence\n4. Call 1930 (National Cyber Helpline) immediately\n5. Submit FIR at https://cybercrime.gov.in"
+              }]
+            };
+          }
+        }
+
+        // 3. Investment / Trading App / Fake Stock Market Scam
+        if (match(/(invest|investment.*scam|trading.*scam|share market.*scam|crypto.*scam|bitcoin.*scam|forex|मुनाफा|निवेश|ट्रेडिंग)/i)) {
+          if (isHi) {
+            return {
+              reply: "📈 फर्जी इन्वेस्टमेंट / ट्रेडिंग ऐप फ्रॉड:\n\n1. व्हाट्सएप/टेलीग्राम पर 'गारंटीड रिटर्न' या 'VIP ट्रेडिंग ग्रुप' देने वाले 99% चैनल फर्जी होते हैं। जो ऐप वे डाउनलोड करवाते हैं, उसमें दिख रहा मुनाफा फर्जी कोड होता है।\n2. कोई भी अतिरिक्त निकासी शुल्क (Withdrawal Tax) न दें।\n3. तुरंत 1930 पर कॉल करें और अपने बैंक को फ्रॉड की सूचना दें।\n4. SEBI की अधिकृत वेबसाइट (scores.gov.in) पर भी पंजीकृत ब्रोकर्स की सूची जांची जा सकती है।",
+              artifacts: [{
+                type: 'guide',
+                title: 'इन्वेस्टमेंट फ्रॉड एक्शन चेकलिस्ट',
+                text: "1. और पैसे जमा न करें\n2. ट्रांजैक्शन रसीदें और बैंक खाता विवरण सुरक्षित रखें\n3. 1930 पर तुरंत वित्तीय फ्रॉड दर्ज करवाएं\n4. SEBI SCORES व cybercrime.gov.in पर शिकायत दर्ज करें"
+              }]
+            };
+          } else {
+            return {
+              reply: "📈 Fake Investment & Trading Scams:\n\n1. WhatsApp/Telegram groups promising 'institutional VIP accounts' or guaranteed 200%+ profits are operated by cyber syndicates using dummy trading apps.\n2. Do not pay any 'capital gains tax' or 'unlock fee' to withdraw your phantom profits.\n3. Call 1930 immediately to flag the scammer's receiving bank accounts.\n4. Collect all deposit receipts, bank statements showing transfers, and report the matter to cybercrime.gov.in and SEBI SCORES (scores.gov.in).",
+              artifacts: [{
+                type: 'guide',
+                title: 'Investment Scam Action Checklist',
+                text: "1. Stop paying unlock/tax fees immediately\n2. Export bank debit slips with UTR numbers\n3. Dial 1930 for immediate account freezing\n4. File complaint on https://cybercrime.gov.in"
+              }]
+            };
+          }
+        }
+
+        // 4. Complaint Letter / Application Draft to SHO
+        if (match(/(letter|पत्र|आवेदन|application|draft.*letter|complaint.*letter|format|sho letter|प्रारूप|दरख्वास्त|लिखने|write.*complaint)/i)) {
+          if (isHi) {
+            return {
+              reply: "मैंने आपके लिए थानाधिकारी (SHO) महोदय को प्रेषित किए जाने वाले औपचारिक शिकायत पत्र का प्रारूप तैयार कर दिया है। आप नीचे दिए गए बॉक्स से इसे सीधे कॉपी या प्रिंट / PDF सेव कर सकते हैं:",
               artifacts: [{
                 type: 'letter',
-                title: 'थानाधिकारी को शिकायत आवेदन पत्र',
-                text: `सेवा में,\nश्रीमान थानाधिकारी महोदय,\nपुलिस थाना: [थाना नाम], जिला अलवर (राजस्थान)\n\nविषय: ऑनलाइन साइबर धोखाधड़ी के संबंध में कानूनी कार्रवाई बाबत।\n\nमहोदय,\nसविनय निवेदन है कि प्रार्थी/प्रार्थिया का नाम [आपका नाम], निवासी अलवर है। मोबाइल नंबर [आपका नंबर] है।\n\nदिनांक ${dateStr} को अज्ञात व्यक्ति द्वारा प्रार्थी के साथ धोखाधड़ी की गई।\nविवरण: [घटना का संक्षिप्त विवरण, यूटीआर नंबर एवं ठगी राशि]\n\nअतः श्रीमान जी से निवेदन है कि त्वरित जांच कर अज्ञात अभियुक्तों के विरुद्ध कानूनी कार्रवाई करने की कृपा करें।\n\nसंलग्न दस्तावेज़:\n1. बैंक स्टेटमेंट / ट्रांजैक्शन रसीद\n2. चैट स्क्रीनशॉट / कॉल रिकॉर्ड विवरण\n\nभवदीय,\nहस्ताक्षर: ___________\nनाम: [आपका नाम]\nमोबाइल: [फ़ोन नंबर]\nदिनांक: ${dateStr}`
+                title: 'थानाधिकारी को औपचारिक साइबर शिकायत आवेदन पत्र',
+                text: `सेवा में,\nश्रीमान थानाधिकारी महोदय,\nपुलिस थाना: [थाने का नाम, जैसे कोतवाली/एनईबी], जिला अलवर (राजस्थान)\n\nविषय: ऑनलाइन साइबर धोखाधड़ी / अपराध के संबंध में कानूनी कार्रवाई बाबत।\n\nमहोदय,\nसविनय निवेदन है कि प्रार्थी/प्रार्थिया का नाम [आपका पूरा नाम] है, निवासी [आपका पता, अलवर]। प्रार्थी का मोबाइल नंबर [आपका फ़ोन नंबर] है।\n\nदिनांक ${dateStr} को अज्ञात साइबर अपराधी द्वारा प्रार्थी के साथ धोखाधड़ी की गई।\n\nघटना का विवरण:\n[यहाँ घटना का संक्षिप्त ब्योरा लिखें: जैसे फर्जी कॉल, लिंक, UTR नंबर, बैंक खाता एवं कुल ठगी राशि]\n\nप्रार्थी ने त्वरित राहत हेतु राष्ट्रीय साइबर हेल्पलाइन 1930 पर भी शिकायत दर्ज करवा दी है (पावती संख्या: [1930 Complaint No.]).\n\nअतः श्रीमान जी से निवेदन है कि त्वरित कानूनी संज्ञान लेते हुए अज्ञात अभियुक्तों के विरुद्ध BNSS एवं IT Act के तहत FIR दर्ज कर कानूनी कार्रवाई करने की कृपा करें।\n\nसंलग्न दस्तावेज़:\n1. बैंक स्टेटमेंट / ट्रांजैक्शन की डेबिट पर्ची\n2. चैट, संदेश एवं फर्जी नंबर के स्क्रीनशॉट\n3. आधार कार्ड / पहचान पत्र की प्रति\n\nभवदीय,\nहस्ताक्षर: ___________\nनाम: [आपका पूरा नाम]\nमोबाइल: [फ़ोन नंबर]\nदिनांक: ${dateStr}`
               }]
             };
           } else {
             return {
-              reply: "I have prepared a formal legal complaint letter draft addressed to the Station House Officer (SHO). You can copy or print/save it directly below:",
+              reply: "I have drafted a formal police complaint letter addressed to the Station House Officer (SHO). You can copy or print / save as PDF using the buttons below:",
               artifacts: [{
                 type: 'letter',
-                title: 'Formal Police Complaint Letter',
-                text: `To,\nThe Station House Officer (SHO),\nPolice Station: [Police Station Name], Alwar District (Rajasthan)\n\nSubject: Formal complaint regarding online cyber fraud.\n\nRespected Sir,\nI am writing to bring to your attention an incident of cyber fraud committed against me. My name is [Your Full Name], residing in Alwar, Contact: [Your Phone Number].\n\nOn or around ${dateStr}, an unauthorized fraudulent transaction occurred.\nIncident Summary: [Brief details of fraud, Transaction ID / UTR, and Amount Lost]\n\nI request you to kindly register this complaint, initiate an investigation under applicable cyber laws, and assist in recovering the defrauded amount.\n\nEnclosures:\n1. Bank Statement / Transaction Debit SMS\n2. Screenshots of Chat / Fraudulent Links / Call Logs\n\nSincerely,\nSignature: ___________\nName: [Your Full Name]\nPhone: [Your Phone Number]\nDate: ${dateStr}`
+                title: 'Formal Police Complaint Letter to SHO',
+                text: `To,\nThe Station House Officer (SHO),\nPolice Station: [Police Station Name, e.g. Kotwali / NEB], Alwar District (Rajasthan)\n\nSubject: Formal legal complaint regarding cyber fraud / online crime.\n\nRespected Sir,\nI am writing to formally report an incident of cyber crime committed against me. My name is [Your Full Name], residing at [Your Address, Alwar], Contact No: [Your Phone Number].\n\nOn or around ${dateStr}, an unauthorized fraudulent cyber incident occurred.\n\nIncident Details:\n[Provide concise summary: e.g. Fraudulent link/call, Bank Name, Transaction UTR ID, Defrauded Amount]\n\nI have also reported this incident on the National Helpline 1930 (Acknowledgement ID: [Your 1930 Ack Number]).\n\nI request you to kindly register an FIR under applicable provisions of the Bharatiya Nagarik Suraksha Sanhita (BNSS) and the Information Technology Act, investigate the matter, and assist in recovering the defrauded amount.\n\nEnclosures:\n1. Bank Statement showing unauthorized debit entries\n2. Screenshots of chats, caller IDs, and payment receipts\n3. Photocopy of Government Photo ID (Aadhaar / Voter ID)\n\nSincerely,\nSignature: ___________\nName: [Your Full Name]\nPhone: [Your Phone Number]\nDate: ${dateStr}`
               }]
             };
           }
         }
 
-        // 3. Documents needed / Required documents
-        if (q.includes('document') || q.includes('दस्तावेज़') || q.includes('proof') || q.includes('carry') || q.includes('कागजात')) {
+        // 5. Required Documents Checklist
+        if (match(/(document|दस्तावेज़|कागजात|proof|evidence|carry|checklist|सबूत|कागज़)/i)) {
           if (isHi) {
             return {
-              reply: "साइबर शिकायत दर्ज करते समय निम्नलिखित दस्तावेज़ एवं डिजिटल साक्ष्य अपने साथ रखें:",
+              reply: "साइबर शिकायत दर्ज करते समय निम्नलिखित दस्तावेज़ एवं डिजिटल साक्ष्य अपने साथ तैयार रखें:",
               artifacts: [{
                 type: 'guide',
-                title: 'शिकायत हेतु आवश्यक दस्तावेज़ चेकलिस्ट',
-                text: "1. बैंक स्टेटमेंट (डेबिट ट्रांजैक्शन स्पष्ट दिखने वाली प्रति)\n2. ट्रांजैक्शन आईडी (UTR No. / Transaction ID)\n3. चैट, मैसेज और कॉल लॉग के स्क्रीनशॉट\n4. संदिग्ध मोबाइल नंबर, यूपीआई आईडी या बैंक खाता संख्या\n5. पहचान पत्र (आधार कार्ड या वोटर आईडी कार्ड की प्रति)\n6. 1930 या नेशनल पोर्टल की पावती (Acknowledgement) संख्या"
+                title: 'साइबर शिकायत हेतु आवश्यक दस्तावेज़ चेकलिस्ट',
+                text: "1. बैंक पासबुक या स्टेटमेंट की प्रति (जिसमें डेबिट ट्रांजैक्शन स्पष्ट दिखे)\n2. ट्रांजैक्शन आईडी (UTR No. / Transaction Reference Number)\n3. चैट, मैसेज, फर्जी लिंक और कॉल लॉग के स्पष्ट स्क्रीनशॉट\n4. संदिग्ध का मोबाइल नंबर, यूपीआई आईडी या बैंक खाता विवरण\n5. पहचान पत्र (आधार कार्ड या वोटर आईडी कार्ड की स्वप्रमाणित प्रति)\n6. 1930 हेल्पलाइन या cybercrime.gov.in की पावती (Acknowledgement) संख्या"
               }]
             };
           } else {
             return {
-              reply: "Here is the comprehensive list of documents and digital evidence required to submit your cyber crime complaint:",
+              reply: "Here is the checklist of required documents and digital evidence for filing your cyber complaint:",
               artifacts: [{
                 type: 'guide',
-                title: 'Documents Required for Complaint',
-                text: "1. Bank Statement or Passbook copy showing unauthorized debit\n2. Transaction Reference Number (UTR / Ref ID)\n3. Screenshots of chats, phishing SMS, or payment pages\n4. Phone numbers, UPI IDs, or account numbers of the fraudster\n5. Government ID proof (Aadhaar Card / Voter ID copy)\n6. Acknowledgement number from 1930 / cybercrime.gov.in"
+                title: 'Mandatory Documents & Evidence Checklist',
+                text: "1. Bank Statement or Passbook copy showing unauthorized debit transaction\n2. Transaction Reference Number (UTR / Ref ID / Order ID)\n3. Legible screenshots of chats, phishing SMS, caller IDs, and URL links\n4. Fraudster details: Phone number, UPI ID, or receiver account info\n5. Self-attested Government ID proof (Aadhaar Card / Voter ID copy)\n6. Acknowledgement slip or reference number from 1930 / cybercrime.gov.in"
               }]
             };
           }
         }
 
-        // 4. How to file a cyber complaint
-        if (q.includes('how do i file') || q.includes('file a complaint') || q.includes('कहाँ') || q.includes('शिकायत कैसे') || q.includes('how to report')) {
+        // 6. Lost / Stolen Phone / CEIR IMEI Blocking
+        if (match(/(lost.*phone|phone.*lost|phone.*kho|mobile.*kho|mobile.*chori|phone.*chori|stolen.*phone|phone.*stolen|imei|ceir|चोरी|खो गया|मोबाइल गुम|फोन गुम)/i)) {
           if (isHi) {
             return {
-              reply: "साइबर शिकायत दर्ज कराने के 3 प्रमुख तरीके हैं:\n\n1. ऑनलाइन: आधिकारिक पोर्टल cybercrime.gov.in पर मोबाइल नंबर से लॉगिन कर रिपोर्ट करें।\n2. पुलिस थाना: अपने नजदीकी थाने (जैसे कोतवाली, एनईबी, अरावली विहार) या अलवर साइबर सेल में लिखित आवेदन दें। (BNSS के तहत ज़ीरो FIR किसी भी थाने में दर्ज कराई जा सकती है)।\n3. हेल्पलाइन: वित्तीय ठगी होते ही 1930 या अलवर कंट्रोल रूम 8764874306 पर सूचना दें।"
+              reply: "📱 मोबाइल चोरी या गुम होने पर आवश्यक कदम:\n\n1. नजदीकी पुलिस थाने में या राजस्थान पुलिस पोर्टल पर मोबाइल गुमशुदगी की रिपोर्ट (LDR / GD) दर्ज कराएं।\n2. अपने टेलीकॉम ऑपरेटर स्टोर (Airtel, Jio, Vi, BSNL) जाकर उसी नंबर का डुप्लीकेट सिम कार्ड प्राप्त करें।\n3. दूरसंचार विभाग के CEIR पोर्टल (sancharsaathi.gov.in) पर जाकर फोन के दोनों IMEI नंबर ब्लॉक करवाएं। इससे फोन किसी भी अन्य सिम कार्ड के साथ काम नहीं करेगा।\n4. फोन में लॉगिन किए गए Google/Apple खाते और बैंकिंग ऐप्स के पासवर्ड बदलें।",
+              artifacts: [{
+                type: 'guide',
+                title: 'गुम/चोरी मोबाइल रिकवरी एवं CEIR चेकलिस्ट',
+                text: "1. पुलिस रिपोर्ट (LDR / Thana GD No.) प्राप्त करें\n2. टेलीकॉम स्टोर से नई डुप्लीकेट सिम प्राप्त करें\n3. CEIR पोर्टल पर फोन ब्लॉक करें: https://sancharsaathi.gov.in\n4. आवश्यक दस्तावेज़: फोन का बिल/इनवॉइस, पुलिस शिकायत प्रति, पहचान पत्र"
+              }]
             };
           } else {
             return {
-              reply: "You can file a cyber complaint through 3 convenient channels:\n\n1. Online: Visit cybercrime.gov.in and log in with your mobile number to file an official FIR/complaint.\n2. In-Person Police Station: Visit your nearest police station in Alwar (Kotwali, NEB, Aravali Vihar, etc.) or the Cyber Crime Cell. Zero FIR can be registered at any station under BNSS.\n3. Helpline: For instant financial freeze, dial 1930 or Alwar Cyber Control at 8764874306."
+              reply: "📱 Steps for Lost or Stolen Mobile Handset:\n\n1. File a Lost Device Report (LDR) or GD entry at your nearest Alwar police station or through the Rajasthan Police citizen portal.\n2. Visit your telecom store (Jio, Airtel, Vi, BSNL) to activate a duplicate SIM on your existing number.\n3. Block your handset on the Central Equipment Identity Register (CEIR) at sancharsaathi.gov.in using both IMEI numbers so it cannot be used with any SIM in India.\n4. Immediately reset your Google/Apple IDs and banking passwords.",
+              artifacts: [{
+                type: 'guide',
+                title: 'Lost Phone & CEIR Blocking Protocol',
+                text: "1. File police report (LDR/GD copy)\n2. Reissue SIM card at operator outlet\n3. Block IMEI numbers at https://sancharsaathi.gov.in\n4. Keep purchase invoice & police complaint copy ready"
+              }]
             };
           }
         }
 
-        // 5. Tenant Verification
-        if (q.includes('tenant') || q.includes('किरायेदार') || q.includes('servant') || q.includes('नौकर') || q.includes('सत्यापन')) {
+        // 7. Social Media / Account Hacked (Instagram, Facebook, WhatsApp)
+        if (match(/(hack|hacked|instagram|facebook|fb hack|whatsapp hack|social media.*hack|account recovery|हैकिंग|हैक|फेसबुक|इंस्टाग्राम)/i)) {
           if (isHi) {
             return {
-              reply: "किरायेदार एवं घरेलू नौकर का पुलिस सत्यापन अनिवार्य है:\n\n1. आवश्यक दस्तावेज़: किरायेदार का आधार कार्ड/वोटर आईडी, 2 पासपोर्ट फोटो, और पूर्व नियोक्ता/मकान मालिक का स्थायी पता।\n2. प्रक्रिया: राजस्थान पुलिस पोर्टल (police.rajasthan.gov.in) पर राजकॉप नागरिक सेवा के माध्यम से ऑनलाइन या स्थानीय थाने में फॉर्म जमा कराएं।"
+              reply: "🔒 सोशल मीडिया या व्हाट्सएप खाता हैक होने पर:\n\n1. इंस्टाग्राम रिकवरी: आधिकारिक लिंक instagram.com/hacked पर जाएं और सेल्फी वीडियो सत्यापन के माध्यम से अपना खाता पुनः प्राप्त करें।\n2. व्हाट्सएप हैक: व्हाट्सएप ऐप अनइंस्टॉल कर पुनः इंस्टॉल करें और अपना फोन नंबर दर्ज कर 6 अंकों का SMS कोड डालें (इससे हैकर के डिवाइस से सत्र लॉग-आउट हो जाता है)।\n3. अपने अन्य सोशल मीडिया माध्यम से परिचितों को सूचित करें कि आपके नाम से पैसे मांगे जाएं तो न दें।\n4. भविष्य में सुरक्षा हेतु सभी खातों में Two-Factor Authentication (2FA) अवश्य चालू करें।",
+              artifacts: [{
+                type: 'guide',
+                title: 'हैक खाता रिकवरी चेकलिस्ट',
+                text: "1. Instagram: https://instagram.com/hacked पर जाएं\n2. Facebook: https://facebook.com/hacked पर जाएं\n3. संपर्कों को सतर्क करें कि कोई भी राशि न भेजें\n4. टू-फैक्टर ऑथेंटिकेशन (2FA) सक्षम करें"
+              }]
             };
           } else {
             return {
-              reply: "Tenant and household servant police verification is essential for domestic security:\n\n1. Required Documents: Aadhaar/Voter ID copy, 2 passport size photographs, permanent address and previous landlord/employer phone number.\n2. How to apply: Submit through the RajCop citizen portal at police.rajasthan.gov.in or directly at your local Alwar police station."
+              reply: "🔒 Recovery Steps for Hacked Social Media / WhatsApp Accounts:\n\n1. Instagram: Visit the official recovery center at instagram.com/hacked and use video selfie identity verification.\n2. WhatsApp: Reinstall WhatsApp and re-verify your phone number via SMS to terminate active rogue web sessions.\n3. Post a status/story on alternative platforms alerting family and friends not to entertain financial requests from your handle.\n4. Enable Two-Factor Authentication (2FA) using an authenticator app (e.g. Google Authenticator).",
+              artifacts: [{
+                type: 'guide',
+                title: 'Account Recovery Action Guide',
+                text: "1. Instagram Recovery: https://instagram.com/hacked\n2. Facebook Recovery: https://facebook.com/hacked\n3. Alert friends & family against phishing/money requests\n4. Activate App-based Two-Factor Authentication (2FA)"
+              }]
             };
           }
         }
 
-        // 6. Fake Call / SMS / Chakshu / Fraud
-        if (q.includes('fake call') || q.includes('sms') || q.includes('चक्षु') || q.includes('chakshu') || q.includes('कॉल') || q.includes('संदिग्ध')) {
+        // 8. Fake Call / SMS / Chakshu / Electricity Bill / AnyDesk / Screen Share
+        if (match(/(fake call|phishing|sms scam|electricity.*bill|bijli.*bill|chakshu|चक्षु|संदिग्ध.*कॉल|संदिग्ध.*मैसेज|anydesk|teamviewer|quicksupport|apk|link|बिजली बिल)/i)) {
           if (isHi) {
             return {
-              reply: "संदिग्ध फर्जी कॉल या एसएमएस की रिपोर्टिंग:\n\n1. यदि आपके पास फर्जी KYC, लाटरी, बिजली बिल या धमकी भरा कॉल/मैसेज आया है, तो दूरसंचार विभाग के चक्षु (Chakshu) पोर्टल sancharsaathi.gov.in पर तुरंत रिपोर्ट करें।\n2. कॉलर के कहने पर एनीडेस्क (AnyDesk) जैसी रिमोट एक्सेस ऐप कभी डाउनलोड न करें और नंबर को ब्लॉक करें।"
+              reply: "⚡ संदिग्ध फर्जी कॉल, SMS या बिजली बिल फ्रॉड:\n\n1. बिजली विभाग (JVVNL) कभी भी व्यक्तिगत मोबाइल नंबर से रात को बिजली काटने की चेतावनी वाला SMS नहीं भेजता।\n2. कॉलर के कहने पर एनीडेस्क (AnyDesk), टीमव्यूअर (TeamViewer) या QuickSupport जैसी स्क्रीन-शेयरिंग ऐप कभी इंस्टॉल न करें।\n3. यदि फोन में कोई संदिग्ध APK ऐप इंस्टॉल हो गई है तो तुरंत फोन का इंटरनेट बंद करें, बैंक ऐप का पासवर्ड बदलें या फोन को फैक्ट्री रीसेट करें।\n4. संदिग्ध कॉल और मैसेज की शिकायत दूरसंचार विभाग के 'चक्षु' (Chakshu) पोर्टल: sancharsaathi.gov.in/sfc पर तुरंत दर्ज करें।",
+              artifacts: [{
+                type: 'guide',
+                title: 'संदिग्ध कॉल / चक्षु पोर्टल एक्शन गाइड',
+                text: "1. किसी भी APK लिंक पर क्लिक न करें\n2. स्क्रीन शेयरिंग ऐप (AnyDesk) डाउनलोड न करें\n3. संदिग्ध नंबर की रिपोर्ट चक्षु पोर्टल पर करें: https://sancharsaathi.gov.in/sfc\n4. बिजली बिल का भुगतान केवल आधिकारिक डिस्कॉम ऐप या ई-मित्र से ही करें"
+              }]
             };
           } else {
             return {
-              reply: "Reporting suspicious calls or messages:\n\n1. Report fraudulent KYC calls, fake electricity bill warnings, or suspicious links on the Chakshu portal (Department of Telecommunications) at sancharsaathi.gov.in.\n2. Never install remote screen-sharing apps (AnyDesk, TeamViewer) and block the number immediately."
+              reply: "⚡ Fake Calls, Phishing SMS & Electricity Bill Threats:\n\n1. Electricity providers (JVVNL) never send SMS from personal numbers threatening that 'power will be disconnected tonight'.\n2. NEVER install remote-access apps (AnyDesk, TeamViewer, RustDesk, QuickSupport) at the request of an unknown caller.\n3. If you installed a rogue APK, disconnect Wi-Fi / Mobile Data immediately and factory-reset your smartphone.\n4. Report fraudulent callers, fake SMS, and phishing URLs to the Department of Telecommunications on the Chakshu portal at sancharsaathi.gov.in/sfc.",
+              artifacts: [{
+                type: 'guide',
+                title: 'Fake Call & Chakshu Reporting Checklist',
+                text: "1. Do not download APKs from WhatsApp/SMS\n2. Refuse screen-sharing requests (AnyDesk/TeamViewer)\n3. Report suspicious numbers at https://sancharsaathi.gov.in/sfc\n4. Use only official discom portals or E-Mitra for bill payments"
+              }]
             };
           }
         }
 
-        // 7. Police Stations in Alwar
-        if (q.includes('station') || q.includes('थाना') || q.includes('kotwali') || q.includes('neb') || q.includes('aravali') || q.includes('alwar')) {
+        // 9. Zero FIR & Legal Rights (BNSS)
+        if (match(/(zero fir|refuse.*fir|fir.*refuse|jurisdiction|police.*mana|rights|अधिकार|ज़ीरो|एफआईआर मना)/i)) {
           if (isHi) {
             return {
-              reply: "अलवर जिले के प्रमुख पुलिस थाने एवं साइबर सहायता केंद्र:\n\n• अलवर साइबर कंट्रोल रूम: 8764874306\n• कोतवाली थाना: अलवर शहर (0144-2337424)\n• एन.ई.बी. (NEB) थाना: अलवर शहर (0144-2338244)\n• अरावली विहार थाना: काला कुआं, अलवर (0144-2332100)\n• महिला थाना: अलवर (0144-2337770)\n• पुलिस आपातकालीन सेवा: 112"
+              reply: "⚖️ ज़ीरो FIR (Zero FIR) एवं नागरिक के कानूनी अधिकार:\n\n1. ज़ीरो FIR का अधिकार: भारतीय नागरिक सुरक्षा संहिता (BNSS) 2023 की धारा 173 के तहत कोई भी व्यक्ति किसी भी पुलिस थाने में अपराध की रिपोर्ट दर्ज करा सकता है, चाहे घटना उस थाने के क्षेत्राधिकार में न हुई हो।\n2. पुलिस का कर्तव्य: थानाधिकारी को ज़ीरो FIR दर्ज कर अपराध संख्या '0' आवंटित करनी होती है और प्रारंभिक जांच के बाद संबंधित थाने को केस स्थानांतरित करना होता है।\n3. यदि पुलिस रिपोर्ट दर्ज करने से मना करे: तो आप भारतीय नागरिक सुरक्षा संहिता की धारा 175(3) के तहत पुलिस अधीक्षक (SP), अलवर को लिखित रूप से आवेदन भेज सकते हैं या नेशनल साइबर पोर्टल (cybercrime.gov.in) पर ऑनलाइन FIR दर्ज करा सकते हैं।"
             };
           } else {
             return {
-              reply: "Key Police Stations and Cyber Contact points in Alwar:\n\n• Alwar Cyber Control Room: 8764874306\n• Kotwali Police Station: Alwar City (0144-2337424)\n• NEB Police Station: Alwar City (0144-2338244)\n• Aravali Vihar Thana: Kala Kuan, Alwar (0144-2332100)\n• Mahila Thana (Women's Desk): Alwar (0144-2337770)\n• Emergency Response: 112"
+              reply: "⚖️ Zero FIR & Your Statutory Rights under BNSS:\n\n1. Statutory Mandate: Under Section 173 of the Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023, any police station is legally obligated to register an FIR irrespective of territorial jurisdiction.\n2. Procedure: The station registers the crime as a 'Zero FIR' (FIR No. 0), provides an official acknowledgement to the complainant, and forwards the file to the jurisdictional police station.\n3. Remedies if Refused: If any officer refuses registration, you can submit a written representation to the Superintendent of Police (SP), Alwar under Section 175(3) BNSS, or submit an official online FIR on cybercrime.gov.in."
+            };
+          }
+        }
+
+        // 10. Police Stations & Directory in Alwar
+        if (match(/(police station|nearest.*station|station.*alwar|thana|थाना|kotwali|neb thana|aravali vihar|mahila thana|thanedar|control room|cyber cell|एसपी ऑफिस)/i)) {
+          if (isHi) {
+            return {
+              reply: "अलवर जिले के प्रमुख पुलिस थाने एवं साइबर संपर्क विवरण:\n\n• अलवर पुलिस साइबर कंट्रोल रूम: 8764874306\n• कोतवाली थाना: अलवर शहर (0144-2337424)\n• एन.ई.बी. (NEB) थाना: अलवर शहर (0144-2338244)\n• अरावली विहार थाना: काला कुआं, अलवर (0144-2332100)\n• महिला थाना: अलवर (0144-2337770)\n• पुलिस अधीक्षक (SP) कार्यालय, अलवर: 0144-2337452\n• पुलिस आपातकालीन सेवा: 112"
+            };
+          } else {
+            return {
+              reply: "Key Police Stations and Cyber Contact points in Alwar:\n\n• Alwar Cyber Control Room: 8764874306\n• Kotwali Police Station: Alwar City (0144-2337424)\n• NEB Police Station: Alwar City (0144-2338244)\n• Aravali Vihar Thana: Kala Kuan, Alwar (0144-2332100)\n• Mahila Thana (Women's Desk): Alwar (0144-2337770)\n• Superintendent of Police (SP) Office: 0144-2337452\n• Police Emergency Response: 112"
+            };
+          }
+        }
+
+        // 11. Tenant & Domestic Help Verification
+        if (match(/(tenant|किरायेदार|servant|नौकर|सत्यापन|verification)/i)) {
+          if (isHi) {
+            return {
+              reply: "किरायेदार एवं घरेलू नौकर सत्यापन प्रक्रिया:\n\n1. आवश्यक दस्तावेज़: किरायेदार का आधार कार्ड/पहचान पत्र, 2 पासपोर्ट साइज फोटो और पिछले मकान मालिक/नियोक्ता का संपर्क नंबर।\n2. आवेदन प्रक्रिया: राजस्थान पुलिस के राजकॉप (RajCop) नागरिक पोर्टल (police.rajasthan.gov.in) पर ऑनलाइन या स्थानीय थाने में भौतिक सत्यापन फॉर्म भरकर जमा कराएं।"
+            };
+          } else {
+            return {
+              reply: "Tenant & Domestic Help Police Verification:\n\n1. Required Documents: Identity proof (Aadhaar / Voter ID copy), 2 passport photos, permanent address details, and previous landlord/employer reference.\n2. How to apply: Submit through the Rajasthan Police RajCop Citizen Portal at police.rajasthan.gov.in or directly submit the hardcopy form at your local Alwar police station."
+            };
+          }
+        }
+
+        // 12. SIM Check / TAFCOP
+        if (match(/(tafcop|sim.*check|check.*sim|fake sim|aadhaar.*sim|आधार.*सिम|फर्जी सिम)/i)) {
+          if (isHi) {
+            return {
+              reply: "आपके आधार कार्ड पर कितने सिम कार्ड चालू हैं, यह जानने का तरीका:\n\n1. दूरसंचार विभाग के TAFCOP पोर्टल (sancharsaathi.gov.in) पर जाएं।\n2. अपना मोबाइल नंबर दर्ज कर OTP से लॉगिन करें।\n3. आपके नाम पर पंजीकृत सभी नंबर स्क्रीन पर आ जाएंगे। जो नंबर आपका नहीं है, उसे 'Not My Number' चुनकर तुरंत बंद करने की रिपोर्ट करें।"
+            };
+          } else {
+            return {
+              reply: "How to check SIM cards registered under your Aadhaar:\n\n1. Visit the Department of Telecommunications TAFCOP portal at sancharsaathi.gov.in.\n2. Enter your mobile number and log in with OTP.\n3. Review all active numbers linked to your ID. Select 'Not My Number' for any unknown connections to have them disconnected."
+            };
+          }
+        }
+
+        // 13. Money Lost / Online Financial Fraud / UPI / Bank Debit / OTP
+        if (match(/(lost money|fraud|cheated|scam|upi|gpay|phonepe|paytm|debit|credit|atm|bank|paisa|paise|rupaye|कट|कटे|ठगी|रुपये|नुकसान|withdrawal|deducted|transaction|refund|utr|अकाउंट|ओटीपी|खाते से)/i)) {
+          if (isHi) {
+            return {
+              reply: "🚨 वित्तीय ठगी के तुरंत बाद 'गोल्डन आवर' (Golden Hour - शुरुआती 2 घंटे) में ये 5 कदम तुरंत उठाएं:\n\n1. तुरंत राष्ट्रीय हेल्पलाइन 1930 पर कॉल करें (यह पोर्टल बैंकों के साथ लिंक है और ठगी की राशि को आगे ट्रांसफर होने से तुरंत फ्रीज कराता है)।\n2. अलवर पुलिस साइबर कंट्रोल रूम: 8764874306 पर कॉल करें।\n3. अपने बैंक हेल्पलाइन पर कॉल करके एटीएम कार्ड, नेटबैंकिंग व यूपीआई ब्लॉक करवाएं और ट्रांजैक्शन का UTR नंबर प्राप्त करें।\n4. नेशनल पोर्टल cybercrime.gov.in पर औपचारिक रिपोर्ट दर्ज करें।\n5. महत्वपूर्ण: मोबाइल से कोई भी APK, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल रिकॉर्डिंग डिलीट न करें—ये पुलिस जांच के लिए अहम सबूत हैं!",
+              artifacts: [{
+                type: 'guide',
+                title: 'वित्तीय ठगी आपातकालीन एक्शन चेकलिस्ट (Golden Hour)',
+                text: "1. तुरंत डायल करें: 1930 (राष्ट्रीय साइबर वित्तीय हेल्पलाइन)\n2. अलवर साइबर कंट्रोल रूम: 8764874306\n3. बैंक एक्शन: कार्ड/UPI ब्लॉक कराएं, विवाद दर्ज करें और UTR नंबर लें\n4. साक्ष्य सुरक्षित रखें: ट्रांजैक्शन SMS, चैट स्क्रीनशॉट, पेमेंट रिसीट, APK\n5. नेशनल पोर्टल पर FIR: https://cybercrime.gov.in"
+              }]
+            };
+          } else {
+            return {
+              reply: "🚨 Immediate Golden Hour Emergency Actions for Financial Fraud:\n\n1. Dial National Cyber Helpline 1930 immediately (during the first 2 hours, funds can be frozen before the scammer withdraws them).\n2. Call Alwar Police Cyber Control Desk at 8764874306.\n3. Call your bank immediately to block your card/UPI, dispute the transaction, and obtain the UTR reference number.\n4. Register your formal complaint at cybercrime.gov.in.\n5. CRUCIAL: Do NOT delete any APK file, WhatsApp chats, payment screenshots, or call logs—these constitute vital police evidence!",
+              artifacts: [{
+                type: 'guide',
+                title: 'Financial Fraud Emergency Checklist (Golden Hour)',
+                text: "1. Call: 1930 (National Cyber Crime Helpline)\n2. Call: 8764874306 (Alwar Cyber Control Room)\n3. Bank Dispute: Freeze Card/UPI & demand UTR / Dispute Reference number\n4. Preserve Evidence: Keep transaction SMS, chat logs, caller numbers, APKs\n5. Official FIR: File on https://cybercrime.gov.in"
+              }]
+            };
+          }
+        }
+
+        // 14. Greetings, capabilities, intro, help
+        if (match(/^(hi|hello|hey|namaste|नमस्ते|हैलो|राम राम|pranam)\b|^(help|\?|who are you|kya kar sakte|kaise madad|madad karein)$/i) || q === 'hi' || q === 'hello') {
+          if (isHi) {
+            return {
+              reply: "नमस्ते! मैं अलवर पुलिस साइबर अपराध सहायता असिस्टेंट हूँ। 🙏\n\nमैं निम्नलिखित विषयों में आपकी त्वरित सहायता कर सकता हूँ:\n\n• 🚨 ऑनलाइन वित्तीय ठगी / बैंक फ्रॉड में तुरंत पैसे कैसे रुकवाएं (Golden Hour)\n• ⚖️ थानाधिकारी (SHO) को पुलिस शिकायत पत्र का ड्राफ्ट तैयार करना\n• 📋 शिकायत दर्ज कराने हेतु आवश्यक दस्तावेज़ों की चेकलिस्ट\n• 🛑 सेक्सटॉर्शन / वीडियो कॉल ब्लैकमेलिंग से सुरक्षा\n• 💼 टेलीग्राम टास्क / वर्क फ्रॉम होम जॉब स्कैम की रोकथाम\n• 📱 गुम / चोरी हुए मोबाइल को CEIR से ब्लॉक कराना\n• 🏢 अलवर जिले के प्रमुख पुलिस थानों के संपर्क नंबर\n\nआप अपना सवाल नीचे लिखकर पूछ सकते हैं या नीचे दिए गए सुझाव बटन दबाएं।"
+            };
+          } else {
+            return {
+              reply: "Namaste! I am the Alwar Cyber Crime Guidance Assistant. 🙏\n\nI can help you with:\n\n• 🚨 Halting transactions during online financial fraud (Golden Hour response)\n• ⚖️ Generating formal complaint letters addressed to the SHO / Police Station\n• 📋 Checklists of mandatory documents & digital evidence\n• 🛑 Protection against sextortion / video call blackmail\n• 💼 Handling Telegram task & fake work-from-home job scams\n• 📱 Blocking lost or stolen mobile phones via CEIR\n• 🏢 Directory of Alwar police stations & emergency contact numbers\n\nPlease type your specific question or choose from the quick prompts below."
             };
           }
         }
@@ -1509,11 +1708,11 @@
         // Default General Cyber Guidance
         if (isHi) {
           return {
-            reply: "अलवर साइबर अपराध सहायता पोर्टल पर आपका स्वागत है।\n\n• किसी भी वित्तीय साइबर फ्रॉड की स्थिति में तुरंत 1930 या अलवर कंट्रोल रूम 8764874306 पर कॉल करें।\n• अपना बैंक ओटीपी, पासवर्ड या पिन किसी से साझा न करें।\n• किसी भी शिकायत का पत्र तैयार करने या दस्तावेज़ों की जानकारी के लिए मुझसे पूछें।"
+            reply: "अलवर साइबर अपराध सहायता पोर्टल पर आपका स्वागत है।\n\n• किसी भी वित्तीय साइबर फ्रॉड की स्थिति में तुरंत राष्ट्रीय हेल्पलाइन 1930 या अलवर कंट्रोल रूम 8764874306 पर कॉल करें।\n• अपना बैंक OTP, UPI पिन या पासवर्ड कभी किसी से साझा न करें।\n• किसी भी साइबर अपराध की शिकायत, पुलिस थाने की जानकारी, या शिकायत पत्र बनवाने के लिए मुझसे पूछें।"
           };
         } else {
           return {
-            reply: "Welcome to the Alwar Cyber Crime Guidance Assistant.\n\n• For immediate financial fraud, dial National Helpline 1930 or Alwar Cyber Control at 8764874306.\n• Never share your Bank OTP, UPI PIN, or passwords with anyone.\n• Feel free to ask about complaint procedures, police stations in Alwar, or generate a complaint letter draft."
+            reply: "Welcome to the Alwar Cyber Crime Guidance Assistant.\n\n• In case of immediate financial fraud, dial National Helpline 1930 or Alwar Cyber Control at 8764874306.\n• Never share your Bank OTP, UPI PIN, or passwords with anyone.\n• Feel free to ask about complaint procedures, police stations in Alwar, or generate a formal complaint letter draft."
           };
         }
       }
@@ -1528,22 +1727,30 @@
 
         setBusy(true);
 
-        // If a remote backend URL is provided, try querying it first
-        if (API) {
+        // If a backend URL is configured or local server available, try querying with 8s timeout
+        if (API !== undefined && (API !== '' || isLocalHost || REMOTE_BACKEND_URL)) {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 8000);
           try {
-            const res = await fetch(API + '/api/chat', {
+            const endpoint = (API || '') + '/api/chat';
+            const res = await fetch(endpoint, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ session_id: sessionId, message: clean, lang: lang() })
+              body: JSON.stringify({ session_id: sessionId, message: clean, lang: lang() }),
+              signal: controller.signal
             });
+            clearTimeout(timeoutId);
             if (res.ok) {
               const data = await res.json();
-              addBubble('assistant', data.reply, data.artifacts);
-              setBusy(false);
-              return;
+              if (data && data.reply) {
+                addBubble('assistant', data.reply, data.artifacts);
+                setBusy(false);
+                return;
+              }
             }
           } catch (e) {
-            // Backend offline or spinning up; proceed to instant client-side intelligence
+            clearTimeout(timeoutId);
+            // Backend offline, timed out, or static deployment; fall through to instant client-side intelligence
           }
         }
 
@@ -1552,7 +1759,7 @@
           const clientData = getClientSideReply(clean, lang());
           addBubble('assistant', clientData.reply, clientData.artifacts);
           setBusy(false);
-        }, 300);
+        }, 200);
       }
 
       // Voice Input handling with Web Speech API & fallback
@@ -1587,7 +1794,12 @@
           rec.onerror = (e) => {
             setVoice(null);
             audioRecorder = null;
-            addNote(t().errNoSound, true);
+            if (e && e.error === 'aborted') return;
+            if (e && e.error === 'not-allowed') {
+              addNote(t().errMic, true);
+            } else {
+              addNote(t().errNoSound, true);
+            }
           };
 
           rec.onend = () => {
@@ -1681,7 +1893,7 @@
 
       $('ca-new').onclick = () => {
         stopSpeaking();
-        sessionId = crypto.randomUUID();
+        sessionId = createSessionId();
         sessionStorage.setItem(SESSION_KEY, sessionId);
         resetLog();
       };
