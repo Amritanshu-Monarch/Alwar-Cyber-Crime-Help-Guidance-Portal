@@ -52,11 +52,10 @@
 <body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
 
   <!-- Desktop Container Layout -->
-  <div class="max-w-6xl mx-auto min-h-screen bg-white shadow-xl flex flex-col justify-between relative w-full overflow-x-hidden">
+  <div class="max-w-6xl mx-auto min-h-screen bg-white shadow-xl flex flex-col relative w-full overflow-x-hidden">
 
-    <div>
-      <!-- Main Header Section -->
-      <header class="bg-slate-900 text-white border-b-4 border-amber-500 shadow-md">
+    <!-- Main Header Section -->
+    <header class="bg-slate-900 text-white border-b-4 border-amber-500 shadow-md flex-shrink-0">
         <div class="p-3 sm:p-4 md:p-5 flex items-center justify-between gap-2.5 sm:gap-4">
           <div class="flex items-center space-x-2.5 sm:space-x-3.5 md:space-x-4 min-w-0">
             <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" 
@@ -79,7 +78,7 @@
       </header>
 
       <!-- Main Content Body -->
-      <main class="p-3 sm:p-4 md:p-6 space-y-3.5 md:space-y-5 pb-24 sm:pb-12">
+      <main class="p-3 sm:p-4 md:p-5 space-y-3 sm:space-y-4 flex-grow pb-4 sm:pb-6">
 
         <!-- Sliding Banner Carousel with Rajasthan Police Background Overlay -->
         <section class="relative rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-900 text-white">
@@ -250,11 +249,51 @@
           </div>
 
         </div>
+
+        <!-- Citizen Advisory Quick Strip (fills void space with high-value official guidelines) -->
+        <section class="mt-2 sm:mt-3 p-3 sm:p-4 bg-slate-50 border border-slate-200 rounded-2xl shadow-xs">
+          <div class="flex items-center gap-2 mb-2 sm:mb-2.5">
+            <i class="fa-solid fa-shield-halved text-amber-500 text-sm md:text-base"></i>
+            <h4 id="adv-heading" class="font-bold text-xs sm:text-sm text-slate-800 uppercase tracking-wide">
+              Official Citizen Advisory & Emergency Steps
+            </h4>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-xs">
+            <div class="p-2.5 bg-white border border-slate-200 rounded-xl flex items-start gap-2.5 shadow-xs">
+              <span class="w-7 h-7 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                <i class="fa-solid fa-clock"></i>
+              </span>
+              <div class="min-w-0">
+                <div id="adv1-title" class="font-bold text-slate-900 truncate">Golden Hour (1930)</div>
+                <p id="adv1-desc" class="text-slate-600 text-[11px] leading-tight mt-0.5">Report online fraud within 2 hours to freeze stolen money.</p>
+              </div>
+            </div>
+
+            <div class="p-2.5 bg-white border border-slate-200 rounded-xl flex items-start gap-2.5 shadow-xs">
+              <span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                <i class="fa-solid fa-file-shield"></i>
+              </span>
+              <div class="min-w-0">
+                <div id="adv2-title" class="font-bold text-slate-900 truncate">Preserve Digital Evidence</div>
+                <p id="adv2-desc" class="text-slate-600 text-[11px] leading-tight mt-0.5">Never delete suspicious APKs, WhatsApp chats, or call records.</p>
+              </div>
+            </div>
+
+            <div class="p-2.5 bg-white border border-slate-200 rounded-xl flex items-start gap-2.5 shadow-xs">
+              <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                <i class="fa-solid fa-scale-balanced"></i>
+              </span>
+              <div class="min-w-0">
+                <div id="adv3-title" class="font-bold text-slate-900 truncate">Zero FIR Registration</div>
+                <p id="adv3-desc" class="text-slate-600 text-[11px] leading-tight mt-0.5">Under BNSS laws, file your complaint at any police station in Alwar.</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-    </div>
 
     <!-- Footer Section -->
-    <footer class="bg-slate-900 text-white mt-1 border-t border-slate-800">
+    <footer class="bg-slate-900 text-white mt-auto border-t border-slate-800 flex-shrink-0">
       <div class="px-3 py-2.5 text-center space-y-1">
         <div class="flex items-center justify-center gap-2">
           <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" 
@@ -605,7 +644,14 @@
         rule1: "Never share your Bank OTP, Card PIN, or Internet Banking password with anyone.",
         rule2: "Do not install screen sharing apps (AnyDesk, TeamViewer, RustDesk) on caller's request.",
         rule3: "Do NOT delete any APK, suspicious application, WhatsApp chat, or call log after a fraud.",
-        rule4: "In case of any fraud, immediately dial <a href=\"tel:1930\" class=\"underline font-bold text-red-600\">1930</a> or call Alwar Control Room at <a href=\"tel:8764874306\" class=\"underline font-bold text-red-600\">8764874306</a>."
+        rule4: "In case of any fraud, immediately dial <a href=\"tel:1930\" class=\"underline font-bold text-red-600\">1930</a> or call Alwar Control Room at <a href=\"tel:8764874306\" class=\"underline font-bold text-red-600\">8764874306</a>.",
+        advHeading: "Official Citizen Advisory & Emergency Steps",
+        adv1Title: "Golden Hour (1930)",
+        adv1Desc: "Report online fraud within 2 hours to freeze stolen money.",
+        adv2Title: "Preserve Digital Evidence",
+        adv2Desc: "Never delete suspicious APKs, WhatsApp chats, or call records.",
+        adv3Title: "Zero FIR Registration",
+        adv3Desc: "Under BNSS laws, file your complaint at any police station in Alwar."
       },
       hi: {
         portalTitle: "अलवर साइबर अपराध<br class=\"block sm:hidden\"> सहायता एवं मार्गदर्शन पोर्टल",
@@ -669,7 +715,14 @@
         rule1: "अपना बैंक ओटीपी, कार्ड पिन या पासवर्ड किसी के साथ साझा न करें।",
         rule2: "अज्ञात कॉलर के कहने पर मोबाइल में एनीडेस्क (AnyDesk) जैसी ऐप्स डाउनलोड न करें।",
         rule3: "ठगी होने के बाद मोबाइल से कोई भी APK, व्हाट्सएप चैट या स्क्रीनशॉट डिलीट न करें।",
-        rule4: "साइबर फ्रॉड होते ही तुरंत <a href=\"tel:1930\" class=\"underline font-bold text-red-600\">1930</a> या अलवर कंट्रोल रूम <a href=\"tel:8764874306\" class=\"underline font-bold text-red-600\">8764874306</a> पर कॉल करें।"
+        rule4: "साइबर फ्रॉड होते ही तुरंत <a href=\"tel:1930\" class=\"underline font-bold text-red-600\">1930</a> या अलवर कंट्रोल रूम <a href=\"tel:8764874306\" class=\"underline font-bold text-red-600\">8764874306</a> पर कॉल करें।",
+        advHeading: "अलवर पुलिस साइबर परामर्श एवं महत्वपूर्ण निर्देश",
+        adv1Title: "गोल्डन आवर (1930)",
+        adv1Desc: "वित्तीय ठगी की रिपोर्ट 2 घंटे के भीतर 1930 पर करके पैसे फ्रीज कराएं।",
+        adv2Title: "डिजिटल साक्ष्य सुरक्षित रखें",
+        adv2Desc: "संदिग्ध APK, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल रिकॉर्ड कभी डिलीट न करें।",
+        adv3Title: "ज़ीरो एफआईआर अधिकार",
+        adv3Desc: "नए कानूनों (BNSS) के तहत किसी भी थाने में तत्काल ज़ीरो FIR दर्ज कराएं।"
       }
     };
 
@@ -719,6 +772,17 @@
       document.getElementById('card8-title').innerText = langData.card8Title;
       document.getElementById('card8-desc').innerText = langData.card8Desc;
       document.getElementById('card8-action').innerText = langData.card8Action;
+
+      // Advisory Section
+      if (document.getElementById('adv-heading')) {
+        document.getElementById('adv-heading').innerText = langData.advHeading;
+        document.getElementById('adv1-title').innerText = langData.adv1Title;
+        document.getElementById('adv1-desc').innerText = langData.adv1Desc;
+        document.getElementById('adv2-title').innerText = langData.adv2Title;
+        document.getElementById('adv2-desc').innerText = langData.adv2Desc;
+        document.getElementById('adv3-title').innerText = langData.adv3Title;
+        document.getElementById('adv3-desc').innerText = langData.adv3Desc;
+      }
 
       // Footer
       document.getElementById('footer-dept').innerText = langData.footerDept;
