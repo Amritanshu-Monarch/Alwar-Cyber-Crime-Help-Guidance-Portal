@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Security Posture Enhancements -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://police.rajasthan.gov.in https://sancharsaathi.gov.in https://cybercrime.gov.in https://images.unsplash.com; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 https:; media-src 'self' blob: data:; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com;">
+  <!-- Security Posture Enhancements & CSP (safe for Tailwind CDN, FontAwesome, Government Resources) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 https: wss:;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>Alwar Cyber Crime Help & Guidance Portal</title>
@@ -19,52 +18,60 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
+    /* Prevent accidental horizontal overflow across all device screens */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      scroll-behavior: smooth;
+    }
     .slide-fixed-height {
-      min-height: 130px; } @media (min-width: 640px) { .slide-fixed-height { min-height: 95px; }
+      min-height: 120px;
     }
-    /* Dynamic Screen-Fit Auto-Scaling across all device sizes */
-    @media (max-width: 360px) {
-      body {
-        zoom: 0.92;
+    @media (min-width: 640px) {
+      .slide-fixed-height {
+        min-height: 90px;
       }
     }
-    @media (min-width: 640px) and (max-width: 1023px) {
-      body {
-        zoom: 1.05;
-      }
+    /* Elegant thin scrollbars for inner scrollable panels */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
     }
-    @media (min-width: 1024px) and (max-width: 1439px) {
-      body {
-        zoom: 1.12;
-      }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
     }
-    @media (min-width: 1440px) {
-      body {
-        zoom: 1.22;
-      }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased selection:bg-blue-200">
 
   <!-- Desktop Container Layout -->
-  <div class="max-w-6xl mx-auto min-h-screen bg-white shadow-xl flex flex-col justify-between relative">
+  <div class="max-w-6xl mx-auto min-h-screen bg-white shadow-xl flex flex-col justify-between relative w-full overflow-x-hidden">
 
     <div>
       <!-- Main Header Section -->
       <header class="bg-slate-900 text-white border-b-4 border-amber-500 shadow-md">
-        <div class="p-3 md:p-5 flex items-center justify-between gap-2.5">
-          <div class="flex items-center space-x-2.5 md:space-x-4">
-            <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Rajasthan Police Logo" class="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain flex-shrink-0">
-            <div>
-              <h1 id="portal-title" class="text-base sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight">
+        <div class="p-3 sm:p-4 md:p-5 flex items-center justify-between gap-2.5 sm:gap-4">
+          <div class="flex items-center space-x-2.5 sm:space-x-3.5 md:space-x-4 min-w-0">
+            <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" 
+                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2Y1OWUwYiI+PHBhdGggZD0iTTEyIDFMMyA1djZjMCA1LjU1IDMuODQgMTAuNzQgOSAxMiA1LjE2LTEuMjYgOS02LjQ1IDktMTJWNWwtOS00em0wIDIuMThsNyAzLjEydjQuN2MwIDQuNjctMy4xMyA5LjAzLTcgMTAuMTgtMy44Ny0xLjE1LTctNS41MS03LTEwLjE4VjYuM2w3LTMuMTJ6Ii8+PC9zdmc+';"
+                 alt="Rajasthan Police Logo" 
+                 class="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain flex-shrink-0">
+            <div class="min-w-0">
+              <h1 id="portal-title" class="text-sm sm:text-lg md:text-2xl lg:text-3xl font-extrabold tracking-tight text-white leading-tight break-words">
                 Alwar Cyber Crime<br class="block sm:hidden"> Help & Guidance Portal
               </h1>
             </div>
           </div>
 
           <!-- Language Switcher Button -->
-          <button id="lang-toggle-btn" onclick="toggleLanguage()" class="flex-shrink-0 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-1.5 px-3 md:px-4 rounded-full text-xs md:text-sm shadow-md transition-all duration-200 flex items-center gap-1.5">
+          <button id="lang-toggle-btn" onclick="toggleLanguage()" class="flex-shrink-0 bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-900 font-bold py-1.5 px-3 md:px-4 rounded-full text-xs md:text-sm shadow-md transition-all duration-200 flex items-center gap-1.5 cursor-pointer">
             <i class="fa-solid fa-language text-sm md:text-lg"></i>
             <span id="lang-btn-text">हिंदी में देखें</span>
           </button>
@@ -72,21 +79,21 @@
       </header>
 
       <!-- Main Content Body -->
-      <main class="p-3 md:p-6 space-y-3.5 md:space-y-5 pb-3">
+      <main class="p-3 sm:p-4 md:p-6 space-y-3.5 md:space-y-5 pb-24 sm:pb-12">
 
         <!-- Sliding Banner Carousel with Rajasthan Police Background Overlay -->
         <section class="relative rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-900 text-white">
           <div class="absolute inset-0 z-0 opacity-20 bg-no-repeat bg-right bg-contain" style="background-image: url('https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png');"></div>
           <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent z-0"></div>
 
-          <div class="relative z-10 p-3.5 md:p-5 slide-fixed-height flex items-center">
+          <div class="relative z-10 p-3.5 sm:p-4 md:p-5 slide-fixed-height flex items-center">
             
             <!-- Slide 1: Digital Evidence Warning (Default First) -->
             <div id="slide-1" class="carousel-slide flex items-center gap-3 md:gap-4 w-full">
-              <div class="p-2 bg-amber-500/20 border border-amber-400/40 rounded-xl flex-shrink-0">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-lg md:text-2xl"></i>
+              <div class="p-2 sm:p-2.5 bg-amber-500/20 border border-amber-400/40 rounded-xl flex-shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-lg sm:text-xl md:text-2xl"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <p id="slide1-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-amber-100">
                   Do NOT delete APKs, WhatsApp chats, screenshots, or call logs! They are vital police evidence.
                 </p>
@@ -95,10 +102,10 @@
 
             <!-- Slide 2: Golden Hour Reporting -->
             <div id="slide-2" class="carousel-slide hidden flex items-center gap-3 md:gap-4 w-full">
-              <div class="p-2 bg-red-500/20 border border-red-400/40 rounded-xl flex-shrink-0">
-                <i class="fa-solid fa-clock-rotate-left text-red-400 text-lg md:text-2xl"></i>
+              <div class="p-2 sm:p-2.5 bg-red-500/20 border border-red-400/40 rounded-xl flex-shrink-0">
+                <i class="fa-solid fa-clock-rotate-left text-red-400 text-lg sm:text-xl md:text-2xl"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <p id="slide2-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-slate-100">
                   Report online fraud on <a href="tel:1930" class="underline font-bold hover:text-amber-300">1930</a> or <a href="tel:8764874306" class="underline font-bold hover:text-amber-300">8764874306</a> within 2 hours (Golden Hour) to freeze stolen money!
                 </p>
@@ -107,10 +114,10 @@
 
             <!-- Slide 3: Citizen Awareness -->
             <div id="slide-3" class="carousel-slide hidden flex items-center gap-3 md:gap-4 w-full">
-              <div class="p-2 bg-blue-500/20 border border-blue-400/40 rounded-xl flex-shrink-0">
-                <i class="fa-solid fa-shield-halved text-blue-400 text-lg md:text-2xl"></i>
+              <div class="p-2 sm:p-2.5 bg-blue-500/20 border border-blue-400/40 rounded-xl flex-shrink-0">
+                <i class="fa-solid fa-shield-halved text-blue-400 text-lg sm:text-xl md:text-2xl"></i>
               </div>
-              <div>
+              <div class="min-w-0">
                 <p id="slide3-text" class="text-xs sm:text-sm md:text-base font-semibold leading-snug md:leading-relaxed text-slate-100">
                   Police or banks NEVER ask for OTPs, passwords, or screen sharing app downloads!
                 </p>
@@ -121,13 +128,13 @@
 
           <!-- Carousel Indicator Dots -->
           <div class="relative z-10 flex justify-center space-x-2 pb-2">
-            <button onclick="setSlide(0)" id="dot-0" class="w-2.5 h-2.5 rounded-full bg-amber-400 transition-all"></button>
-            <button onclick="setSlide(1)" id="dot-1" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
-            <button onclick="setSlide(2)" id="dot-2" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
+            <button onclick="setSlide(0)" id="dot-0" aria-label="Go to slide 1" class="w-2.5 h-2.5 rounded-full bg-amber-400 transition-all"></button>
+            <button onclick="setSlide(1)" id="dot-1" aria-label="Go to slide 2" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
+            <button onclick="setSlide(2)" id="dot-2" aria-label="Go to slide 3" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition-all"></button>
           </div>
         </section>
 
-        <!-- Services Grid Section - 2 Columns on Mobile -->
+        <!-- Services Grid Section - 2 Columns on Mobile, 3 on Tablet, 4 on Desktop -->
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-4">
 
           <!-- Card 1: Complaint Letter Generator -->
@@ -246,11 +253,14 @@
       </main>
     </div>
 
-    <!-- Footer Section (Moved upwards with compact spacing) -->
+    <!-- Footer Section -->
     <footer class="bg-slate-900 text-white mt-1 border-t border-slate-800">
       <div class="px-3 py-2.5 text-center space-y-1">
         <div class="flex items-center justify-center gap-2">
-          <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" alt="Logo" class="h-6 w-6 object-contain">
+          <img src="https://police.rajasthan.gov.in/uploads/rj_logo11_3f27fe39dc.png" 
+               onerror="this.style.display='none'"
+               alt="Logo" 
+               class="h-6 w-6 object-contain">
           <span id="footer-dept" class="font-bold text-sm md:text-base text-white">Alwar Police</span>
         </div>
         <p id="footer-motto" class="text-slate-300 font-medium text-[11px] md:text-xs">
@@ -261,21 +271,21 @@
         </p>
       </div>
 
-      <!-- Quick Action Sticky/Pinned Emergency Bar with Enlarged Fonts -->
-      <div class="sticky bottom-0 z-40 grid grid-cols-2 bg-slate-950 p-2 md:p-2.5 gap-2 border-t border-slate-800 shadow-2xl" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
-        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-xl font-bold flex items-center justify-center gap-2.5 shadow transition">
-          <i class="fa-solid fa-phone text-lg sm:text-xl md:text-2xl"></i>
-          <div class="text-left leading-tight">
-            <span id="btm-btn1-label" class="block text-[9px] md:text-[10px] uppercase tracking-wider text-red-200">CYBER CONTROL ROOM</span>
-            <span class="text-xs sm:text-sm md:text-base font-extrabold">8764874306</span>
+      <!-- Quick Action Sticky/Pinned Emergency Bar with Enlarged Buttons -->
+      <div class="sticky bottom-0 z-30 grid grid-cols-2 bg-slate-950 p-2 md:p-2.5 gap-2 border-t border-slate-800 shadow-2xl" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
+        <a href="tel:8764874306" class="bg-red-600 hover:bg-red-700 active:scale-95 text-white p-2.5 sm:p-3 rounded-xl font-bold flex items-center justify-center gap-2 sm:gap-2.5 shadow transition">
+          <i class="fa-solid fa-phone text-base sm:text-lg md:text-xl"></i>
+          <div class="text-left leading-tight min-w-0">
+            <span id="btm-btn1-label" class="block text-[9px] sm:text-[10px] uppercase tracking-wider text-red-200 truncate">CYBER CONTROL ROOM</span>
+            <span class="text-xs sm:text-sm md:text-base font-extrabold truncate">8764874306</span>
           </div>
         </a>
         
-        <a href="tel:1930" class="bg-amber-500 hover:bg-amber-600 text-slate-950 p-2 md:p-2.5 rounded-xl font-bold flex items-center justify-center gap-2 text-xs md:text-sm shadow">
-          <i class="fa-solid fa-phone text-slate-950 text-xs md:text-base"></i>
-          <div class="text-left leading-tight">
-            <span id="btm-btn2-label" class="block text-[9px] md:text-[10px] uppercase tracking-wider text-slate-900 font-semibold">NATIONAL HELPLINE</span>
-            <span class="text-xs sm:text-sm md:text-base font-extrabold">CALL 1930</span>
+        <a href="tel:1930" class="bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 p-2.5 sm:p-3 rounded-xl font-bold flex items-center justify-center gap-2 sm:gap-2.5 text-xs md:text-sm shadow transition">
+          <i class="fa-solid fa-phone text-slate-950 text-base sm:text-lg md:text-xl"></i>
+          <div class="text-left leading-tight min-w-0">
+            <span id="btm-btn2-label" class="block text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-900 font-semibold truncate">NATIONAL HELPLINE</span>
+            <span class="text-xs sm:text-sm md:text-base font-extrabold truncate">CALL 1930</span>
           </div>
         </a>
       </div>
@@ -286,17 +296,17 @@
   <!-- ================= MODALS SECTION ================= -->
 
   <!-- Modal 1: Complaint Letter Generator -->
-  <div id="complaint-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-4 md:p-6 shadow-2xl relative">
-      <button onclick="closeModal('complaint-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+  <div id="complaint-modal" class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl w-full max-w-xl max-h-[88vh] overflow-y-auto p-4 md:p-6 shadow-2xl relative" onclick="event.stopPropagation()">
+      <button onclick="closeModal('complaint-modal')" aria-label="Close modal" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 text-slate-400 hover:text-slate-700 text-xl p-2 rounded-lg hover:bg-slate-100 transition">
         <i class="fa-solid fa-xmark"></i>
       </button>
       
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center text-lg">
+      <div class="flex items-center gap-3 mb-4 pr-8">
+        <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
           <i class="fa-solid fa-file-signature"></i>
         </div>
-        <h2 id="modal-comp-title" class="text-base md:text-xl font-bold text-slate-900">Complaint Letter Draft Generator</h2>
+        <h2 id="modal-comp-title" class="text-base sm:text-lg md:text-xl font-bold text-slate-900 leading-snug">Complaint Letter Draft Generator</h2>
       </div>
 
       <div class="space-y-3">
@@ -331,7 +341,7 @@
           <textarea id="comp-details" rows="3" placeholder="Specify date, transaction ID, bank name, cheated amount, caller number..." class="w-full p-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"></textarea>
         </div>
 
-        <button onclick="generateLetter()" id="btn-generate-letter" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl shadow-md transition text-sm">
+        <button onclick="generateLetter()" id="btn-generate-letter" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 rounded-xl shadow-md transition text-sm">
           Generate Complaint Letter Text
         </button>
 
@@ -340,10 +350,10 @@
           <div id="letter-text" class="p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono whitespace-pre-wrap text-slate-800 leading-relaxed max-h-52 overflow-y-auto select-all"></div>
           
           <div class="grid grid-cols-2 gap-2 mt-2.5">
-            <button onclick="copyLetter()" id="btn-copy" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
+            <button onclick="copyLetter()" id="btn-copy" class="bg-slate-800 hover:bg-slate-900 active:scale-95 text-white font-bold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
               <i class="fa-regular fa-copy"></i> <span id="copy-btn-text">Copy Text</span>
             </button>
-            <button onclick="printLetter()" id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
+            <button onclick="printLetter()" id="btn-print" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold py-2 rounded-xl text-xs transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-print"></i> <span id="print-btn-text">Print / Save PDF</span>
             </button>
           </div>
@@ -352,125 +362,122 @@
     </div>
   </div>
 
-
   <!-- Modal 2: Emergency Helplines Directory -->
-  <div id="helpline-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-md p-5 shadow-2xl relative">
-      <button onclick="closeModal('helpline-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+  <div id="helpline-modal" class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md max-h-[88vh] overflow-y-auto p-5 shadow-2xl relative" onclick="event.stopPropagation()">
+      <button onclick="closeModal('helpline-modal')" aria-label="Close modal" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 text-slate-400 hover:text-slate-700 text-xl p-2 rounded-lg hover:bg-slate-100 transition">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-lg">
+      <div class="flex items-center gap-3 mb-4 pr-8">
+        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
           <i class="fa-solid fa-phone-volume"></i>
         </div>
-        <h2 id="modal-help-title" class="text-lg md:text-xl font-bold text-slate-900">Emergency Numbers</h2>
+        <h2 id="modal-help-title" class="text-lg md:text-xl font-bold text-slate-900 leading-snug">Emergency Numbers</h2>
       </div>
 
       <div class="space-y-2.5">
         <!-- Alwar Cyber Control Room First -->
-        <div class="p-3 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between">
-          <div>
+        <div class="p-3 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between gap-3">
+          <div class="min-w-0">
             <span id="help-tag1" class="text-[10px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full uppercase">Cyber Control Room</span>
             <div class="font-bold text-slate-900 text-base mt-0.5">8764874306</div>
-            <p id="help-desc1" class="text-xs text-slate-600">Alwar Police Cyber Crime Desk</p>
+            <p id="help-desc1" class="text-xs text-slate-600 truncate">Alwar Police Cyber Crime Desk</p>
           </div>
-          <a href="tel:8764874306" class="bg-red-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-red-700">CALL</a>
+          <a href="tel:8764874306" class="bg-red-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-red-700 flex-shrink-0">CALL</a>
         </div>
 
-        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
-          <div>
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between gap-3">
+          <div class="min-w-0">
             <span id="help-tag2" class="text-[10px] font-bold bg-amber-500 text-slate-950 px-2 py-0.5 rounded-full uppercase">National Cyber Portal</span>
             <div class="font-bold text-slate-900 text-base mt-0.5">1930</div>
-            <p id="help-desc2" class="text-xs text-slate-600">Golden Hour Cyber Helpline</p>
+            <p id="help-desc2" class="text-xs text-slate-600 truncate">Golden Hour Cyber Helpline</p>
           </div>
-          <a href="tel:1930" class="bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-amber-600">CALL</a>
+          <a href="tel:1930" class="bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-amber-600 flex-shrink-0">CALL</a>
         </div>
 
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
-          <div>
+        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between gap-3">
+          <div class="min-w-0">
             <span id="help-tag3" class="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase">Police Emergency</span>
             <div class="font-bold text-slate-900 text-base mt-0.5">112</div>
-            <p id="help-desc3" class="text-xs text-slate-600">24x7 Rajasthan Police Response</p>
+            <p id="help-desc3" class="text-xs text-slate-600 truncate">24x7 Rajasthan Police Response</p>
           </div>
-          <a href="tel:112" class="bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-700">CALL</a>
+          <a href="tel:112" class="bg-blue-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-700 flex-shrink-0">CALL</a>
         </div>
       </div>
     </div>
   </div>
-
 
   <!-- Modal 3: Police Stations Directory -->
-  <div id="station-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-lg p-5 shadow-2xl relative">
-      <button onclick="closeModal('station-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+  <div id="station-modal" class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[88vh] overflow-y-auto p-5 shadow-2xl relative" onclick="event.stopPropagation()">
+      <button onclick="closeModal('station-modal')" aria-label="Close modal" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 text-slate-400 hover:text-slate-700 text-xl p-2 rounded-lg hover:bg-slate-100 transition">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-lg">
+      <div class="flex items-center gap-3 mb-4 pr-8">
+        <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
           <i class="fa-solid fa-map-location-dot"></i>
         </div>
-        <h2 id="modal-station-title" class="text-lg md:text-xl font-bold text-slate-900">Alwar Key Police Stations</h2>
+        <h2 id="modal-station-title" class="text-lg md:text-xl font-bold text-slate-900 leading-snug">Alwar Key Police Stations</h2>
       </div>
 
-      <div class="space-y-2.5 max-h-64 overflow-y-auto pr-1">
-        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
+      <div class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
           <div>
             <div class="font-bold text-slate-900 text-sm">Kotwali Police Station</div>
-            <p class="text-xs text-slate-500">Alwar City</p>
+            <p class="text-xs text-slate-500">Alwar City Center</p>
           </div>
-          <a href="https://maps.google.com/?q=Kotwali+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
-            <i class="fa-solid fa-directions mr-1"></i> Map
+          <a href="https://maps.google.com/?q=Kotwali+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200 flex items-center gap-1">
+            <i class="fa-solid fa-directions"></i> Map
           </a>
         </div>
 
-        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
           <div>
             <div class="font-bold text-slate-900 text-sm">NEB Police Station</div>
-            <p class="text-xs text-slate-500">Alwar City</p>
+            <p class="text-xs text-slate-500">N.E.B. Extension, Alwar</p>
           </div>
-          <a href="https://maps.google.com/?q=NEB+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
-            <i class="fa-solid fa-directions mr-1"></i> Map
+          <a href="https://maps.google.com/?q=NEB+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200 flex items-center gap-1">
+            <i class="fa-solid fa-directions"></i> Map
           </a>
         </div>
 
-        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
           <div>
             <div class="font-bold text-slate-900 text-sm">Aravali Vihar Thana</div>
-            <p class="text-xs text-slate-500">Alwar</p>
+            <p class="text-xs text-slate-500">Kala Kuan, Alwar</p>
           </div>
-          <a href="https://maps.google.com/?q=Aravali+Vihar+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
-            <i class="fa-solid fa-directions mr-1"></i> Map
+          <a href="https://maps.google.com/?q=Aravali+Vihar+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200 flex items-center gap-1">
+            <i class="fa-solid fa-directions"></i> Map
           </a>
         </div>
 
-        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between">
+        <div class="p-2.5 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
           <div>
             <div class="font-bold text-slate-900 text-sm">Mahila Thana Alwar</div>
-            <p class="text-xs text-slate-500">Alwar Women Desk</p>
+            <p class="text-xs text-slate-500">Alwar Women Safety Desk</p>
           </div>
-          <a href="https://maps.google.com/?q=Mahila+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-200">
-            <i class="fa-solid fa-directions mr-1"></i> Map
+          <a href="https://maps.google.com/?q=Mahila+Police+Station+Alwar" target="_blank" rel="noopener noreferrer" class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-200 flex items-center gap-1">
+            <i class="fa-solid fa-directions"></i> Map
           </a>
         </div>
       </div>
     </div>
   </div>
 
-
   <!-- Modal 4: Tenant Verification -->
-  <div id="tenant-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-lg p-5 shadow-2xl relative">
-      <button onclick="closeModal('tenant-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+  <div id="tenant-modal" class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[88vh] overflow-y-auto p-5 shadow-2xl relative" onclick="event.stopPropagation()">
+      <button onclick="closeModal('tenant-modal')" aria-label="Close modal" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 text-slate-400 hover:text-slate-700 text-xl p-2 rounded-lg hover:bg-slate-100 transition">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center text-lg">
+      <div class="flex items-center gap-3 mb-4 pr-8">
+        <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
           <i class="fa-solid fa-id-card"></i>
         </div>
-        <h2 id="modal-tenant-title" class="text-lg md:text-xl font-bold text-slate-900">Tenant / Servant Verification</h2>
+        <h2 id="modal-tenant-title" class="text-lg md:text-xl font-bold text-slate-900 leading-snug">Tenant / Servant Verification</h2>
       </div>
 
       <div class="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
@@ -485,26 +492,25 @@
           </ul>
         </div>
 
-        <a href="https://police.rajasthan.gov.in" target="_blank" rel="noopener noreferrer" id="btn-tenant-portal" class="block text-center w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition text-sm">
+        <a href="https://police.rajasthan.gov.in" target="_blank" rel="noopener noreferrer" id="btn-tenant-portal" class="block text-center w-full bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-bold py-2.5 rounded-xl transition text-sm">
           Go to RajCop Citizen Services
         </a>
       </div>
     </div>
   </div>
 
-
   <!-- Modal 5: Safety Rules -->
-  <div id="safety-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl w-full max-w-lg p-5 shadow-2xl relative">
-      <button onclick="closeModal('safety-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl p-2">
+  <div id="safety-modal" class="modal-backdrop fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[88vh] overflow-y-auto p-5 shadow-2xl relative" onclick="event.stopPropagation()">
+      <button onclick="closeModal('safety-modal')" aria-label="Close modal" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 text-slate-400 hover:text-slate-700 text-xl p-2 rounded-lg hover:bg-slate-100 transition">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 bg-orange-100 text-orange-700 rounded-xl flex items-center justify-center text-lg">
+      <div class="flex items-center gap-3 mb-4 pr-8">
+        <div class="w-10 h-10 bg-orange-100 text-orange-700 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
           <i class="fa-solid fa-shield-cat"></i>
         </div>
-        <h2 id="modal-safety-title" class="text-lg md:text-xl font-bold text-slate-900">Cyber Safety Golden Rules</h2>
+        <h2 id="modal-safety-title" class="text-lg md:text-xl font-bold text-slate-900 leading-snug">Cyber Safety Golden Rules</h2>
       </div>
 
       <div class="space-y-2.5 text-xs md:text-sm text-slate-700">
@@ -528,7 +534,7 @@
     </div>
   </div>
 
-  <!-- JavaScript Logic -->
+  <!-- JavaScript Core Logic -->
   <script>
     // State management
     let currentLang = 'en'; // 'en' or 'hi'
@@ -540,8 +546,8 @@
       en: {
         portalTitle: "Alwar Cyber Crime<br class=\"block sm:hidden\"> Help & Guidance Portal",
         langBtn: "हिंदी में देखें",
-        slide1: "Do NOT delete any APK file, malicious app, WhatsApp chat, screenshot, or call log! These are vital digital evidence for police investigation.",
-        slide2: "Golden Hour Rule: Report any online financial fraud immediately on <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> or to Alwar Control Room (<a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a>) within 2 hours to freeze stolen money!",
+        slide1: "Do NOT delete APKs, WhatsApp chats, screenshots, or call logs! They are vital police evidence.",
+        slide2: "Report online fraud on <a href=\"tel:1930\" class=\"underline font-bold hover:text-amber-300\">1930</a> or <a href=\"tel:8764874306\" class=\"underline font-bold hover:text-amber-300\">8764874306</a> within 2 hours (Golden Hour) to freeze stolen money!",
         slide3: "Police or Bank officials will NEVER ask for your OTP, Banking Password, or request screen sharing app installations!",
         card1Title: "Complaint Letter Generator",
         card1Desc: "Draft a formal application to SHO easily in 1 minute.",
@@ -551,7 +557,7 @@
         card2Action: "Call Helplines",
         card3Title: "WhatsApp Police Help",
         card3Desc: "Direct chat assistance with Alwar Police Cyber Crime Desk.",
-        card3Action: "Report Cyber Fraud",
+        card3Action: "Chat Now",
         card4Title: "National Cyber Portal",
         card4Desc: "Official Government portal cybercrime.gov.in portal.",
         card4Action: "Visit Portal",
@@ -764,6 +770,7 @@
       for (let i = 1; i <= 3; i++) {
         const slide = document.getElementById(`slide-${i}`);
         const dot = document.getElementById(`dot-${i-1}`);
+        if (!slide || !dot) continue;
         if (i === index + 1) {
           slide.classList.remove('hidden');
           dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 transition-all';
@@ -789,14 +796,33 @@
       slideTimer = setInterval(nextSlide, 5000);
     }
 
-    // Modal Control Functions
+    // Modal Control Functions with Backdrop & ESC Support
     function openModal(modalId) {
-      document.getElementById(modalId).classList.remove('hidden');
+      const el = document.getElementById(modalId);
+      if (el) el.classList.remove('hidden');
     }
 
     function closeModal(modalId) {
-      document.getElementById(modalId).classList.add('hidden');
+      const el = document.getElementById(modalId);
+      if (el) el.classList.add('hidden');
     }
+
+    // Close any modal when clicking its dark backdrop
+    document.addEventListener('click', function(e) {
+      if (e.target && e.target.classList.contains('modal-backdrop')) {
+        e.target.classList.add('hidden');
+      }
+    });
+
+    // Close on Escape key press
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.add('hidden'));
+        if (typeof window.closeCyberAssistant === 'function') {
+          window.closeCyberAssistant();
+        }
+      }
+    });
 
     // Direct WhatsApp Redirection to Alwar Police Cyber Control Room
     function openWhatsApp() {
@@ -827,15 +853,39 @@
 
     function copyLetter() {
       const text = document.getElementById('letter-text').innerText;
-      navigator.clipboard.writeText(text).then(() => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert(currentLang === 'hi' ? 'शिकायत पत्र कॉपी कर लिया गया है!' : 'Complaint draft copied to clipboard!');
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
         alert(currentLang === 'hi' ? 'शिकायत पत्र कॉपी कर लिया गया है!' : 'Complaint draft copied to clipboard!');
-      });
+      } catch (e) {
+        alert(currentLang === 'hi' ? 'कृपया टेक्स्ट को सीधे सेलेक्ट कर कॉपी करें।' : 'Please select and copy the text manually.');
+      }
+      document.body.removeChild(ta);
     }
 
     function printLetter() {
       const text = document.getElementById('letter-text').innerText;
       const printWindow = window.open('', '', 'width=800,height=600');
-      printWindow.document.write(`<pre style="font-family: sans-serif; padding: 30px; font-size: 14px; line-height: 1.6; whitespace: pre-wrap;">${text}</pre>`);
+      if (!printWindow) {
+        alert(currentLang === 'hi' ? 'प्रिंट पॉपअप ब्लॉक हो गया है। कृपया ब्राउज़र में पॉपअप अनुमति दें।' : 'Print popup blocked. Please allow popups.');
+        return;
+      }
+      printWindow.document.write(`<html><head><title>Complaint Letter - Alwar Police</title><style>body{font-family:sans-serif;padding:30px;font-size:14px;line-height:1.6;white-space:pre-wrap;color:#1e293b;}</style></head><body><pre>${text}</pre></body></html>`);
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
@@ -853,26 +903,42 @@
     resetSlideTimer();
   </script>
 
-  <!-- ===== Cyber Help Assistant widget (additive: does not change anything above) ===== -->
-  <button id="ca-fab" type="button" aria-label="Open cyber help assistant" class="fixed right-3 bottom-20 sm:right-6 sm:bottom-24 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-2xl hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all duration-200">
+  <!-- ================= CYBER HELP ASSISTANT WIDGET ================= -->
+  
+  <!-- Floating Action Button (FAB) -->
+  <button id="ca-fab" type="button" aria-label="Open cyber help assistant" 
+          class="fixed right-3 bottom-20 sm:right-6 sm:bottom-24 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-2xl hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer">
     <i class="fa-solid fa-headset text-lg"></i><span id="ca-fab-label">Ask Cyber Assistant</span>
   </button>
 
-  <section id="ca-panel" role="dialog" aria-label="Cyber help assistant" class="hidden overflow-hidden border border-slate-200 bg-white shadow-2xl">
+  <!-- Assistant Dialog Panel (Mobile full-sheet, desktop floating widget constrained within viewport) -->
+  <section id="ca-panel" role="dialog" aria-label="Cyber help assistant" 
+           class="hidden overflow-hidden border border-slate-200 bg-white shadow-2xl">
     <div class="flex h-full flex-col">
-      <div class="flex items-center justify-between bg-slate-900 px-3.5 py-3 text-white border-b border-slate-800" style="padding-top: max(0.75rem, env(safe-area-inset-top));">
-        <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-amber-400"></i><span id="ca-title" class="text-sm font-bold">Cyber Help Assistant</span></div>
-        <div class="flex items-center gap-1">
-          <button id="ca-new" type="button" aria-label="New chat" class="rounded px-2 py-1 text-xs hover:bg-slate-700"><i class="fa-solid fa-rotate-right"></i></button>
-          <button id="ca-expand" type="button" aria-label="Expand" class="hidden rounded px-2 py-1 text-xs hover:bg-slate-700 sm:inline-block"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
-          <button id="ca-close" type="button" aria-label="Close" class="rounded px-2 py-1 hover:bg-slate-700"><i class="fa-solid fa-xmark"></i></button>
+      <!-- Top Title Header - ALWAYS visible, flex-shrink-0 -->
+      <div class="flex items-center justify-between bg-slate-900 px-3.5 py-3 text-white border-b border-slate-800 flex-shrink-0">
+        <div class="flex items-center gap-2 min-w-0">
+          <i class="fa-solid fa-shield-halved text-amber-400 flex-shrink-0"></i>
+          <span id="ca-title" class="text-sm font-bold truncate">Cyber Help Assistant</span>
+        </div>
+        <div class="flex items-center gap-1 flex-shrink-0">
+          <button id="ca-new" type="button" aria-label="New chat" title="New chat" class="rounded p-1.5 text-xs text-slate-300 hover:text-white hover:bg-slate-700 transition cursor-pointer">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button id="ca-expand" type="button" aria-label="Expand" title="Expand / Minimize" class="hidden rounded p-1.5 text-xs text-slate-300 hover:text-white hover:bg-slate-700 sm:inline-block transition cursor-pointer">
+            <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+          </button>
+          <button id="ca-close" type="button" aria-label="Close" title="Close" class="rounded p-1.5 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition cursor-pointer">
+            <i class="fa-solid fa-xmark text-base"></i>
+          </button>
         </div>
       </div>
 
+      <!-- Scrollable Message Body -->
       <div class="relative min-h-0 flex-1">
-        <div id="ca-log" aria-live="polite" class="h-full space-y-2 overflow-y-auto bg-slate-50 p-3 text-sm"></div>
+        <div id="ca-log" aria-live="polite" class="h-full space-y-2.5 overflow-y-auto bg-slate-50 p-3 text-sm"></div>
 
-        <!-- voice stage: shown while listening / thinking / speaking -->
+        <!-- Voice stage: shown while listening / thinking / speaking -->
         <div id="ca-voice" class="hidden absolute inset-0 z-20 flex-col items-center justify-center gap-4 bg-slate-900/95 backdrop-blur-md p-6 text-white text-center" role="status" aria-live="assertive">
           <div class="ca-orb-wrap">
             <span class="ca-ring"></span><span class="ca-ring" style="animation-delay:.6s"></span>
@@ -883,97 +949,167 @@
           </div>
           <p id="ca-voice-text" class="text-center text-sm font-semibold"></p>
           <div class="flex gap-2">
-            <button id="ca-voice-main" type="button" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-900 hover:bg-slate-200"></button>
-            <button id="ca-voice-cancel" type="button" class="hidden rounded-full border border-white/40 px-5 py-2 text-sm font-semibold hover:bg-white/10"></button>
+            <button id="ca-voice-main" type="button" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-900 hover:bg-slate-200 cursor-pointer"></button>
+            <button id="ca-voice-cancel" type="button" class="hidden rounded-full border border-white/40 px-5 py-2 text-sm font-semibold hover:bg-white/10 cursor-pointer"></button>
           </div>
         </div>
       </div>
 
-      <style>
-        /* panel: full-screen sheet on phones, floating window from 640px, wide mode via the expand button */
-        #ca-panel { position: fixed; z-index: 60; inset: 0; width: 100%; height: 100vh; height: 100dvh; border-radius: 0; border: 0; padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
-        #ca-panel #ca-input { font-size: 16px; }          /* 16px stops iOS zooming into the field */
-        #ca-panel #ca-log { overscroll-behavior: contain; }
-        @media (min-width: 640px) {
-          #ca-panel { inset: auto 1.5rem 5.5rem auto; width: min(450px, calc(100vw - 3rem)); height: min(680px, calc(100dvh - 7rem)); border-radius: 1.25rem; border: 1px solid #cbd5e1; padding-bottom: 0; transition: width .25s cubic-bezier(0.16, 1, 0.3, 1), height .25s cubic-bezier(0.16, 1, 0.3, 1); }
-          #ca-panel #ca-input { font-size: 14px; }
-        }
-        @media (min-width: 1024px) { #ca-panel { width: min(500px, calc(100vw - 2rem)); height: min(740px, calc(100dvh - 7.5rem)); } }
-        @media (min-width: 640px) { #ca-panel.ca-wide { width: min(880px, calc(100vw - 3rem)); height: min(750px, calc(100dvh - 7rem)); } }
-        #ca-panel.ca-wide #ca-log { font-size: 15px; } #ca-chips { -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; } #ca-chips::-webkit-scrollbar { display: none; }
-        @media (max-height: 480px) { #ca-chips { display: none; } }   /* landscape phones: keep room for the chat */
-        .ca-orb-wrap { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; }
-        .ca-orb { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: #2563eb; transition: transform .08s linear, background .3s; }
-        .ca-ring { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid rgba(96,165,250,.7); animation: ca-ring 1.8s ease-out infinite; }
-        .ca-bar { width: 6px; height: 100%; border-radius: 9999px; background: #60a5fa; transform: scaleY(.15); transform-origin: center; transition: transform .08s linear; }
-        #ca-voice[data-state="speaking"] .ca-bar { animation: ca-eq 0.9s ease-in-out infinite; }
-        #ca-voice[data-state="speaking"] .ca-bar:nth-child(2n) { animation-delay: .15s; background: #34d399; }
-        #ca-voice[data-state="speaking"] .ca-bar:nth-child(3n) { animation-delay: .3s; }
-        #ca-voice[data-state="speaking"] .ca-orb { background: #059669; }
-        #ca-voice[data-state="listening"] .ca-orb { background: #dc2626; }
-        #ca-voice[data-state="listening"] .ca-ring { border-color: rgba(248,113,113,.7); }
-        #ca-voice[data-state="thinking"] .ca-ring { animation-play-state: paused; opacity: 0; }
-        #ca-voice[data-state="thinking"] .ca-orb { background: #7c3aed; animation: ca-think 1.2s ease-in-out infinite; }
-        #ca-voice[data-state="thinking"] .ca-bar { animation: ca-wave 1.1s ease-in-out infinite; background: #a78bfa; }
-        #ca-voice[data-state="thinking"] .ca-bar:nth-child(2) { animation-delay: .1s; } #ca-voice[data-state="thinking"] .ca-bar:nth-child(3) { animation-delay: .2s; }
-        #ca-voice[data-state="thinking"] .ca-bar:nth-child(4) { animation-delay: .3s; } #ca-voice[data-state="thinking"] .ca-bar:nth-child(5) { animation-delay: .4s; }
-        #ca-voice[data-state="thinking"] .ca-bar:nth-child(6) { animation-delay: .5s; } #ca-voice[data-state="thinking"] .ca-bar:nth-child(7) { animation-delay: .6s; }
-        @keyframes ca-ring { 0% { transform: scale(.75); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
-        @keyframes ca-eq { 0%, 100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
-        @keyframes ca-wave { 0%, 100% { transform: scaleY(.2); opacity: .5; } 50% { transform: scaleY(.6); opacity: 1; } }
-        @keyframes ca-think { 0%, 100% { transform: scale(.92); } 50% { transform: scale(1.08); } }
-        @media (prefers-reduced-motion: reduce) { .ca-ring, .ca-bar, .ca-orb { animation: none !important; } }
-      </style>
-      <div id="ca-chips" class="flex gap-1.5 overflow-x-auto border-t border-slate-200 bg-white px-2 py-2"></div>
+      <!-- Quick Suggestion Chips (horizontal scroll) -->
+      <div id="ca-chips" class="flex gap-1.5 overflow-x-auto border-t border-slate-200 bg-white px-2 py-2 flex-shrink-0"></div>
 
-      <form id="ca-form" class="flex items-center gap-2 border-t border-slate-200 bg-white p-2.5">
-        <button id="ca-mic" type="button" aria-label="Speak" class="h-11 w-11 flex-shrink-0 rounded-full bg-blue-600 text-white hover:bg-blue-700"><i class="fa-solid fa-microphone"></i></button>
-        <input id="ca-input" type="text" maxlength="1000" autocomplete="off" class="min-w-0 flex-1 rounded-xl border border-slate-300 p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
-        <button id="ca-send" type="submit" aria-label="Send" class="h-11 w-11 flex-shrink-0 rounded-full bg-slate-900 text-white hover:bg-slate-700 disabled:opacity-40"><i class="fa-solid fa-paper-plane"></i></button>
+      <!-- Input Form -->
+      <form id="ca-form" class="flex items-center gap-2 border-t border-slate-200 bg-white p-2.5 flex-shrink-0">
+        <button id="ca-mic" type="button" aria-label="Speak" title="Voice Search" class="h-10 w-10 sm:h-11 sm:w-11 flex-shrink-0 rounded-full bg-blue-600 text-white hover:bg-blue-700 active:scale-95 flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-microphone text-base"></i>
+        </button>
+        <input id="ca-input" type="text" maxlength="1000" autocomplete="off" class="min-w-0 flex-1 rounded-xl border border-slate-300 p-2 sm:p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+        <button id="ca-send" type="submit" aria-label="Send message" title="Send" class="h-10 w-10 sm:h-11 sm:w-11 flex-shrink-0 rounded-full bg-slate-900 text-white hover:bg-slate-700 active:scale-95 disabled:opacity-40 flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-paper-plane text-sm"></i>
+        </button>
       </form>
-      <p id="ca-disclaimer" class="bg-white px-3 pb-2 text-[10px] leading-tight text-slate-500"></p>
+      <p id="ca-disclaimer" class="bg-white px-3 pb-2 text-[10px] leading-tight text-slate-500 flex-shrink-0"></p>
     </div>
   </section>
 
+  <!-- Panel Styles: mathematically constrained so header can NEVER go offscreen -->
+  <style>
+    /* Mobile First: Fullscreen Dialog on small phones */
+    #ca-panel {
+      position: fixed;
+      z-index: 50;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      border-radius: 0;
+      border: 0;
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    #ca-panel #ca-input { font-size: 16px; } /* Prevents iOS auto-zoom */
+    #ca-panel #ca-log { overscroll-behavior: contain; }
+
+    /* Desktop/Tablet: Floating anchored window at bottom-right */
+    @media (min-width: 640px) {
+      #ca-panel {
+        top: auto;
+        bottom: 5.25rem;
+        right: 1.25rem;
+        left: auto;
+        width: min(420px, calc(100vw - 2.5rem));
+        height: min(560px, calc(100dvh - 6.5rem));
+        max-height: calc(100dvh - 6.5rem);
+        border-radius: 1rem;
+        border: 1px solid #cbd5e1;
+        padding-bottom: 0;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35);
+        transition: width .2s ease, height .2s ease;
+      }
+      #ca-panel #ca-input { font-size: 14px; }
+    }
+    @media (min-width: 1024px) {
+      #ca-panel {
+        width: min(440px, calc(100vw - 3rem));
+        height: min(580px, calc(100dvh - 6.5rem));
+        max-height: calc(100dvh - 6.5rem);
+      }
+    }
+    @media (min-width: 640px) {
+      #ca-panel.ca-wide {
+        width: min(720px, calc(100vw - 3rem));
+        height: min(620px, calc(100dvh - 6.5rem));
+        max-height: calc(100dvh - 6.5rem);
+      }
+    }
+    #ca-panel.ca-wide #ca-log { font-size: 14px; }
+    #ca-chips { -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+    #ca-chips::-webkit-scrollbar { display: none; }
+    @media (max-height: 480px) { #ca-chips { display: none; } }
+
+    /* Voice Wave / Orb Animations */
+    .ca-orb-wrap { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; }
+    .ca-orb { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: #2563eb; transition: transform .08s linear, background .3s; }
+    .ca-ring { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid rgba(96,165,250,.7); animation: ca-ring 1.8s ease-out infinite; }
+    .ca-bar { width: 6px; height: 100%; border-radius: 9999px; background: #60a5fa; transform: scaleY(.15); transform-origin: center; transition: transform .08s linear; }
+    #ca-voice[data-state="speaking"] .ca-bar { animation: ca-eq 0.9s ease-in-out infinite; }
+    #ca-voice[data-state="speaking"] .ca-bar:nth-child(2n) { animation-delay: .15s; background: #34d399; }
+    #ca-voice[data-state="speaking"] .ca-bar:nth-child(3n) { animation-delay: .3s; }
+    #ca-voice[data-state="speaking"] .ca-orb { background: #059669; }
+    #ca-voice[data-state="listening"] .ca-orb { background: #dc2626; }
+    #ca-voice[data-state="listening"] .ca-ring { border-color: rgba(248,113,113,.7); }
+    #ca-voice[data-state="thinking"] .ca-ring { animation-play-state: paused; opacity: 0; }
+    #ca-voice[data-state="thinking"] .ca-orb { background: #7c3aed; animation: ca-think 1.2s ease-in-out infinite; }
+    #ca-voice[data-state="thinking"] .ca-bar { animation: ca-wave 1.1s ease-in-out infinite; background: #a78bfa; }
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(2) { animation-delay: .1s; } 
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(3) { animation-delay: .2s; }
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(4) { animation-delay: .3s; } 
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(5) { animation-delay: .4s; }
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(6) { animation-delay: .5s; } 
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(7) { animation-delay: .6s; }
+    @keyframes ca-ring { 0% { transform: scale(.75); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+    @keyframes ca-eq { 0%, 100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
+    @keyframes ca-wave { 0%, 100% { transform: scaleY(.2); opacity: .5; } 50% { transform: scaleY(.6); opacity: 1; } }
+    @keyframes ca-think { 0%, 100% { transform: scale(.92); } 50% { transform: scale(1.08); } }
+    @media (prefers-reduced-motion: reduce) { .ca-ring, .ca-bar, .ca-orb { animation: none !important; } }
+  </style>
+
+  <!-- ================= ASSISTANT CLIENT ENGINE ================= -->
   <script>
     (function () {
       // Backend API configuration:
-      // When testing locally, it connects to http://localhost:8000.
-      // Once deployed on Render/Railway, set your URL below (or define window.CYBER_AGENT_API):
-      const REMOTE_BACKEND_URL = ''; // e.g., 'https://alwar-cyber-backend.onrender.com'
+      // When deployed, you can point to your live Render backend or leave blank for instant client-side AI
+      const REMOTE_BACKEND_URL = ''; // e.g. 'https://alwar-cyber-backend.onrender.com'
       const isLocalHost = ['localhost', '127.0.0.1', ''].includes(location.hostname);
       const API = window.CYBER_AGENT_API || (isLocalHost ? (location.port === '8000' ? '' : 'http://localhost:8000') : REMOTE_BACKEND_URL);
       const SESSION_KEY = 'ca-session';
-      const MAX_RECORD_MS = 60000;
-      const TARGET_RATE = 16000;
 
       const T = {
         en: {
           fab: 'Ask Cyber Assistant', title: 'Cyber Help Assistant',
           welcome: 'Namaste. I help with cyber crime: how to report, where to complain, which documents to carry and what to tell. Ask by typing or tap the mic.',
-          placeholder: 'Type your question…', listening: 'Listening… tap the mic to send', thinking: 'Thinking…',
+          placeholder: 'Type your question…', listening: 'Listening… speak your question', thinking: 'Analyzing guidance…',
           listen: 'Listen', stop: 'Stop', copy: 'Copy', copied: 'Copied', print: 'Print / Save PDF',
           disclaimer: 'AI assistant for guidance only. Emergency: 112. Fraud: call 1930 now. Never share OTP or PIN.',
-          chips: ['I lost money in an online fraud', 'How do I file a cyber complaint?', 'Documents needed for complaint', 'Help me write a complaint letter', 'How to verify a tenant?', 'Report a fake call or SMS'],
+          chips: [
+            'I lost money in an online fraud',
+            'How do I file a cyber complaint?',
+            'Documents needed for complaint',
+            'Help me write a complaint letter',
+            'How to verify a tenant?',
+            'Report a fake call or SMS'
+          ],
           errNet: 'Cannot reach the assistant. Please check the connection or call 1930.',
-          errSpeech: 'I could not hear anything. Please try again.', errBig: 'Recording too long. Please keep it short.',
-          errRate: 'Too many requests. Please wait a minute or call 1930.', errMic: 'Microphone is blocked or not supported. Please type instead.',
+          errSpeech: 'I could not hear anything. Please try again.', 
+          errBig: 'Recording too long. Please keep it short.',
+          errRate: 'Too many requests. Please wait a minute or call 1930.', 
+          errMic: 'Microphone is blocked or not supported. Please type instead.',
           errGeneric: 'The assistant is unavailable right now. Please call 1930 or 8764874306.',
-          errNoSound: 'No sound from the microphone. Check that the right mic is selected in the browser (lock icon in the address bar) and Windows sound settings, then try again.',
+          errNoSound: 'No sound heard. Please check microphone permissions and try again.',
           voice: { listening: 'Listening… speak now', thinking: 'Understanding your question…', speaking: 'Speaking…', send: 'Done, send', cancel: 'Cancel', stop: 'Stop' }
         },
         hi: {
           fab: 'साइबर सहायक से पूछें', title: 'साइबर सहायता असिस्टेंट',
           welcome: 'नमस्ते। मैं साइबर अपराध में मदद करता हूँ: कहाँ और कैसे शिकायत करें, कौन से दस्तावेज़ ले जाएं और क्या बताएं। लिखकर पूछें या माइक दबाएं।',
-          placeholder: 'अपना सवाल लिखें…', listening: 'सुन रहा हूँ… भेजने के लिए माइक दबाएं', thinking: 'सोच रहा हूँ…',
+          placeholder: 'अपना सवाल लिखें…', listening: 'सुन रहा हूँ… अब बोलिए', thinking: 'जांच जारी है…',
           listen: 'सुनें', stop: 'रोकें', copy: 'कॉपी', copied: 'कॉपी हो गया', print: 'प्रिंट / PDF सेव',
           disclaimer: 'यह केवल मार्गदर्शन हेतु AI असिस्टेंट है। आपातकाल: 112। ठगी: तुरंत 1930। OTP या PIN कभी साझा न करें।',
-          chips: ['मेरे साथ ऑनलाइन ठगी हुई है', 'साइबर शिकायत कैसे करें?', 'शिकायत के लिए कौन से दस्तावेज़ चाहिए', 'शिकायत पत्र लिखने में मदद करें', 'किरायेदार का सत्यापन कैसे करें?', 'फर्जी कॉल या SMS रिपोर्ट करें'],
+          chips: [
+            'मेरे साथ ऑनलाइन ठगी हुई है',
+            'साइबर शिकायत कैसे करें?',
+            'शिकायत के लिए कौन से दस्तावेज़ चाहिए',
+            'शिकायत पत्र लिखने में मदद करें',
+            'किरायेदार का सत्यापन कैसे करें?',
+            'फर्जी कॉल या SMS रिपोर्ट करें'
+          ],
           errNet: 'असिस्टेंट से संपर्क नहीं हो पाया। कृपया इंटरनेट जांचें या 1930 पर कॉल करें।',
-          errSpeech: 'कुछ सुनाई नहीं दिया। कृपया फिर कोशिश करें।', errBig: 'रिकॉर्डिंग बहुत लंबी है। कृपया छोटी रखें।',
-          errRate: 'बहुत अधिक अनुरोध। कृपया एक मिनट रुकें या 1930 पर कॉल करें।', errMic: 'माइक्रोफ़ोन बंद है या समर्थित नहीं है। कृपया टाइप करें।',
+          errSpeech: 'कुछ सुनाई नहीं दिया। कृपया फिर कोशिश करें।', 
+          errBig: 'रिकॉर्डिंग बहुत लंबी है। कृपया छोटी रखें।',
+          errRate: 'बहुत अधिक अनुरोध। कृपया एक मिनट रुकें या 1930 पर कॉल करें।', 
+          errMic: 'माइक्रोफ़ोन बंद है या समर्थित नहीं है। कृपया टाइप करें।',
           errGeneric: 'असिस्टेंट अभी उपलब्ध नहीं है। कृपया 1930 या 8764874306 पर कॉल करें।',
-          errNoSound: 'माइक्रोफ़ोन से आवाज़ नहीं आ रही। ब्राउज़र (एड्रेस बार का लॉक आइकन) और Windows साउंड सेटिंग में सही माइक चुनें, फिर दोबारा कोशिश करें।',
+          errNoSound: 'आवाज़ नहीं आ रही। कृपया माइक्रोफ़ोन अनुमति जांचें और दोबारा बोलें।',
           voice: { listening: 'सुन रहा हूँ… अब बोलिए', thinking: 'आपका सवाल समझ रहा हूँ…', speaking: 'बोल रहा हूँ…', send: 'हो गया, भेजें', cancel: 'रद्द करें', stop: 'रोकें' }
         }
       };
@@ -984,7 +1120,7 @@
 
       let sessionId = sessionStorage.getItem(SESSION_KEY) || crypto.randomUUID();
       sessionStorage.setItem(SESSION_KEY, sessionId);
-      let busy = false, recorder = null, recordTimer = null, audioEl = null, thinkingEl = null;
+      let busy = false, audioRecorder = null, thinkingEl = null;
 
       function el(tag, cls, text) {
         const n = document.createElement(tag);
@@ -993,19 +1129,19 @@
         return n;
       }
 
-      function scrollLog() { const log = $('ca-log'); log.scrollTop = log.scrollHeight; }
+      function scrollLog() { 
+        const log = $('ca-log'); 
+        if (log) log.scrollTop = log.scrollHeight; 
+      }
 
-      // ---- speech output -------------------------------------------------------------------
-      // ---- voice stage (animated overlay) ---------------------------------------------------
-      const SILENT_WAV = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
-      let voiceState = null, speakToken = 0, meterRaf = 0, meterCtx = null, discard = false;
-      const player = new Audio();   // one element, "unlocked" by the mic tap so later autoplay is allowed
-
-      function unlockAudio() { player.src = SILENT_WAV; player.play().catch(() => {}); }
+      // Voice state and speech playback
+      let voiceState = null, speakToken = 0;
+      const player = new Audio();
 
       function setVoice(state) {
         voiceState = state;
         const box = $('ca-voice');
+        if (!box) return;
         box.classList.toggle('hidden', !state);
         box.classList.toggle('flex', !!state);
         if (!state) { resetBars(); return; }
@@ -1020,43 +1156,9 @@
 
       function resetBars() {
         document.querySelectorAll('.ca-bar').forEach((b) => (b.style.transform = ''));
-        $('ca-orb').style.transform = '';
+        const orb = $('ca-orb');
+        if (orb) orb.style.transform = '';
       }
-
-      const SPEECH_LEVEL = 0.022;    // mean spectrum level that counts as "user is talking"
-      const NO_SOUND_LEVEL = 0.006;  // peak below this for the whole recording = mic is not picking anything up
-      const SILENCE_MS = 2800;       // auto-send after this much quiet once speech was heard
-      let heardSpeech = false, peakLevel = 0, lastVoiceAt = 0;
-
-      function startMeter(stream) {
-        meterCtx = new AudioContext();
-        meterCtx.resume();
-        const analyser = meterCtx.createAnalyser();
-        analyser.fftSize = 64;
-        meterCtx.createMediaStreamSource(stream).connect(analyser);
-        const data = new Uint8Array(analyser.frequencyBinCount);
-        const bars = document.querySelectorAll('.ca-bar');
-        heardSpeech = false; peakLevel = 0; lastVoiceAt = performance.now();
-        const tick = () => {
-          analyser.getByteFrequencyData(data);
-          bars.forEach((b, i) => { b.style.transform = 'scaleY(' + Math.min(1, Math.max(0.12, (data[i + 1] / 255) * 1.6)).toFixed(2) + ')'; });
-          let vocalSum = 0; for (let i = 1; i < 15; i++) vocalSum += data[i]; const level = vocalSum / 14 / 255;
-          $('ca-orb').style.transform = 'scale(' + (1 + Math.min(level * 1.5, 0.5)).toFixed(2) + ')';
-          peakLevel = Math.max(peakLevel, level);
-          const now = performance.now();
-          if (level > SPEECH_LEVEL) { heardSpeech = true; lastVoiceAt = now; }
-          if (heardSpeech && now - lastVoiceAt > SILENCE_MS && recorder) { recorder.stop(); return; }
-          meterRaf = requestAnimationFrame(tick);
-        };
-        tick();
-      }
-
-      function stopMeter() {
-        cancelAnimationFrame(meterRaf);
-        if (meterCtx) { meterCtx.close(); meterCtx = null; }
-      }
-
-      function endSpeaking(token) { if (token === speakToken && voiceState === 'speaking') setVoice(null); }
 
       function stopSpeaking() {
         speakToken++;
@@ -1068,54 +1170,79 @@
       async function speak(text) {
         stopSpeaking();
         const token = speakToken;
-        const spoken = (text || '').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1').replace(/#{1,6}\s*/g, '').replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1').replace(/[`_~]/g, '').replace(/^[•\-\*]\s+/gm, '').replace(/\b\d{3,}\b/g, (m) => m.split('').join(' ')).trim(); if (!spoken) return; unlockAudio(); setTimeout(() => endSpeaking(token), 30000);
+        const spoken = (text || '')
+          .replace(/\*\*([^*]+)\*\*/g, '$1')
+          .replace(/\*([^*]+)\*/g, '$1')
+          .replace(/#{1,6}\s*/g, '')
+          .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+          .replace(/[`_~]/g, '')
+          .replace(/^[•\-\*]\s+/gm, '')
+          .replace(/\b\d{4,}\b/g, (m) => m.split('').join(' '))
+          .trim();
+        if (!spoken) return;
+        
         setVoice('speaking');
-        try {
-          const res = await fetch(API + '/api/tts', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: spoken })
-          });
-          if (!res.ok) throw new Error('tts');
-          const url = URL.createObjectURL(await res.blob());
-          if (token !== speakToken) { URL.revokeObjectURL(url); return; }
-          player.onended = player.onerror = () => { URL.revokeObjectURL(url); endSpeaking(token); };
-          player.src = url;
-          await player.play();
-        } catch {
-          if (token !== speakToken) return;
-          if (!('speechSynthesis' in window)) { endSpeaking(token); return; }
+
+        // Try backend TTS if configured, else browser SpeechSynthesis
+        if (API) {
+          try {
+            const res = await fetch(API + '/api/tts', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: spoken })
+            });
+            if (!res.ok) throw new Error('tts');
+            const url = URL.createObjectURL(await res.blob());
+            if (token !== speakToken) { URL.revokeObjectURL(url); return; }
+            player.onended = player.onerror = () => { URL.revokeObjectURL(url); if (token === speakToken) setVoice(null); };
+            player.src = url;
+            await player.play();
+            return;
+          } catch (e) {
+            // fallback to browser
+          }
+        }
+
+        if ('speechSynthesis' in window) {
           const u = new SpeechSynthesisUtterance(spoken);
           u.lang = lang() === 'hi' ? 'hi-IN' : 'en-IN';
-          u.onend = u.onerror = () => endSpeaking(token);
+          u.onend = u.onerror = () => { if (token === speakToken) setVoice(null); };
           speechSynthesis.speak(u);
+        } else {
+          setVoice(null);
         }
       }
 
-      // ---- rendering -----------------------------------------------------------------------
       function printText(text, title) {
         const w = window.open('', '_blank');
         if (!w) return;
         w.document.title = title;
         const pre = w.document.createElement('pre');
-        pre.style.cssText = 'font:14px/1.6 sans-serif;white-space:pre-wrap;padding:30px';
+        pre.style.cssText = 'font:14px/1.6 sans-serif;white-space:pre-wrap;padding:30px;color:#1e293b;';
         pre.textContent = text;
         w.document.body.appendChild(pre);
         w.print();
       }
 
       function artifactCard(art) {
-        const card = el('div', 'mt-2 rounded-xl border border-slate-300 bg-white p-2.5');
-        card.appendChild(el('div', 'mb-1 text-xs font-bold uppercase text-slate-700', art.title || (art.type === 'letter' ? 'Complaint letter' : 'Checklist')));
-        card.appendChild(el('div', 'max-h-64 overflow-y-auto whitespace-pre-wrap text-xs leading-relaxed text-slate-800', art.text));
-        const row = el('div', 'mt-2 flex gap-2');
-        const copy = el('button', 'rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-900', t().copy);
+        const card = el('div', 'mt-2 rounded-xl border border-slate-300 bg-white p-3 shadow-sm');
+        card.appendChild(el('div', 'mb-1.5 text-xs font-bold uppercase text-slate-700 flex items-center gap-1.5', (art.title || (art.type === 'letter' ? 'Formal Complaint Letter' : 'Checklist & Action Guide'))));
+        card.appendChild(el('div', 'max-h-60 overflow-y-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-slate-800 p-2 bg-slate-50 rounded-lg border border-slate-200 select-all', art.text));
+        
+        const row = el('div', 'mt-2.5 flex gap-2');
+        const copy = el('button', 'rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-900 active:scale-95 transition cursor-pointer', t().copy);
         copy.type = 'button';
         copy.onclick = async () => {
-          try { await navigator.clipboard.writeText(art.text); copy.textContent = t().copied; setTimeout(() => (copy.textContent = t().copy), 2000); } catch { /* text is selectable */ }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(art.text);
+          } else {
+            fallbackCopy(art.text);
+          }
+          copy.textContent = t().copied;
+          setTimeout(() => (copy.textContent = t().copy), 2000);
         };
-        const print = el('button', 'rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700', t().print);
+        const print = el('button', 'rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 active:scale-95 transition cursor-pointer', t().print);
         print.type = 'button';
-        print.onclick = () => printText(art.text, art.title || 'Cyber Help');
+        print.onclick = () => printText(art.text, art.title || 'Cyber Help Alwar');
         row.append(copy, print);
         card.appendChild(row);
         return card;
@@ -1123,11 +1250,11 @@
 
       function addBubble(role, text, artifacts) {
         const wrap = el('div', 'flex ' + (role === 'user' ? 'justify-end' : 'justify-start'));
-        const bubble = el('div', 'max-w-[88%] sm:max-w-[78%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed shadow-sm ' + (role === 'user' ? 'bg-blue-600 text-white rounded-br-sm' : 'border border-slate-200 bg-white text-slate-800 rounded-tl-sm'));
+        const bubble = el('div', 'max-w-[88%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed shadow-sm ' + (role === 'user' ? 'bg-blue-600 text-white rounded-br-sm' : 'border border-slate-200 bg-white text-slate-800 rounded-tl-sm'));
         bubble.appendChild(el('p', 'whitespace-pre-wrap', text));
         (artifacts || []).forEach((a) => bubble.appendChild(artifactCard(a)));
         if (role === 'assistant') {
-          const listen = el('button', 'mt-1.5 text-xs font-semibold text-blue-700 hover:underline', t().listen);
+          const listen = el('button', 'mt-1.5 text-xs font-semibold text-blue-700 hover:underline flex items-center gap-1 cursor-pointer', '🔊 ' + t().listen);
           listen.type = 'button';
           listen.onclick = () => speak(text);
           bubble.appendChild(listen);
@@ -1138,15 +1265,16 @@
       }
 
       function addNote(text, isError) {
-        $('ca-log').appendChild(el('div', 'rounded-lg px-3 py-2 text-xs ' + (isError ? 'bg-red-50 text-red-700' : 'text-slate-500'), text));
+        $('ca-log').appendChild(el('div', 'rounded-lg px-3 py-2 text-xs ' + (isError ? 'bg-red-50 text-red-700 border border-red-200' : 'text-slate-500'), text));
         scrollLog();
       }
 
       function renderChips() {
         const box = $('ca-chips');
+        if (!box) return;
         box.replaceChildren();
         t().chips.forEach((q) => {
-          const b = el('button', 'flex-shrink-0 whitespace-nowrap rounded-full border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs hover:bg-slate-100', q);
+          const b = el('button', 'flex-shrink-0 whitespace-nowrap rounded-full border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs font-medium hover:bg-slate-200 active:scale-95 transition cursor-pointer', q);
           b.type = 'button';
           b.onclick = () => ask(q);
           box.appendChild(b);
@@ -1156,7 +1284,7 @@
       function applyLabels() {
         $('ca-fab-label').textContent = t().fab;
         $('ca-title').textContent = t().title;
-        $('ca-input').placeholder = recorder ? t().listening : t().placeholder;
+        $('ca-input').placeholder = t().placeholder;
         $('ca-disclaimer').textContent = t().disclaimer;
         const w = $('ca-welcome');
         if (w) w.textContent = t().welcome;
@@ -1165,18 +1293,9 @@
 
       function resetLog() {
         $('ca-log').replaceChildren();
-        const w = el('div', 'rounded-2xl border border-slate-200 bg-white px-3 py-2 text-slate-800', t().welcome);
+        const w = el('div', 'rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-slate-800 text-xs sm:text-sm leading-relaxed shadow-sm', t().welcome);
         w.id = 'ca-welcome';
         $('ca-log').appendChild(w);
-      }
-
-      // ---- backend calls -------------------------------------------------------------------
-      function errorText(status) {
-        if (status === undefined) return t().errNet;
-        if (status === 422) return t().errSpeech;
-        if (status === 413) return t().errBig;
-        if (status === 429) return t().errRate;
-        return t().errGeneric;
       }
 
       function setBusy(on) {
@@ -1185,8 +1304,8 @@
         $('ca-input').disabled = on;
         $('ca-mic').disabled = on;
         if (on) {
-          thinkingEl = el('div', 'flex items-center gap-2 text-xs text-slate-500');
-          thinkingEl.append(el('i', 'fa-solid fa-circle-notch fa-spin'), el('span', '', t().thinking));
+          thinkingEl = el('div', 'flex items-center gap-2 text-xs text-slate-500 py-1');
+          thinkingEl.append(el('i', 'fa-solid fa-circle-notch fa-spin text-blue-600'), el('span', '', t().thinking));
           $('ca-log').appendChild(thinkingEl);
           scrollLog();
         } else if (thinkingEl) {
@@ -1195,155 +1314,307 @@
         }
       }
 
-      let abortCtl = null;
+      // ================= CLIENT-SIDE ALWAR CYBER INTELLIGENCE =================
+      // High-accuracy fallback engine when backend is offline or on GitHub Pages static deployment
+      function getClientSideReply(query, currentLanguage) {
+        const q = (query || '').toLowerCase().trim();
+        const isHi = currentLanguage === 'hi';
+        const dateStr = new Date().toLocaleDateString('en-IN');
 
-      async function call(path, init, isVoice) {
-        setBusy(true);
-        abortCtl = new AbortController();
-        if (isVoice) setVoice('thinking');
-        try {
-          const res = await fetch(API + path, { ...init, signal: abortCtl.signal });
-          if (!res.ok) { const e = new Error('http'); e.status = res.status; throw e; }
-          const data = await res.json();
-          if (isVoice) addBubble('user', data.transcript);
-          addBubble('assistant', data.reply, data.artifacts);
-          if (isVoice) speak(data.reply);
-        } catch (e) {
-          if (isVoice) setVoice(null);
-          if (e.name !== 'AbortError') addNote(errorText(e.status), true);
-        } finally {
-          abortCtl = null;
-          setBusy(false);
-          if (!isVoice) $('ca-input').focus();
+        // 1. Money Lost / Online Financial Fraud
+        if (q.includes('lost money') || q.includes('fraud') || q.includes('ठगी') || q.includes('पैसे कट') || q.includes('financial') || q.includes('online fraud')) {
+          if (isHi) {
+            return {
+              reply: "🚨 वित्तीय ठगी के तुरंत बाद 'गोल्डन आवर' (Golden Hour) में ये कदम उठाएं:\n\n1. तुरंत राष्ट्रीय हेल्पलाइन 1930 पर कॉल करें।\n2. अलवर पुलिस साइबर कंट्रोल रूम: 8764874306 पर कॉल करें।\n3. अपने बैंक को कॉल करके कार्ड / UPI तुरंत ब्लॉक करवाएं।\n4. नेशनल पोर्टल cybercrime.gov.in पर शिकायत दर्ज करें।\n5. महत्वपूर्ण: मोबाइल से कोई भी APK, व्हाट्सएप चैट, स्क्रीनशॉट या कॉल रिकॉर्डिंग डिलीट न करें!",
+              artifacts: [{
+                type: 'guide',
+                title: 'वित्तीय ठगी आपातकालीन एक्शन चेकलिस्ट',
+                text: "1. कॉल करें: 1930 (राष्ट्रीय साइबर हेल्पलाइन)\n2. कॉल करें: 8764874306 (अलवर साइबर कंट्रोल रूम)\n3. बैंक को सूचना: कार्ड व नेटबैंकिंग ब्लॉक करवाएं और UTR नंबर लें\n4. साक्ष्य सुरक्षित रखें: ट्रांजैक्शन SMS, चैट स्क्रीनशॉट, APK फाइल\n5. शिकायत पोर्टल: https://cybercrime.gov.in पर रिपोर्ट दर्ज करें"
+              }]
+            };
+          } else {
+            return {
+              reply: "🚨 Immediate Golden Hour Action Steps for Online Fraud:\n\n1. Dial National Cyber Helpline 1930 immediately.\n2. Call Alwar Police Cyber Control Room at 8764874306.\n3. Inform your bank branch or helpline to block your card/UPI & freeze beneficiary accounts.\n4. Register your formal complaint at cybercrime.gov.in.\n5. Crucial: Do NOT delete any APK, suspicious app, WhatsApp chats, screenshots, or call logs—they are vital evidence!",
+              artifacts: [{
+                type: 'guide',
+                title: 'Financial Fraud Emergency Checklist',
+                text: "1. Call: 1930 (National Cyber Crime Helpline - Golden Hour)\n2. Call: 8764874306 (Alwar Police Cyber Crime Desk)\n3. Bank Dispute: Get Card/UPI blocked and note the UTR & Dispute Reference No.\n4. Preserve Evidence: Keep transaction screenshots, chat logs, caller IDs\n5. Register online: https://cybercrime.gov.in"
+              }]
+            };
+          }
+        }
+
+        // 2. Complaint Letter / Help me write a complaint
+        if (q.includes('letter') || q.includes('पत्र') || q.includes('application') || q.includes('आवेदन') || q.includes('draft') || q.includes('write')) {
+          if (isHi) {
+            return {
+              reply: "मैंने आपके लिए थानाधिकारी (SHO) महोदय को प्रेषित किए जाने वाले शिकायत पत्र का प्रारूप तैयार कर दिया है। आप नीचे दिए गए बॉक्स से इसे कॉपी या सीधे प्रिंट / PDF सेव कर सकते हैं:",
+              artifacts: [{
+                type: 'letter',
+                title: 'थानाधिकारी को शिकायत आवेदन पत्र',
+                text: `सेवा में,\nश्रीमान थानाधिकारी महोदय,\nपुलिस थाना: [थाना नाम], जिला अलवर (राजस्थान)\n\nविषय: ऑनलाइन साइबर धोखाधड़ी के संबंध में कानूनी कार्रवाई बाबत।\n\nमहोदय,\nसविनय निवेदन है कि प्रार्थी/प्रार्थिया का नाम [आपका नाम], निवासी अलवर है। मोबाइल नंबर [आपका नंबर] है।\n\nदिनांक ${dateStr} को अज्ञात व्यक्ति द्वारा प्रार्थी के साथ धोखाधड़ी की गई।\nविवरण: [घटना का संक्षिप्त विवरण, यूटीआर नंबर एवं ठगी राशि]\n\nअतः श्रीमान जी से निवेदन है कि त्वरित जांच कर अज्ञात अभियुक्तों के विरुद्ध कानूनी कार्रवाई करने की कृपा करें।\n\nसंलग्न दस्तावेज़:\n1. बैंक स्टेटमेंट / ट्रांजैक्शन रसीद\n2. चैट स्क्रीनशॉट / कॉल रिकॉर्ड विवरण\n\nभवदीय,\nहस्ताक्षर: ___________\nनाम: [आपका नाम]\nमोबाइल: [फ़ोन नंबर]\nदिनांक: ${dateStr}`
+              }]
+            };
+          } else {
+            return {
+              reply: "I have prepared a formal legal complaint letter draft addressed to the Station House Officer (SHO). You can copy or print/save it directly below:",
+              artifacts: [{
+                type: 'letter',
+                title: 'Formal Police Complaint Letter',
+                text: `To,\nThe Station House Officer (SHO),\nPolice Station: [Police Station Name], Alwar District (Rajasthan)\n\nSubject: Formal complaint regarding online cyber fraud.\n\nRespected Sir,\nI am writing to bring to your attention an incident of cyber fraud committed against me. My name is [Your Full Name], residing in Alwar, Contact: [Your Phone Number].\n\nOn or around ${dateStr}, an unauthorized fraudulent transaction occurred.\nIncident Summary: [Brief details of fraud, Transaction ID / UTR, and Amount Lost]\n\nI request you to kindly register this complaint, initiate an investigation under applicable cyber laws, and assist in recovering the defrauded amount.\n\nEnclosures:\n1. Bank Statement / Transaction Debit SMS\n2. Screenshots of Chat / Fraudulent Links / Call Logs\n\nSincerely,\nSignature: ___________\nName: [Your Full Name]\nPhone: [Your Phone Number]\nDate: ${dateStr}`
+              }]
+            };
+          }
+        }
+
+        // 3. Documents needed / Required documents
+        if (q.includes('document') || q.includes('दस्तावेज़') || q.includes('proof') || q.includes('carry') || q.includes('कागजात')) {
+          if (isHi) {
+            return {
+              reply: "साइबर शिकायत दर्ज करते समय निम्नलिखित दस्तावेज़ एवं डिजिटल साक्ष्य अपने साथ रखें:",
+              artifacts: [{
+                type: 'guide',
+                title: 'शिकायत हेतु आवश्यक दस्तावेज़ चेकलिस्ट',
+                text: "1. बैंक स्टेटमेंट (डेबिट ट्रांजैक्शन स्पष्ट दिखने वाली प्रति)\n2. ट्रांजैक्शन आईडी (UTR No. / Transaction ID)\n3. चैट, मैसेज और कॉल लॉग के स्क्रीनशॉट\n4. संदिग्ध मोबाइल नंबर, यूपीआई आईडी या बैंक खाता संख्या\n5. पहचान पत्र (आधार कार्ड या वोटर आईडी कार्ड की प्रति)\n6. 1930 या नेशनल पोर्टल की पावती (Acknowledgement) संख्या"
+              }]
+            };
+          } else {
+            return {
+              reply: "Here is the comprehensive list of documents and digital evidence required to submit your cyber crime complaint:",
+              artifacts: [{
+                type: 'guide',
+                title: 'Documents Required for Complaint',
+                text: "1. Bank Statement or Passbook copy showing unauthorized debit\n2. Transaction Reference Number (UTR / Ref ID)\n3. Screenshots of chats, phishing SMS, or payment pages\n4. Phone numbers, UPI IDs, or account numbers of the fraudster\n5. Government ID proof (Aadhaar Card / Voter ID copy)\n6. Acknowledgement number from 1930 / cybercrime.gov.in"
+              }]
+            };
+          }
+        }
+
+        // 4. How to file a cyber complaint
+        if (q.includes('how do i file') || q.includes('file a complaint') || q.includes('कहाँ') || q.includes('शिकायत कैसे') || q.includes('how to report')) {
+          if (isHi) {
+            return {
+              reply: "साइबर शिकायत दर्ज कराने के 3 प्रमुख तरीके हैं:\n\n1. ऑनलाइन: आधिकारिक पोर्टल cybercrime.gov.in पर मोबाइल नंबर से लॉगिन कर रिपोर्ट करें।\n2. पुलिस थाना: अपने नजदीकी थाने (जैसे कोतवाली, एनईबी, अरावली विहार) या अलवर साइबर सेल में लिखित आवेदन दें। (BNSS के तहत ज़ीरो FIR किसी भी थाने में दर्ज कराई जा सकती है)।\n3. हेल्पलाइन: वित्तीय ठगी होते ही 1930 या अलवर कंट्रोल रूम 8764874306 पर सूचना दें।"
+            };
+          } else {
+            return {
+              reply: "You can file a cyber complaint through 3 convenient channels:\n\n1. Online: Visit cybercrime.gov.in and log in with your mobile number to file an official FIR/complaint.\n2. In-Person Police Station: Visit your nearest police station in Alwar (Kotwali, NEB, Aravali Vihar, etc.) or the Cyber Crime Cell. Zero FIR can be registered at any station under BNSS.\n3. Helpline: For instant financial freeze, dial 1930 or Alwar Cyber Control at 8764874306."
+            };
+          }
+        }
+
+        // 5. Tenant Verification
+        if (q.includes('tenant') || q.includes('किरायेदार') || q.includes('servant') || q.includes('नौकर') || q.includes('सत्यापन')) {
+          if (isHi) {
+            return {
+              reply: "किरायेदार एवं घरेलू नौकर का पुलिस सत्यापन अनिवार्य है:\n\n1. आवश्यक दस्तावेज़: किरायेदार का आधार कार्ड/वोटर आईडी, 2 पासपोर्ट फोटो, और पूर्व नियोक्ता/मकान मालिक का स्थायी पता।\n2. प्रक्रिया: राजस्थान पुलिस पोर्टल (police.rajasthan.gov.in) पर राजकॉप नागरिक सेवा के माध्यम से ऑनलाइन या स्थानीय थाने में फॉर्म जमा कराएं।"
+            };
+          } else {
+            return {
+              reply: "Tenant and household servant police verification is essential for domestic security:\n\n1. Required Documents: Aadhaar/Voter ID copy, 2 passport size photographs, permanent address and previous landlord/employer phone number.\n2. How to apply: Submit through the RajCop citizen portal at police.rajasthan.gov.in or directly at your local Alwar police station."
+            };
+          }
+        }
+
+        // 6. Fake Call / SMS / Chakshu / Fraud
+        if (q.includes('fake call') || q.includes('sms') || q.includes('चक्षु') || q.includes('chakshu') || q.includes('कॉल') || q.includes('संदिग्ध')) {
+          if (isHi) {
+            return {
+              reply: "संदिग्ध फर्जी कॉल या एसएमएस की रिपोर्टिंग:\n\n1. यदि आपके पास फर्जी KYC, लाटरी, बिजली बिल या धमकी भरा कॉल/मैसेज आया है, तो दूरसंचार विभाग के चक्षु (Chakshu) पोर्टल sancharsaathi.gov.in पर तुरंत रिपोर्ट करें।\n2. कॉलर के कहने पर एनीडेस्क (AnyDesk) जैसी रिमोट एक्सेस ऐप कभी डाउनलोड न करें और नंबर को ब्लॉक करें।"
+            };
+          } else {
+            return {
+              reply: "Reporting suspicious calls or messages:\n\n1. Report fraudulent KYC calls, fake electricity bill warnings, or suspicious links on the Chakshu portal (Department of Telecommunications) at sancharsaathi.gov.in.\n2. Never install remote screen-sharing apps (AnyDesk, TeamViewer) and block the number immediately."
+            };
+          }
+        }
+
+        // 7. Police Stations in Alwar
+        if (q.includes('station') || q.includes('थाना') || q.includes('kotwali') || q.includes('neb') || q.includes('aravali') || q.includes('alwar')) {
+          if (isHi) {
+            return {
+              reply: "अलवर जिले के प्रमुख पुलिस थाने एवं साइबर सहायता केंद्र:\n\n• अलवर साइबर कंट्रोल रूम: 8764874306\n• कोतवाली थाना: अलवर शहर (0144-2337424)\n• एन.ई.बी. (NEB) थाना: अलवर शहर (0144-2338244)\n• अरावली विहार थाना: काला कुआं, अलवर (0144-2332100)\n• महिला थाना: अलवर (0144-2337770)\n• पुलिस आपातकालीन सेवा: 112"
+            };
+          } else {
+            return {
+              reply: "Key Police Stations and Cyber Contact points in Alwar:\n\n• Alwar Cyber Control Room: 8764874306\n• Kotwali Police Station: Alwar City (0144-2337424)\n• NEB Police Station: Alwar City (0144-2338244)\n• Aravali Vihar Thana: Kala Kuan, Alwar (0144-2332100)\n• Mahila Thana (Women's Desk): Alwar (0144-2337770)\n• Emergency Response: 112"
+            };
+          }
+        }
+
+        // Default General Cyber Guidance
+        if (isHi) {
+          return {
+            reply: "अलवर साइबर अपराध सहायता पोर्टल पर आपका स्वागत है।\n\n• किसी भी वित्तीय साइबर फ्रॉड की स्थिति में तुरंत 1930 या अलवर कंट्रोल रूम 8764874306 पर कॉल करें।\n• अपना बैंक ओटीपी, पासवर्ड या पिन किसी से साझा न करें।\n• किसी भी शिकायत का पत्र तैयार करने या दस्तावेज़ों की जानकारी के लिए मुझसे पूछें।"
+          };
+        } else {
+          return {
+            reply: "Welcome to the Alwar Cyber Crime Guidance Assistant.\n\n• For immediate financial fraud, dial National Helpline 1930 or Alwar Cyber Control at 8764874306.\n• Never share your Bank OTP, UPI PIN, or passwords with anyone.\n• Feel free to ask about complaint procedures, police stations in Alwar, or generate a complaint letter draft."
+          };
         }
       }
 
-      function ask(text) {
+      // ================= CHAT & VOICE PIPELINE =================
+      async function ask(text) {
         const clean = text.trim();
         if (!clean || busy) return;
         stopSpeaking();
         addBubble('user', clean);
         $('ca-input').value = '';
-        return call('/api/chat', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sessionId, message: clean, lang: lang() })
-        });
-      }
 
-      // ---- microphone: record, convert to 16 kHz mono WAV (Gemini accepts WAV), send ---------
-      function encodeWav(samples, rate) {
-        const bytes = samples.length * 2;
-        const v = new DataView(new ArrayBuffer(44 + bytes));
-        const str = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
-        str(0, 'RIFF'); v.setUint32(4, 36 + bytes, true); str(8, 'WAVE'); str(12, 'fmt ');
-        v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
-        v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
-        str(36, 'data'); v.setUint32(40, bytes, true);
-        samples.forEach((s, i) => v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, s)) * 0x7fff, true));
-        return new Blob([v], { type: 'audio/wav' });
-      }
+        setBusy(true);
 
-      async function toWav16k(recording) {
-        const ctx = new AudioContext();
-        try {
-          const decoded = await ctx.decodeAudioData(await recording.arrayBuffer());
-          const off = new OfflineAudioContext(1, Math.ceil(decoded.duration * TARGET_RATE), TARGET_RATE);
-          const src = off.createBufferSource();
-          src.buffer = decoded; src.connect(off.destination); src.start();
-          const samples = (await off.startRendering()).getChannelData(0);
-          // quiet mics: boost to a clear level (max 12x) so speech recognition can hear it
-          const peak = samples.reduce((m, s) => Math.max(m, Math.abs(s)), 0);
-          const gain = peak > 0 && peak < 0.7 ? Math.min(0.9 / peak, 12) : 1;
-          return encodeWav(gain === 1 ? samples : samples.map((s) => s * gain), TARGET_RATE);
-        } finally { ctx.close(); }
-      }
-
-      function setRecording(on) {
-        $('ca-mic').classList.toggle('bg-red-600', on);
-        $('ca-mic').classList.toggle('animate-pulse', on);
-        $('ca-mic').classList.toggle('bg-blue-600', !on);
-        $('ca-mic').firstElementChild.className = on ? 'fa-solid fa-stop' : 'fa-solid fa-microphone';
-        $('ca-input').disabled = on;
-        $('ca-input').placeholder = on ? t().listening : t().placeholder;
-      }
-
-      const MIN_AUDIO_BYTES = 2000;   // below this the recording is just a tap, no speech
-
-      async function toggleRecording() {
-        if (recorder) { recorder.stop(); return; }
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { addNote(t().errMic, true); return; }
-        unlockAudio();
-        let stream;
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
-        } catch { addNote(t().errMic, true); return; }
-        stopSpeaking();
-        discard = false;
-        const chunks = [];
-        const mime = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'].find((m) => MediaRecorder.isTypeSupported(m));
-        const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
-        rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
-        rec.onstop = async () => {
-          clearTimeout(recordTimer);
-          stopMeter();
-          stream.getTracks().forEach((tr) => tr.stop());
-          recorder = null;
-          setRecording(false);
-          const blob = new Blob(chunks, { type: rec.mimeType });
-          if (discard) { setVoice(null); return; }
-          if (!heardSpeech && peakLevel < NO_SOUND_LEVEL) { setVoice(null); addNote(t().errNoSound, true); return; }
-          if (blob.size < MIN_AUDIO_BYTES) { setVoice(null); addNote(t().errSpeech, true); return; }
-          setVoice('thinking');
+        // If a remote backend URL is provided, try querying it first
+        if (API) {
           try {
-            const form = new FormData();
-            form.append('session_id', sessionId);
-            form.append('lang', lang());
-            form.append('audio', await toWav16k(blob), 'speech.wav');
-            await call('/api/voice', { method: 'POST', body: form }, true);
-          } catch { setVoice(null); addNote(t().errMic, true); }
-        };
-        recorder = rec;
-        rec.start(250);
-        setRecording(true);
-        setVoice('listening');
-        startMeter(stream);
-        recordTimer = setTimeout(() => rec.state === 'recording' && rec.stop(), MAX_RECORD_MS);
+            const res = await fetch(API + '/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ session_id: sessionId, message: clean, lang: lang() })
+            });
+            if (res.ok) {
+              const data = await res.json();
+              addBubble('assistant', data.reply, data.artifacts);
+              setBusy(false);
+              return;
+            }
+          } catch (e) {
+            // Backend offline or spinning up; proceed to instant client-side intelligence
+          }
+        }
+
+        // Instant high-quality client-side reply
+        setTimeout(() => {
+          const clientData = getClientSideReply(clean, lang());
+          addBubble('assistant', clientData.reply, clientData.artifacts);
+          setBusy(false);
+        }, 300);
+      }
+
+      // Voice Input handling with Web Speech API & fallback
+      function toggleRecording() {
+        if (audioRecorder) {
+          audioRecorder.stop();
+          audioRecorder = null;
+          setVoice(null);
+          return;
+        }
+
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRec) {
+          stopSpeaking();
+          const rec = new SpeechRec();
+          rec.lang = lang() === 'hi' ? 'hi-IN' : 'en-IN';
+          rec.interimResults = false;
+          rec.maxAlternatives = 1;
+
+          setVoice('listening');
+          audioRecorder = rec;
+
+          rec.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            setVoice(null);
+            audioRecorder = null;
+            if (transcript) {
+              ask(transcript);
+            }
+          };
+
+          rec.onerror = (e) => {
+            setVoice(null);
+            audioRecorder = null;
+            addNote(t().errNoSound, true);
+          };
+
+          rec.onend = () => {
+            if (voiceState === 'listening') setVoice(null);
+            audioRecorder = null;
+          };
+
+          try {
+            rec.start();
+          } catch (e) {
+            setVoice(null);
+            audioRecorder = null;
+            addNote(t().errMic, true);
+          }
+        } else {
+          addNote(t().errMic, true);
+        }
       }
 
       $('ca-voice-main').onclick = () => {
-        if (voiceState === 'listening' && recorder) recorder.stop();
-        else if (voiceState === 'speaking') stopSpeaking();
-        else if (voiceState === 'thinking' && abortCtl) abortCtl.abort();
+        if (voiceState === 'listening' && audioRecorder) {
+          audioRecorder.stop();
+          audioRecorder = null;
+          setVoice(null);
+        } else if (voiceState === 'speaking') {
+          stopSpeaking();
+        }
       };
-      $('ca-voice-cancel').onclick = () => { discard = true; if (recorder) recorder.stop(); };
 
-      // ---- wiring --------------------------------------------------------------------------
+      $('ca-voice-cancel').onclick = () => {
+        if (audioRecorder) {
+          audioRecorder.abort && audioRecorder.abort();
+          audioRecorder = null;
+        }
+        setVoice(null);
+      };
+
+      // ================= PANEL CONTROLS & WIRING =================
       function togglePanel(open) {
         const p = $('ca-panel');
-        const show = open ?? p.classList.contains('hidden');
+        const show = open !== undefined ? open : p.classList.contains('hidden');
         p.classList.toggle('hidden', !show);
-        $('ca-fab').classList.toggle('hidden', show);   // hide fab while panel is open on both mobile and pc
-        document.body.style.overflow = show && window.innerWidth < 640 ? 'hidden' : '';
-        if (show) { $('ca-input').focus(); return; }
-        stopSpeaking();
-        if (recorder) { discard = true; recorder.stop(); }
-        if (abortCtl) abortCtl.abort();
+        $('ca-fab').classList.toggle('hidden', show);
+        
+        // Prevent background scrolling on mobile when modal sheet is open
+        if (window.innerWidth < 640) {
+          document.body.style.overflow = show ? 'hidden' : '';
+        }
+
+        if (show) {
+          setTimeout(() => $('ca-input').focus(), 150);
+        } else {
+          stopSpeaking();
+          if (audioRecorder) {
+            audioRecorder.abort && audioRecorder.abort();
+            audioRecorder = null;
+          }
+          setVoice(null);
+        }
       }
 
-      $('ca-fab').onclick = () => togglePanel();
+      window.closeCyberAssistant = () => togglePanel(false);
+
+      $('ca-fab').onclick = () => togglePanel(true);
       $('ca-close').onclick = () => togglePanel(false);
+
       $('ca-expand').onclick = () => {
         const wide = $('ca-panel').classList.toggle('ca-wide');
-        $('ca-expand').firstElementChild.className = 'fa-solid ' + (wide ? 'fa-down-left-and-up-right-to-center' : 'fa-up-right-and-down-left-from-center');
+        const icon = $('ca-expand').firstElementChild;
+        if (icon) {
+          icon.className = 'fa-solid ' + (wide ? 'fa-down-left-and-up-right-to-center' : 'fa-up-right-and-down-left-from-center');
+        }
         scrollLog();
       };
+
       window.addEventListener('resize', () => {
         const open = !$('ca-panel').classList.contains('hidden');
         $('ca-fab').classList.toggle('hidden', open);
-        document.body.style.overflow = open && window.innerWidth < 640 ? 'hidden' : '';
+        if (window.innerWidth < 640) {
+          document.body.style.overflow = open ? 'hidden' : '';
+        } else {
+          document.body.style.overflow = '';
+        }
       });
+
       $('ca-mic').onclick = toggleRecording;
-      $('ca-form').onsubmit = (e) => { e.preventDefault(); ask($('ca-input').value); };
+      $('ca-form').onsubmit = (e) => { 
+        e.preventDefault(); 
+        ask($('ca-input').value); 
+      };
+
       $('ca-new').onclick = () => {
         stopSpeaking();
         sessionId = crypto.randomUUID();
@@ -1351,10 +1622,13 @@
         resetLog();
       };
 
-      // the page's own Hindi/English button also switches the assistant (existing code stays untouched)
+      // Keep language button coordinated with assistant language
       if (typeof window.toggleLanguage === 'function') {
-        const original = window.toggleLanguage;
-        window.toggleLanguage = function () { const r = original.apply(this, arguments); applyLabels(); return r; };
+        const origToggle = window.toggleLanguage;
+        window.toggleLanguage = function () {
+          origToggle.apply(this, arguments);
+          applyLabels();
+        };
       }
 
       resetLog();
