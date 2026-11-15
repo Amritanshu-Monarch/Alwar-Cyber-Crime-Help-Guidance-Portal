@@ -1,4 +1,4 @@
-"""Live retrieval eval: `uv run python eval/rag_eval.py` (needs GOOGLE_API_KEY).
+"""Live retrieval eval: `python eval/rag_eval.py` (needs GOOGLE_API_KEY).
 
 In-scope questions must retrieve the expected section in the top results.
 Off-topic questions must return nothing, so the agent refuses instead of improvising."""
@@ -10,30 +10,29 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.services.rag import get_kb  # noqa: E402
 
-# (query as the agent would write it, expected source, substring of expected section title)
+# (query as the agent would write it, expected source filename, substring of expected section title)
 IN_SCOPE = [
-    ("what should I do immediately after UPI fraud", "reporting-process.md", "First 10 minutes"),
-    ("steps to register complaint on cybercrime.gov.in portal", "reporting-process.md", "National Cyber Crime Reporting Portal"),
-    ("will I get my money back from bank RBI liability", "reporting-process.md", "bank"),
-    ("what is zero FIR", "reporting-process.md", "Zero FIR"),
-    ("police not registering my complaint", "complaint-details.md", "do not register"),
-    ("documents needed for cyber crime complaint", "complaint-details.md", "Documents"),
-    ("what to tell when calling 1930", "complaint-details.md", "1930"),
-    ("how to write complaint application to SHO", "complaint-details.md", "write a complaint"),
-    ("digital arrest video call police threat", "fraud-types.md", "Digital arrest"),
-    ("someone asked me to install AnyDesk", "fraud-types.md", "Remote access"),
-    ("loan app blackmail morphed photos contacts", "fraud-types.md", "Loan app"),
-    ("sextortion video call blackmail", "fraud-types.md", "Sextortion"),
-    ("instagram account hacked", "fraud-types.md", "hacking"),
-    ("part time job task scam deposit", "fraud-types.md", "Job"),
-    ("how to block lost mobile phone IMEI", "applications-and-services.md", "lost or stolen"),
-    ("check mobile connections registered in my name", "applications-and-services.md", "mobile connections"),
-    ("report suspicious SMS WhatsApp number Chakshu", "applications-and-services.md", "Chakshu"),
-    ("tenant verification documents Rajasthan", "applications-and-services.md", "Tenant"),
-    ("website hacked ransomware report CERT-In", "applications-and-services.md", "organisation"),
-    ("how to make strong password two factor authentication", "cyber-safety.md", "password"),
-    ("how to keep children safe online", "cyber-safety.md", "children"),
-    ("is it safe to delete the scam chat", "reporting-process.md", "evidence"),
+    ("what should I do immediately after UPI fraud", "upi-fraud.md", "Immediate"),
+    ("steps to register complaint on cybercrime.gov.in portal", "cybercrime-portal.md", "Registration"),
+    ("will I get my money back from bank RBI liability", "verified-current-laws.md", "RBI"),
+    ("what is zero FIR", "police-reporting.md", "Zero FIR"),
+    ("police not registering my complaint", "police-reporting.md", "Refuse"),
+    ("documents needed for cyber crime complaint", "evidence-preservation.md", "Evidence"),
+    ("what to tell when calling 1930", "national-helplines.md", "1930"),
+    ("digital arrest video call police threat", "bank-transfer-fraud.md", "Digital Arrest"),
+    ("someone asked me to install AnyDesk", "malicious-apk.md", "Remote"),
+    ("loan app blackmail morphed photos contacts", "morphed-media.md", "Photo Morphing"),
+    ("sextortion video call blackmail", "sextortion.md", "Video Call"),
+    ("instagram account hacked", "instagram-hacking.md", "Compromised"),
+    ("part time job task scam deposit", "job-fraud.md", "Task Scam"),
+    ("how to block lost mobile phone IMEI", "lost-mobile.md", "CEIR"),
+    ("check mobile connections registered in my name", "suspicious-calls-sms.md", "TAFCOP"),
+    ("report suspicious SMS WhatsApp number Chakshu", "suspicious-calls-sms.md", "Chakshu"),
+    ("how to make strong password two factor authentication", "safety-essentials.md", "Password"),
+    ("how to keep children safe online", "safety-essentials.md", "Children"),
+    ("is it safe to delete the scam chat", "evidence-preservation.md", "Evidence"),
+    ("where is the alwar cyber police station located", "alwar-cyber-unit.md", "Police Station"),
+    ("which police station covers kala kuan", "locality-jurisdiction.md", "Locality"),
 ]
 
 OFF_TOPIC = [

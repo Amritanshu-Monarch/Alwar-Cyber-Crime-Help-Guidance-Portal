@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import re
 
 from google.adk.agents import Agent
 from google.adk.runners import Runner
@@ -11,6 +12,8 @@ from app.agent.prompts import INSTRUCTION
 from app.agent.tools import ALL_TOOLS
 from app.config import Settings
 from app.schemas import AgentResult, Artifact
+from app.services.query_expander import classify_domains
+from app.services.rag import get_kb
 
 log = logging.getLogger(__name__)
 
@@ -33,6 +36,15 @@ def build_agent(model: str) -> Agent:
         tools=ALL_TOOLS,
         generate_content_config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=700),
     )
+
+
+def clean_reply_text(text: str) -> str:
+    """Strip leading or echoed bracketed system directives like [Reply in English.] from model replies."""
+    if not text:
+        return ""
+    cleaned = re.sub(r"^\s*\[Reply in [^\]]+\]\s*", "", text, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\n\s*\[Reply in [^\]]+\]\s*", "\n", cleaned, flags=re.IGNORECASE)
+    return cleaned.strip()
 
 
 class AgentService:
@@ -83,21 +95,60 @@ class AgentService:
                 reply = "".join(p.text or "" for p in event.content.parts).strip()
 
         return AgentResult(
-            reply=reply or FALLBACK_REPLY,
+            reply=clean_reply_text(reply) or FALLBACK_REPLY,
             tools_used=tools_used,
             sources=sorted(sources),
             artifacts=artifacts,
         )
 
-    async def ask(self, session_id: str, text: str, lang: str) -> AgentResult:
+    async def ask(self, session_id: str, text: str, lang: str = "en") -> AgentResult:
         # The UI language decides the reply language; models drift if left to guess.
         directive = REPLY_LANGUAGE.get(lang, REPLY_LANGUAGE["en"])
-        message = f"{directive}\n{text}"
+
+        # Controlled retrieval policy:
+        # Non-conversational factual queries trigger domain-aware grounded knowledge injection.
+        domains = classify_domains(text)
+        preretrieved_sources: set[str] = set()
+        user_prompt = text
+
+        if domains != ["conversation"]:
+            try:
+                hits = get_kb().search(text, k=3, domains=domains)
+                if hits:
+                    preretrieved_sources.update(h["source"] for h in hits)
+                    context_blocks = "\n\n".join(
+                        f"[{h['source']} > {h['section']}]:\n{h['text']}" for h in hits
+                    )
+                    user_prompt = (
+                        f"[VERIFIED OFFICIAL KNOWLEDGE CONTEXT (Ground Truth)]:\n{context_blocks}\n\n"
+                        f"[STRICT GROUNDING INSTRUCTION]:\n"
+                        f"Answer the user's message using the verified facts above. If a specific official fact "
+                        f"(such as officer name, fee, or specific desk) is missing, state that it could not be verified "
+                        f"and refer to 1930 or 8764874306. Never hallucinate procedures or numbers.\n\n"
+                        f"User Message:\n{text}"
+                    )
+                else:
+                    user_prompt = (
+                        f"[OFFICIAL KNOWLEDGE SEARCH RESULT: No matching official documents found]\n"
+                        f"Do NOT guess or fabricate police names, police stations, legal sections, or refund promises. "
+                        f"If this is an online fraud or cyber emergency, direct the citizen to call 1930 or Alwar Cyber Control Room at 8764874306. "
+                        f"If off-topic, politely state that you only assist with cyber crime reporting and online safety.\n\n"
+                        f"User Message:\n{text}"
+                    )
+            except Exception:
+                log.warning("controlled pre-retrieval failed, falling back to tool calling", exc_info=True)
+
+        message = f"{directive}\n{user_prompt}"
+
         for i, runner in enumerate(self._runners):
             is_last = i == len(self._runners) - 1
             try:
                 timeout = self._timeout if is_last else self._primary_timeout
-                return await asyncio.wait_for(self._run(runner, session_id, message), timeout)
+                res = await asyncio.wait_for(self._run(runner, session_id, message), timeout)
+                if preretrieved_sources:
+                    res.sources = sorted(set(res.sources) | preretrieved_sources)
+                res.reply = clean_reply_text(res.reply)
+                return res
             except genai_errors.APIError as e:
                 if e.code not in FALLBACK_STATUS_CODES or is_last:
                     raise
