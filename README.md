@@ -1,3 +1,4 @@
+
 # 🛡️ Alwar Cyber Crime Help & Guidance Portal
 
 A lightweight, mobile-first, and senior-citizen-accessible web application designed to empower citizens of Alwar, Rajasthan with instant access to cybercrime reporting, emergency helplines, automated complaint drafting, and digital safety guidance. Built by interns Amritanshu, Rajveer, Aayush & Rishabh ✌️
@@ -19,6 +20,38 @@ A lightweight, mobile-first, and senior-citizen-accessible web application desig
 * 💬 **Direct WhatsApp Reporting**: Direct single-tap redirection to chat with the Alwar Police Cyber Crime Desk for reporting online frauds in real time.
 * ⚠️ **Digital Evidence Preservation Rules**: Prominently displays vital "Golden Hour" guidance warning citizens **NOT** to delete APKs, WhatsApp chats, screenshots, or call logs after facing a scam.
 * 📍 **Police Station Finder & Verification Guides**: Quick links for mapping local police stations across Alwar and tenant/domestic servant verification procedures.
+
+---
+
+## 🤖 AI Voice Agent (v2)
+
+`backend/` + `frontend/` add a Hindi/English voice and chat assistant built on Google Gemini:
+
+* **Agent**: Google ADK agent with tools: `search_knowledge` (RAG), `get_contacts`, `find_police_station`, `draft_complaint_letter`.
+* **RAG**: Gemini embeddings (`gemini-embedding-001`) + ChromaDB over `backend/kb/*.md`.
+* **Voice**: browser mic → WAV → Gemini speech-to-text → agent → Gemini TTS (browser TTS fallback).
+* **Stack**: FastAPI, uv, React + TypeScript + shadcn/ui. The original single-file site (`index.html`) is kept as the static fallback.
+
+### Run
+
+```powershell
+# 1. backend (needs a key from https://aistudio.google.com/app/apikey)
+cd backend
+copy .env.example .env          # set GOOGLE_API_KEY
+uv sync
+uv run python -m app.services.rag   # embed kb/*.md (also runs automatically on first start)
+uv run uvicorn app.main:app --port 8000
+uv run pytest                   # 23 tests, no API key needed
+
+# 2. frontend (proxies /api to :8000)
+cd frontend
+npm install
+npm run dev
+```
+
+If the repo lives in OneDrive, create the venv outside it: `$env:UV_PROJECT_ENVIRONMENT="C:\venvs\alwar-cyber-agent"; $env:UV_LINK_MODE="copy"`.
+
+Add knowledge by dropping markdown files into `backend/kb/` and re-running the ingest command.
 
 ---
 
