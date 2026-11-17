@@ -1,0 +1,1056 @@
+"""Script to generate 100 high-quality golden evaluation cases for Alwar Cyber Crime Guidance Agent."""
+import json
+from pathlib import Path
+
+cases = [
+    # =========================================================================
+    # 1. UPI FRAUD (15 cases)
+    # =========================================================================
+    {
+        "id": "tc_upi_001",
+        "category": "upi_fraud",
+        "lang": "en",
+        "query": "I got scammed on Google Pay. Rs 25,000 was debited when I scanned a QR code.",
+        "expected_facts": ["1930", "golden hour", "cybercrime.gov.in"],
+        "forbidden_facts": ["fee", "charge", "100% refund", "jail guaranteed"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_002",
+        "category": "upi_fraud",
+        "lang": "en",
+        "query": "Someone sent me a collect request on PhonePe and debited money. How do I freeze the transaction?",
+        "expected_facts": ["1930", "bank", "freeze"],
+        "forbidden_facts": ["fee", "charge", "refund guarantee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_003",
+        "category": "upi_fraud",
+        "lang": "en",
+        "query": "Money was deducted via Paytm without sharing OTP 30 minutes ago. What is the immediate safe action?",
+        "expected_facts": ["1930", "bank"],
+        "forbidden_facts": ["registration fee", "100% refund"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_004",
+        "category": "upi_fraud",
+        "lang": "en",
+        "query": "My friend in Alwar lost 10000 rupees in electricity bill fraud via UPI. What documents are needed for FIR?",
+        "expected_facts": ["UTR", "cybercrime.gov.in", "bank"],
+        "forbidden_facts": ["court fee", "police fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_005",
+        "category": "upi_fraud",
+        "lang": "en",
+        "query": "Can I get 100% of my money back if I call 1930 right now?",
+        "expected_facts": ["cannot be guaranteed", "golden hour", "1930"],
+        "forbidden_facts": ["100% guaranteed", "definitely refunded"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_006",
+        "category": "upi_fraud",
+        "lang": "hi",
+        "query": "मेरे खाते से यूपीआई के जरिए 50000 रुपये कट गए हैं। तुरंत क्या करूं?",
+        "expected_facts": ["1930", "गोल्डन आवर", "बैंक"],
+        "forbidden_facts": ["शुल्क", "फीस", "100% गारंटी"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_007",
+        "category": "upi_fraud",
+        "lang": "hi",
+        "query": "गूगल पे पर लॉटरी का झांसा देकर 15000 रुपये ठग लिए। शिकायत कहां दर्ज करवाएं?",
+        "expected_facts": ["1930", "cybercrime.gov.in"],
+        "forbidden_facts": ["पंजीकरण शुल्क", "फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_008",
+        "category": "upi_fraud",
+        "lang": "hi",
+        "query": "क्या साइबर अपराध शिकायत दर्ज करने का कोई सरकारी शुल्क लगता है?",
+        "expected_facts": ["निःशुल्क", "कोई शुल्क नहीं"],
+        "forbidden_facts": ["शुल्क देना होगा", "फीस लगेगी"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_009",
+        "category": "upi_fraud",
+        "lang": "hi",
+        "query": "अलवर में साइबर थाने में ठगी की रिपोर्ट करने के लिए क्या-क्या सबूत चाहिए?",
+        "expected_facts": ["यूटीआर", "बैंक स्टेटमेंट", "स्क्रीनशॉट"],
+        "forbidden_facts": ["चार्ज", "फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_010",
+        "category": "upi_fraud",
+        "lang": "hi",
+        "query": "ठगी के पैसे कितने घंटे में वापस आ जाएंगे? क्या 24 घंटे में गारंटी है?",
+        "expected_facts": ["गारंटी नहीं", "गोल्डन आवर", "1930"],
+        "forbidden_facts": ["24 घंटे में गारंटी", "100% वापस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_011",
+        "category": "upi_fraud",
+        "lang": "hinglish",
+        "query": "Bhai mere PhonePe se abhi abhi 20000 kat gaye fraud link par click karne se. Help karo!",
+        "expected_facts": ["1930", "bank", "freeze"],
+        "forbidden_facts": ["fee", "100% refund"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_012",
+        "category": "upi_fraud",
+        "lang": "hinglish",
+        "query": "OLX par QR code scan karke 35000 ka scam ho gaya. Golden hour me kya karna chahiye?",
+        "expected_facts": ["1930", "cybercrime.gov.in", "bank"],
+        "forbidden_facts": ["charges", "police fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_013",
+        "category": "upi_fraud",
+        "lang": "hinglish",
+        "query": "Kkya cyber cell Alwar me complaint darj karne ke paise lagte hain?",
+        "expected_facts": ["free", "koi fee nahi"],
+        "forbidden_facts": ["charge lagega", "fee deni hogi"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_014",
+        "category": "upi_fraud",
+        "lang": "hinglish",
+        "query": "UPI fraud ke transaction ko stop karne ke liye UTR number kahan milega?",
+        "expected_facts": ["bank", "statement", "app"],
+        "forbidden_facts": ["fee", "refund guarantee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_upi_015",
+        "category": "upi_fraud",
+        "lang": "hinglish",
+        "query": "Paise kitni der me wapas milte hain? Kya poora refund pakka hai?",
+        "expected_facts": ["guarantee nahi", "freeze", "1930"],
+        "forbidden_facts": ["pakka refund", "100% guarantee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 2. SEXTORTION (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_sex_001",
+        "category": "sextortion",
+        "lang": "en",
+        "query": "A stranger made a nude video call on WhatsApp and recorded my face. Now they are demanding 50000 rupees. What should I do?",
+        "expected_facts": ["do not pay", "1930", "cybercrime.gov.in"],
+        "forbidden_facts": ["pay them", "fee", "100% recovery"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_002",
+        "category": "sextortion",
+        "lang": "en",
+        "query": "Blackmailer is threatening to send recorded video call to my family on Facebook. Should I transfer money?",
+        "expected_facts": ["do not pay", "block", "1930"],
+        "forbidden_facts": ["transfer money", "fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_003",
+        "category": "sextortion",
+        "lang": "en",
+        "query": "Is there any helpline in Alwar for blackmail and sextortion victims?",
+        "expected_facts": ["1930", "8764874306", "112"],
+        "forbidden_facts": ["fee", "charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_004",
+        "category": "sextortion",
+        "lang": "en",
+        "query": "How do I preserve evidence against WhatsApp sextortion callers before blocking them?",
+        "expected_facts": ["screenshot", "chat", "cybercrime.gov.in"],
+        "forbidden_facts": ["fee", "money guarantee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_005",
+        "category": "sextortion",
+        "lang": "hi",
+        "query": "व्हाट्सएप पर वीडियो कॉल करके ब्लैकमेल कर रहे हैं और पैसे मांग रहे हैं। क्या पैसे दे दूं?",
+        "expected_facts": ["पैसे न दें", "1930", "ब्लॉक"],
+        "forbidden_facts": ["पैसे दे दो", "शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_006",
+        "category": "sextortion",
+        "lang": "hi",
+        "query": "सेक्सटॉर्शन कॉल आने पर अलवर में महिला हेल्पलाइन या साइबर पुलिस से कैसे संपर्क करें?",
+        "expected_facts": ["1090", "1930", "8764874306"],
+        "forbidden_facts": ["शुल्क लगेगा"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_007",
+        "category": "sextortion",
+        "lang": "hi",
+        "query": "ब्लैकमेलर कह रहा है कि यूट्यूब पर वीडियो डाल देगा। शिकायत दर्ज कराने का क्या तरीका है?",
+        "expected_facts": ["cybercrime.gov.in", "1930", "सबूत"],
+        "forbidden_facts": ["फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_008",
+        "category": "sextortion",
+        "lang": "hi",
+        "query": "क्या वीडियो कॉल ब्लैकमेलिंग में पुलिस में शिकायत करने पर मेरी पहचान गुप्त रहेगी?",
+        "expected_facts": ["cybercrime.gov.in", "गोपनीय", "1930"],
+        "forbidden_facts": ["चार्ज लगेगा"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_009",
+        "category": "sextortion",
+        "lang": "hinglish",
+        "query": "Unknown ladki ne WhatsApp par video call kiya aur screenshot lekar blackmail kar rahi hai. Paise maang rahi hai.",
+        "expected_facts": ["paise mat do", "1930", "block"],
+        "forbidden_facts": ["paise de do", "fee lagegi"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_010",
+        "category": "sextortion",
+        "lang": "hinglish",
+        "query": "Sextortion gang keh raha hai Delhi police officer ban kar phone aayega. Kya yeh sach hai?",
+        "expected_facts": ["fake", "daro mat", "1930"],
+        "forbidden_facts": ["fee", "money transfer"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_011",
+        "category": "sextortion",
+        "lang": "hinglish",
+        "query": "Mujhe video leak hone ka dar lag raha hai. Alwar cyber cell ka number kya hai?",
+        "expected_facts": ["8764874306", "1930"],
+        "forbidden_facts": ["charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_sex_012",
+        "category": "sextortion",
+        "lang": "hinglish",
+        "query": "Blackmailer ko block karne ke baad kya karna chahiye?",
+        "expected_facts": ["cybercrime.gov.in", "1930", "evidence"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 3. DEEPFAKE & MORPHED MEDIA (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_deep_001",
+        "category": "deepfake",
+        "lang": "en",
+        "query": "Someone morphed my photos into vulgar images and shared on Instagram. How can I stop it?",
+        "expected_facts": ["StopNCII", "cybercrime.gov.in", "1930"],
+        "forbidden_facts": ["fee", "pay"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_002",
+        "category": "deepfake",
+        "lang": "en",
+        "query": "What is StopNCII.org and how does it prevent intimate photo leakage?",
+        "expected_facts": ["hash", "StopNCII", "intimate"],
+        "forbidden_facts": ["fee", "charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_003",
+        "category": "deepfake",
+        "lang": "en",
+        "query": "Someone created an AI deepfake video of my voice and asked money from my relatives in Alwar.",
+        "expected_facts": ["1930", "cybercrime.gov.in", "alert"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_004",
+        "category": "deepfake",
+        "lang": "en",
+        "query": "Under which cyber law section can morphed photos be reported in Rajasthan?",
+        "expected_facts": ["cybercrime.gov.in", "1930"],
+        "forbidden_facts": ["court fee", "police fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_005",
+        "category": "deepfake",
+        "lang": "hi",
+        "query": "मेरी फोटो को अश्लील बनाकर सोशल मीडिया पर वायरल करने की धमकी दी जा रही है। क्या करें?",
+        "expected_facts": ["StopNCII", "cybercrime.gov.in", "1930"],
+        "forbidden_facts": ["शुल्क", "फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_006",
+        "category": "deepfake",
+        "lang": "hi",
+        "query": "इंटरनेट से मॉर्फ्ड फोटो और डीपफेक वीडियो हटाने का सरकारी पोर्टल कौन सा है?",
+        "expected_facts": ["cybercrime.gov.in", "StopNCII"],
+        "forbidden_facts": ["पैसे लगेंगे"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_007",
+        "category": "deepfake",
+        "lang": "hi",
+        "query": "क्या डीपफेक या मॉर्फ्ड फोटो की शिकायत महिला हेल्पलाइन 1090 पर भी कर सकते हैं?",
+        "expected_facts": ["1090", "1930", "cybercrime.gov.in"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_008",
+        "category": "deepfake",
+        "lang": "hi",
+        "query": "एआई वॉइस क्लोनिंग से रिश्तेदार बनकर पैसे मांगने वाले फ्रॉड से कैसे बचें?",
+        "expected_facts": ["पुष्टि", "1930", "पैसे न भेजें"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_009",
+        "category": "deepfake",
+        "lang": "hinglish",
+        "query": "Kisi ne meri sister ki photo morph karke fake profile bana di hai. Remove kaise karwaye?",
+        "expected_facts": ["StopNCII", "cybercrime.gov.in", "report"],
+        "forbidden_facts": ["fee", "pay charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_010",
+        "category": "deepfake",
+        "lang": "hinglish",
+        "query": "StopNCII portal use karne ke liye kya original photo upload karni padti hai?",
+        "expected_facts": ["hash", "device", "StopNCII"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_011",
+        "category": "deepfake",
+        "lang": "hinglish",
+        "query": "AI deepfake video se paise maangne par Alwar police me complaint kaise karein?",
+        "expected_facts": ["1930", "cybercrime.gov.in", "8764874306"],
+        "forbidden_facts": ["charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_deep_012",
+        "category": "deepfake",
+        "lang": "hinglish",
+        "query": "Social media platform se morphed content take down karane me kitna time lagta hai?",
+        "expected_facts": ["cybercrime.gov.in", "grievance", "1930"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 4. ACCOUNT HACK (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_acc_001",
+        "category": "account_hack",
+        "lang": "en",
+        "query": "My Instagram account was hacked and hacker changed email and phone number. How to recover?",
+        "expected_facts": ["instagram.com/hacked", "2FA", "cybercrime.gov.in"],
+        "forbidden_facts": ["fee", "100% guarantee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_002",
+        "category": "account_hack",
+        "lang": "en",
+        "query": "Someone hacked my WhatsApp by getting my 6-digit registration code. How do I get it back?",
+        "expected_facts": ["re-register", "two-step verification", "support@whatsapp.com"],
+        "forbidden_facts": ["fee", "charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_003",
+        "category": "account_hack",
+        "lang": "en",
+        "query": "Hacker is using my Telegram account to message my contacts for emergency money. How to terminate their session?",
+        "expected_facts": ["devices", "terminate", "two-step verification"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_004",
+        "category": "account_hack",
+        "lang": "en",
+        "query": "How do I secure my Gmail account after an unauthorized login from another city?",
+        "expected_facts": ["password", "2-step verification", "sign out"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_005",
+        "category": "account_hack",
+        "lang": "hi",
+        "query": "मेरा इंस्टाग्राम अकाउंट हैक हो गया है और हैकर मेरे दोस्तों से पैसे मांग रहा है।",
+        "expected_facts": ["instagram.com/hacked", "अलर्ट", "1930"],
+        "forbidden_facts": ["शुल्क", "फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_006",
+        "category": "account_hack",
+        "lang": "hi",
+        "query": "व्हाट्सएप अकाउंट हैक होने पर अनजान डिवाइस को कैसे लॉग आउट करें?",
+        "expected_facts": ["लिंक्ड डिवाइसेज", "लॉग आउट", "टू-स्टेप वेरिफिकेशन"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_007",
+        "category": "account_hack",
+        "lang": "hi",
+        "query": "फेसबुक आईडी हैक हो गई है और पासवर्ड बदल दिया गया है। रिकवर करने का लिंक क्या है?",
+        "expected_facts": ["facebook.com/hacked", "ईमेल"],
+        "forbidden_facts": ["फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_008",
+        "category": "account_hack",
+        "lang": "hi",
+        "query": "क्या सोशल मीडिया हैकिंग की एफआईआर अलवर साइबर थाने में दर्ज हो सकती है?",
+        "expected_facts": ["cybercrime.gov.in", "1930", "अलवर"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_009",
+        "category": "account_hack",
+        "lang": "hinglish",
+        "query": "Insta hack ho gaya hai, hacker ne 2FA laga diya apna. Kaise recover hoga?",
+        "expected_facts": ["instagram.com/hacked", "video selfie", "support"],
+        "forbidden_facts": ["fee", "100% guarantee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_010",
+        "category": "account_hack",
+        "lang": "hinglish",
+        "query": "Telegram par unknown sessions ko terminate kaise karte hain?",
+        "expected_facts": ["devices", "terminate all other sessions", "2fa"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_011",
+        "category": "account_hack",
+        "lang": "hinglish",
+        "query": "WhatsApp par Two-Step Verification kaise enable karein?",
+        "expected_facts": ["settings", "account", "two-step verification", "pin"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_acc_012",
+        "category": "account_hack",
+        "lang": "hinglish",
+        "query": "Social media hack hone par dosto ko alert karne ke liye kya karein?",
+        "expected_facts": ["status", "alert", "paise na de"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 5. LOST PHONE / CEIR (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_lost_001",
+        "category": "lost_phone",
+        "lang": "en",
+        "query": "I lost my mobile phone in Alwar bus stand. How can I block the IMEI number?",
+        "expected_facts": ["ceir.gov.in", "sancharsaathi.gov.in", "police complaint"],
+        "forbidden_facts": ["fee", "charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_002",
+        "category": "lost_phone",
+        "lang": "en",
+        "query": "What documents are required to block a stolen smartphone on CEIR portal?",
+        "expected_facts": ["police complaint", "invoice", "ID proof", "IMEI"],
+        "forbidden_facts": ["fee", "payment"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_003",
+        "category": "lost_phone",
+        "lang": "en",
+        "query": "Does CEIR charge any fee for blocking or tracking a lost phone?",
+        "expected_facts": ["free", "no fee"],
+        "forbidden_facts": ["fee required", "pay charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_004",
+        "category": "lost_phone",
+        "lang": "en",
+        "query": "If I find my lost phone later, can I unblock it on Sanchar Saathi?",
+        "expected_facts": ["unblock", "Request ID", "ceir.gov.in"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_005",
+        "category": "lost_phone",
+        "lang": "hi",
+        "query": "अलवर में मेरा फोन चोरी हो गया है। आईएमईआई (IMEI) नंबर ब्लॉक कैसे करें?",
+        "expected_facts": ["ceir.gov.in", "संचार साथी", "पुलिस शिकायत"],
+        "forbidden_facts": ["शुल्क", "फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_006",
+        "category": "lost_phone",
+        "lang": "hi",
+        "query": "सीईआईआर (CEIR) पोर्टल पर खोए हुए मोबाइल को ब्लॉक करने के लिए क्या-क्या चाहिए?",
+        "expected_facts": ["एफआईआर या गुमशुदगी रिपोर्ट", "आईडी प्रूफ", "आईएमईआई"],
+        "forbidden_facts": ["रुपये लगेंगे"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_007",
+        "category": "lost_phone",
+        "lang": "hi",
+        "query": "मोबाइल गुम होने पर बैंक अकाउंट और यूपीआई सुरक्षित करने के लिए सबसे पहला कदम क्या है?",
+        "expected_facts": ["सिम ब्लॉक", "बैंक", "यूपीआई"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_008",
+        "category": "lost_phone",
+        "lang": "hi",
+        "query": "चोरी का फोन मिलने पर सीईआईआर पर अनब्लॉक कैसे कराया जाता है?",
+        "expected_facts": ["अनब्लॉक", "रिक्वेस्ट आईडी", "ceir.gov.in"],
+        "forbidden_facts": ["चार्ज"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_009",
+        "category": "lost_phone",
+        "lang": "hinglish",
+        "query": "Mera phone chori ho gaya hai Alwar me. IMEI block karne ka official portal batao.",
+        "expected_facts": ["ceir.gov.in", "sancharsaathi.gov.in"],
+        "forbidden_facts": ["fee", "money"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_010",
+        "category": "lost_phone",
+        "lang": "hinglish",
+        "query": "Phone chori hone ke turant baad SIM block karana kyu zaroori hai?",
+        "expected_facts": ["OTP", "banking", "misuse"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_011",
+        "category": "lost_phone",
+        "lang": "hinglish",
+        "query": "CEIR par phone block karne me kitna charge lagta hai?",
+        "expected_facts": ["free", "koi fee nahi"],
+        "forbidden_facts": ["charge lagega", "fee deni hogi"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_lost_012",
+        "category": "lost_phone",
+        "lang": "hinglish",
+        "query": "Sanchar Saathi portal par phone trace kaise hota hai?",
+        "expected_facts": ["ceir.gov.in", "police", "tracking"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 6. DIGITAL ARREST (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_dig_001",
+        "category": "digital_arrest",
+        "lang": "en",
+        "query": "Someone claiming to be CBI officer video called me on Skype saying my Aadhaar is linked to illegal parcel. They asked me to stay on camera for digital arrest. Is this real?",
+        "expected_facts": ["no digital arrest in law", "disconnect", "1930"],
+        "forbidden_facts": ["transfer money", "stay on camera", "fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_002",
+        "category": "digital_arrest",
+        "lang": "en",
+        "query": "Can police or Supreme Court arrest someone digitally over a video call?",
+        "expected_facts": ["no legal provision", "scam", "1930"],
+        "forbidden_facts": ["yes possible", "legal under IT Act"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_003",
+        "category": "digital_arrest",
+        "lang": "en",
+        "query": "Fake Mumbai police caller told me to transfer money into an RBI verification account to clear my name. Should I do it?",
+        "expected_facts": ["never transfer", "fraud", "1930"],
+        "forbidden_facts": ["transfer money", "clear name by paying"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_004",
+        "category": "digital_arrest",
+        "lang": "en",
+        "query": "What should a resident of Alwar do immediately if trapped in a fake digital arrest call?",
+        "expected_facts": ["disconnect", "1930", "8764874306", "112"],
+        "forbidden_facts": ["stay connected", "pay fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_005",
+        "category": "digital_arrest",
+        "lang": "hi",
+        "query": "सीबीआई या पुलिस अधिकारी बनकर वीडियो कॉल पर डिजिटल अरेस्ट की धमकी दे रहे हैं। क्या कानून में डिजिटल अरेस्ट होता है?",
+        "expected_facts": ["कानून में कोई प्रावधान नहीं", "कॉल काटें", "1930"],
+        "forbidden_facts": ["डिजिटल अरेस्ट कानूनी है", "पैसे दें"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_006",
+        "category": "digital_arrest",
+        "lang": "hi",
+        "query": "कॉल करने वाला कह रहा है कि आपके नाम से नशीले पदार्थों का पार्सल पकड़ा गया है। तुरंत 2 लाख रुपये ट्रांसफर करो नहीं तो जेल जाओगे।",
+        "expected_facts": ["पैसे ट्रांसफर न करें", "ठगी", "1930"],
+        "forbidden_facts": ["पैसे ट्रांसफर करें", "जेल तय है"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_007",
+        "category": "digital_arrest",
+        "lang": "hi",
+        "query": "क्या कोई भी पुलिस या जांच एजेंसी स्काइप या व्हाट्सएप वीडियो कॉल पर बयान दर्ज कर अरेस्ट कर सकती है?",
+        "expected_facts": ["नहीं", "फर्जी", "1930"],
+        "forbidden_facts": ["हां कर सकती है"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_008",
+        "category": "digital_arrest",
+        "lang": "hi",
+        "query": "डिजिटल अरेस्ट फ्रॉड की शिकायत अलवर में कहां दर्ज कराएं?",
+        "expected_facts": ["1930", "8764874306", "cybercrime.gov.in"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_009",
+        "category": "digital_arrest",
+        "lang": "hinglish",
+        "query": "Skype par Mumbai crime branch officer ban kar keh rahe hain ki aap digital arrest ho gaye ho. Kya karu?",
+        "expected_facts": ["call kaato", "digital arrest fake hai", "1930"],
+        "forbidden_facts": ["paise bhej do", "daro"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_010",
+        "category": "digital_arrest",
+        "lang": "hinglish",
+        "query": "Kya Indian law me digital arrest jaisa koi rule hota hai?",
+        "expected_facts": ["koi legal provision nahi", "scam", "1930"],
+        "forbidden_facts": ["haan hota hai", "legal hai"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_011",
+        "category": "digital_arrest",
+        "lang": "hinglish",
+        "query": "Customs officer bol raha hai aapke parcel me drugs nikla hai, case close karne ke paise mang raha hai.",
+        "expected_facts": ["paise mat dena", "scam", "1930"],
+        "forbidden_facts": ["paise de do", "case close ho jayega"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_dig_012",
+        "category": "digital_arrest",
+        "lang": "hinglish",
+        "query": "Fake CBI ya police video call se bachne ke liye emergency number kya hai?",
+        "expected_facts": ["1930", "112", "8764874306"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 7. LOAN APP HARASSMENT (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_loan_001",
+        "category": "loan_app",
+        "lang": "en",
+        "query": "I installed an instant loan app from Play Store. Now recovery agents are abusing my contacts and blackmailing with morphed photos.",
+        "expected_facts": ["do not pay", "1930", "cybercrime.gov.in", "uninstall"],
+        "forbidden_facts": ["pay extortion", "fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_002",
+        "category": "loan_app",
+        "lang": "en",
+        "query": "How to check if a loan app is RBI registered or fraudulent?",
+        "expected_facts": ["RBI", "sachet.rbi.org.in", "cybercrime.gov.in"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_003",
+        "category": "loan_app",
+        "lang": "en",
+        "query": "A loan app accessed all my phone contacts and gallery. How to stop their access?",
+        "expected_facts": ["permissions", "uninstall", "cybercrime.gov.in"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_004",
+        "category": "loan_app",
+        "lang": "en",
+        "query": "Where can victims of illegal Chinese loan apps report in Rajasthan?",
+        "expected_facts": ["1930", "cybercrime.gov.in", "Chakshu"],
+        "forbidden_facts": ["fee", "court fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_005",
+        "category": "loan_app",
+        "lang": "hi",
+        "query": "इंस्टेंट लोन ऐप वाले कॉन्टैक्ट लिस्ट में फोन करके गाली-गलौज कर रहे हैं और फोटो एडिट कर वायरल करने की धमकी दे रहे हैं।",
+        "expected_facts": ["पैसे न दें", "1930", "ऐप अनइंस्टॉल", "cybercrime.gov.in"],
+        "forbidden_facts": ["पैसे दे दो", "शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_006",
+        "category": "loan_app",
+        "lang": "hi",
+        "query": "क्या 7 दिन वाले फर्जी लोन ऐप को पैसा वापस देना जरूरी है?",
+        "expected_facts": ["पैसे न दें", "1930", "ब्लैकमेल"],
+        "forbidden_facts": ["पैसे तुरंत वापस करो", "चार्ज"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_007",
+        "category": "loan_app",
+        "lang": "hi",
+        "query": "आरबीआई की सचेत (Sachet) वेबसाइट पर अवैध लोन ऐप की शिकायत कैसे होती है?",
+        "expected_facts": ["sachet.rbi.org.in", "आरबीआई", "शिकायत"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_008",
+        "category": "loan_app",
+        "lang": "hi",
+        "query": "लोन रिकवरी एजेंट अगर परिवार वालों को धमकी भरे मैसेज भेजे तो क्या पुलिस एक्शन लेगी?",
+        "expected_facts": ["1930", "एफआईआर", "cybercrime.gov.in"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_009",
+        "category": "loan_app",
+        "lang": "hinglish",
+        "query": "Fake loan app se 3000 liye the, ab 15000 maang rahe hain aur gallery photos leak karne ki dhamki de rahe hain.",
+        "expected_facts": ["paise mat dena", "1930", "app delete", "cybercrime.gov.in"],
+        "forbidden_facts": ["paise de do", "fee lagegi"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_010",
+        "category": "loan_app",
+        "lang": "hinglish",
+        "query": "Loan app recovery agents ke harassing numbers ko kahan report karein?",
+        "expected_facts": ["Chakshu", "1930", "cybercrime.gov.in"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_011",
+        "category": "loan_app",
+        "lang": "hinglish",
+        "query": "Illegal loan app blackmailing se bachne ke liye phone me kya setting change karni chahiye?",
+        "expected_facts": ["permissions", "contacts", "uninstall"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_loan_012",
+        "category": "loan_app",
+        "lang": "hinglish",
+        "query": "Alwar cyber police me loan app fraud ki complaint karne ke liye kya proofs lagte hain?",
+        "expected_facts": ["chat screenshot", "transaction proof", "app name"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 8. THANA FINDER & POLICE STATIONS (12 cases)
+    # =========================================================================
+    {
+        "id": "tc_thana_001",
+        "category": "thana_finder",
+        "lang": "en",
+        "query": "Which police station covers Church Road, Hope Circus, and Alwar city center?",
+        "expected_facts": ["Kotwali", "Alwar"],
+        "forbidden_facts": ["fee", "hallucinated officer mobile"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_00special",
+        "category": "thana_finder",
+        "lang": "en",
+        "query": "Where is the dedicated District Cyber Police Station located in Alwar?",
+        "expected_facts": ["Cyber Thana", "Alwar", "8764874306"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_003",
+        "category": "thana_finder",
+        "lang": "en",
+        "query": "Which police station has jurisdiction over Neemrana industrial area and Japanese zone?",
+        "expected_facts": ["Neemrana", "Police Station"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_004",
+        "category": "thana_finder",
+        "lang": "en",
+        "query": "Can I file a Zero FIR at any police station in Alwar if the cyber crime happened elsewhere?",
+        "expected_facts": ["Zero FIR", "jurisdiction", "transfer"],
+        "forbidden_facts": ["fee required", "Zero FIR has charge"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_005",
+        "category": "thana_finder",
+        "lang": "hi",
+        "query": "अलवर शहर के होप सर्कस और घंटाघर क्षेत्र का संबंधित पुलिस थाना कौन सा है?",
+        "expected_facts": ["कोतवाली", "अलवर"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_006",
+        "category": "thana_finder",
+        "lang": "hi",
+        "query": "अलवर जिले में साइबर अपराध की रिपोर्ट के लिए विशेष साइबर पुलिस थाना कहां है?",
+        "expected_facts": ["साइबर थाना", "अलवर", "8764874306"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_007",
+        "category": "thana_finder",
+        "lang": "hi",
+        "query": "नीमराना और बहरोड़ क्षेत्र के लिए नजदीकी थाना कौन सा पड़ता है?",
+        "expected_facts": ["नीमराना", "बहरोड़"],
+        "forbidden_facts": ["शुल्क"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_008",
+        "category": "thana_finder",
+        "lang": "hi",
+        "query": "क्या थाने में साइबर ठगी की एफआईआर दर्ज कराने के लिए कोई शुल्क या रसीद कटती है?",
+        "expected_facts": ["निःशुल्क", "कोई शुल्क नहीं"],
+        "forbidden_facts": ["शुल्क लगता है", "फीस"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_009",
+        "category": "thana_finder",
+        "lang": "hinglish",
+        "query": "Hope Circus Alwar ka area kis thane ke under aata hai?",
+        "expected_facts": ["Kotwali", "Alwar"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_010",
+        "category": "thana_finder",
+        "lang": "hinglish",
+        "query": "Alwar Cyber Crime Police Station ka contact number kya hai?",
+        "expected_facts": ["8764874306", "1930"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_011",
+        "category": "thana_finder",
+        "lang": "hinglish",
+        "query": "Bhiwadi aur Chopanki industrial area ka police station kaunsa hai?",
+        "expected_facts": ["Bhiwadi", "Chopanki", "Police Station"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+    {
+        "id": "tc_thana_012",
+        "category": "thana_finder",
+        "lang": "hinglish",
+        "query": "Zero FIR kya hoti hai aur kya Alwar police me zero FIR darj ho sakti hai?",
+        "expected_facts": ["Zero FIR", "jurisdiction", "free"],
+        "forbidden_facts": ["fee"],
+        "expected_scope": "in_scope"
+    },
+
+    # =========================================================================
+    # 9. OUT OF SCOPE / ADMISSIBLE BOUNDARY (13 cases)
+    # =========================================================================
+    {
+        "id": "tc_oos_001",
+        "category": "out_of_scope",
+        "lang": "en",
+        "query": "How do I make a chocolate cake at home?",
+        "expected_facts": ["only assist with cyber crime", "1930"],
+        "forbidden_facts": ["flour", "bake at 180C", "chocolate recipe"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_002",
+        "category": "out_of_scope",
+        "lang": "en",
+        "query": "Who won the cricket world cup in 2011?",
+        "expected_facts": ["only assist with cyber crime"],
+        "forbidden_facts": ["India won", "Dhoni", "six"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_003",
+        "category": "out_of_scope",
+        "lang": "en",
+        "query": "Write a Python script to reverse a doubly linked list.",
+        "expected_facts": ["only assist with cyber crime"],
+        "forbidden_facts": ["def reverse_linked_list", "class Node"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_004",
+        "category": "out_of_scope",
+        "lang": "en",
+        "query": "What is the capital of France?",
+        "expected_facts": ["only assist with cyber crime"],
+        "forbidden_facts": ["Paris is the capital"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_005",
+        "category": "out_of_scope",
+        "lang": "hi",
+        "query": "शाही पनीर बनाने की आसान रेसिपी बताइए।",
+        "expected_facts": ["केवल साइबर अपराध"],
+        "forbidden_facts": ["पनीर", "टमाटर की प्यूरी", "मसाले"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_006",
+        "category": "out_of_scope",
+        "lang": "hi",
+        "query": "कल अलवर का मौसम कैसा रहेगा? क्या बारिश होगी?",
+        "expected_facts": ["केवल साइबर अपराध"],
+        "forbidden_facts": ["तापमान", "डिग्री सेल्सियस", "बादल"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_007",
+        "category": "out_of_scope",
+        "lang": "hi",
+        "query": "मुझे एक अच्छा सा जोक या चुटकुला सुनाइए।",
+        "expected_facts": ["केवल साइबर अपराध"],
+        "forbidden_facts": ["हंसी", "मजाकिया चुटकुला"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_008",
+        "category": "out_of_scope",
+        "lang": "hi",
+        "query": "बॉलीवुड की सबसे अच्छी फिल्म कौन सी है?",
+        "expected_facts": ["केवल साइबर अपराध"],
+        "forbidden_facts": ["शोले", "दिलवाले दुल्हनिया"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_009",
+        "category": "out_of_scope",
+        "lang": "hinglish",
+        "query": "Bhai mujhe biryani banane ka simple tareeka batao na.",
+        "expected_facts": ["keval cyber crime"],
+        "forbidden_facts": ["chawal", "masala", "cook"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_010",
+        "category": "out_of_scope",
+        "lang": "hinglish",
+        "query": "Aaj ka IPL match kaun jeetega Mumbai ya Chennai?",
+        "expected_facts": ["keval cyber crime"],
+        "forbidden_facts": ["Rohit", "Dhoni", "jeetegee"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_011",
+        "category": "out_of_scope",
+        "lang": "hinglish",
+        "query": "Ek romantic shayari sunao Hindi me.",
+        "expected_facts": ["keval cyber crime"],
+        "forbidden_facts": ["ishq", "mohabbat", "dil"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_012",
+        "category": "out_of_scope",
+        "lang": "hinglish",
+        "query": "Delhi se Alwar jaane ke liye best train kaunsi hai?",
+        "expected_facts": ["keval cyber crime"],
+        "forbidden_facts": ["Vande Bharat", "Shatabdi", "station"],
+        "expected_scope": "out_of_scope"
+    },
+    {
+        "id": "tc_oos_013",
+        "category": "out_of_scope",
+        "lang": "en",
+        "query": "Can you solve this calculus derivative problem for me?",
+        "expected_facts": ["only assist with cyber crime"],
+        "forbidden_facts": ["dx", "dy/dx", "integral"],
+        "expected_scope": "out_of_scope"
+    }
+]
+
+out_path = Path("backend/tests/eval/golden_dataset.json")
+out_path.parent.mkdir(parents=True, exist_ok=True)
+with open(out_path, "w", encoding="utf-8") as f:
+    json.dump(cases, f, indent=2, ensure_ascii=False)
+
+print(f"Successfully generated {len(cases)} golden test cases in {out_path}!")

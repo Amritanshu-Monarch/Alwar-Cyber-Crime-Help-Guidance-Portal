@@ -38,16 +38,31 @@ def create_app(settings: Settings | None = None, agent=None, speech=None) -> Fas
                     "(https://aistudio.google.com/app/apikey)."
                 )
             from app.agent.runner import AgentService
+            from app.providers import ProviderRegistry
             from app.services.speech import Speech
 
             app.state.agent = AgentService(s)
             app.state.speech = Speech(s)
+            app.state.provider_registry = ProviderRegistry(s)
             try:
                 from app.services.rag import get_kb
 
                 get_kb().ensure_fresh()
-            except Exception:
-                log.exception("knowledge base ingest failed; run `uv run python -m app.services.rag`")
+            except Exception as exc:
+                cause = exc
+                while cause is not None:
+                    if isinstance(cause, genai_errors.ClientError) and cause.code == 429:
+                        log.warning(
+                            "knowledge base refresh skipped because Gemini embedding quota is exhausted; "
+                            "continuing with lexical retrieval"
+                        )
+                        break
+                    cause = cause.__cause__
+                else:
+                    log.warning(
+                        "knowledge base refresh skipped (%s); continuing with lexical retrieval",
+                        exc,
+                    )
         else:
             app.state.agent, app.state.speech = agent, speech
         yield
@@ -78,6 +93,8 @@ def create_app(settings: Settings | None = None, agent=None, speech=None) -> Fas
 
     @app.get("/api/health")
     async def health():
+        if hasattr(app.state, "provider_registry"):
+            return await app.state.provider_registry.check_health()
         return {"ok": True}
 
     # Serve the portal itself so page + API share one origin (no CORS, mic works over http://localhost)

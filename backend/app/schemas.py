@@ -13,9 +13,10 @@ class Artifact(BaseModel):
 
 class AgentResult(BaseModel):
     reply: str
-    tools_used: list[str] = []
-    sources: list[str] = []
-    artifacts: list[Artifact] = []
+    tools_used: list[str] = Field(default_factory=list)
+    sources: list[str] = Field(default_factory=list)
+    artifacts: list[Artifact] = Field(default_factory=list)
+    citation_note: str = Field(default="")
 
 
 class ChatIn(BaseModel):

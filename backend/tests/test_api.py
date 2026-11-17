@@ -91,6 +91,31 @@ def test_voice_rejects_bad_mime(client):
     assert client.post("/api/voice", data={"session_id": SID}, files=files).status_code == 415
 
 
+def test_voice_accepts_webm(client):
+    """audio/webm is accepted — Chrome and Firefox MediaRecorder default format.
+    Gemini STT supports audio/webm (confirmed aistudio.google.com/docs/audio 2026-11-16).
+    """
+    files = {"audio": ("recording.webm", b"\x00" * 100, "audio/webm")}
+    r = client.post("/api/voice", data={"session_id": SID}, files=files)
+    # 200 (transcript returned) or 422 (no speech detected) both mean MIME was accepted
+    assert r.status_code in (200, 422), f"Expected 200/422 for audio/webm, got {r.status_code}"
+
+
+def test_voice_accepts_webm_with_codec_suffix(client):
+    """audio/webm;codecs=opus (Chrome MediaRecorder exact output) is accepted after codec suffix strip."""
+    files = {"audio": ("recording.webm", b"\x00" * 100, "audio/webm;codecs=opus")}
+    r = client.post("/api/voice", data={"session_id": SID}, files=files)
+    assert r.status_code in (200, 422), f"Expected 200/422 for audio/webm;codecs=opus, got {r.status_code}"
+
+
+def test_voice_rejects_truly_unsupported_mime(client):
+    """Truly unsupported MIME types (video/mp4, application/pdf) still return 415."""
+    for bad_mime in ("video/mp4", "application/pdf", "text/plain", "image/jpeg"):
+        files = {"audio": ("file", b"abc", bad_mime)}
+        r = client.post("/api/voice", data={"session_id": SID}, files=files)
+        assert r.status_code == 415, f"Expected 415 for {bad_mime}, got {r.status_code}"
+
+
 def test_voice_rejects_too_large_and_empty(client):
     assert client.post("/api/voice", data={"session_id": SID}, files=wav_file(2000)).status_code == 413
     assert client.post("/api/voice", data={"session_id": SID}, files=wav_file(0)).status_code == 413
@@ -113,3 +138,27 @@ def test_rate_limit():
     with TestClient(create_app(s, FakeAgent(), FakeSpeech())) as c:
         codes = [c.post("/api/chat", json={"session_id": SID, "message": "hi"}).status_code for _ in range(3)]
     assert codes == [200, 200, 429]
+
+
+def test_frontend_chat_timeout_and_fallback_distinction():
+    """Verify that index.html sets a safe fetch timeout >= 30000ms, renders citations, and distinguishes offline fallback."""
+    import re
+    from pathlib import Path
+
+    index_path = Path(__file__).resolve().parent.parent.parent / "index.html"
+    assert index_path.exists(), "index.html not found"
+    content = index_path.read_text(encoding="utf-8")
+
+    # Safe timeout check (Task 2)
+    match = re.search(r"setTimeout\s*\(\s*\(\)\s*=>\s*controller\.abort\(\)\s*,\s*(\d+)\s*\)", content)
+    assert match, "Abort timeout not found in index.html"
+    timeout_ms = int(match.group(1))
+    assert timeout_ms >= 30000, f"Frontend timeout {timeout_ms}ms is too short for backend LLM execution"
+
+    # Citation note visibility in addBubble (Task 3)
+    assert "citationNote" in content, "citationNote parameter not found in addBubble"
+    assert "📌" in content, "Citation badge rendering not found in index.html"
+
+    # Offline fallback distinction (Task 2)
+    assert "isFallback" in content, "isFallback parameter not found in addBubble"
+    assert "Offline Guidance" in content or "ऑफलाइन गाइड" in content, "Fallback distinction message not found"

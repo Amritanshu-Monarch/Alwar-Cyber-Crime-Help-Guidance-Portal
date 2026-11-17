@@ -23,12 +23,64 @@ PROTECTED_TERMS = frozenset(
     {
         "1930", "112", "1090", "upi", "otp", "sim", "kyc", "fir", "sho", "bank", "sms", "call", "apk",
         "pin", "cvv", "imei", "ceir", "chakshu", "tafcop", "bns", "bnss", "it", "alwar", "thana", "gpay",
-        "phonepe", "paytm", "cyber", "police", "arrest", "zero", "loan", "fraud", "scam"
+        "phonepe", "paytm", "cyber", "police", "arrest", "zero", "loan", "fraud", "scam",
+        "mrm", "grm", "gac", "aeps", "stopncii", "sachet", "ncrp", "lien", "discom", "challan",
+        "unfreeze", "utr", "aadhaar", "pan", "biometric"
     }
 )
 
 # Common Hinglish/Hindi colloquial idioms mapped to search concepts
 EXPANSION_RULES = [
+    # MRM / GRM Portal & Lien / Freeze Recovery
+    (
+        re.compile(r"\b(mrm(\s*portal)?|grm(\s*portal)?|lien(\s*amount)?|hold\s*(paisa|paise|money)|freeze\s*(paisa|paise|account)|unfreeze\s*(account|bank))\b", re.IGNORECASE),
+        "mrm portal money refund mechanism grm grievance redressal unfreeze bank account lien release ncrp 1930 cyber cell",
+    ),
+    # Wrong UPI Transfer
+    (
+        re.compile(r"\b(wrong\s*upi|galat\s*(upi|account|khate)|wrong\s*transfer|accidental\s*transfer|galti\s*se\s*bhej)\b", re.IGNORECASE),
+        "wrong upi transfer accidental payment npci dispute reversal bank complaint 48 hours 1930",
+    ),
+    # Call Forwarding Scam
+    (
+        re.compile(r"\b(call\s*forwarding|\*21\*|\*401\*|##002#|\*#62#)\b", re.IGNORECASE),
+        "call forwarding scam otp theft dial code stop cancel ##002# telecom operator",
+    ),
+    # AePS Biometric Fraud
+    (
+        re.compile(r"\b(aeps|aadhaar\s*(enabled|fingerprint|biometric)|biometric\s*fraud|fingerprint\s*(clone|fraud))\b", re.IGNORECASE),
+        "aeps aadhaar enabled payment system biometric cloning fingerprint fraud lock biometrics maadhaar bank complaint",
+    ),
+    # StopNCII & Non-consensual Image Abuse
+    (
+        re.compile(r"\b(stopncii|stop\s*ncii|intimate\s*(photo|image|video)|morphed\s*(photo|pic)|aslil\s*photo)\b", re.IGNORECASE),
+        "stopncii non consensual intimate image hash digital fingerprint takedown it act 66E 67 cybercrime.gov.in",
+    ),
+    # Social Media Grievance Officers & GAC Appeals
+    (
+        re.compile(r"\b(grievance\s*officer|gac(\s*portal)?|social\s*media\s*complaint|it\s*rules\s*2021)\b", re.IGNORECASE),
+        "social media grievance officer india whatsapp meta facebook instagram x google telegram gac.gov.in appeal 15 days",
+    ),
+    # Illegal Loan App Harassment
+    (
+        re.compile(r"\b(loan\s*app|instant\s*loan|7\s*days?\s*loan|contacts?\s*par\s*call|blackmail\s*loan)\b", re.IGNORECASE),
+        "illegal instant loan app harassment contact list access extortion rbi sachet cyber cell report",
+    ),
+    # Fake e-Challan & Courier Parcel APK Scam
+    (
+        re.compile(r"\b(challan\s*apk|vahan\s*challan|traffic\s*challan|courier\s*(apk|parcel)|speed\s*post\s*apk|india\s*post\s*sms)\b", re.IGNORECASE),
+        "fake traffic echallan apk courier parcel delivery scam malicious apk sancharsaathi",
+    ),
+    # Fake Electricity Bill Disconnection Scam
+    (
+        re.compile(r"\b(bijli\s*bill|electricity\s*bill|power\s*cut|bijli\s*kat\s*jayegi|discom\s*officer)\b", re.IGNORECASE),
+        "fake electricity bill disconnection scam discom kyc apk payment fraud",
+    ),
+    # Fake Part-Time Job / Task Scam
+    (
+        re.compile(r"\b(part\s*time\s*job|telegram\s*task|like\s*(video|youtube)|prepaid\s*task|work\s*from\s*home\s*scam)\b", re.IGNORECASE),
+        "fake part time job task scam telegram prepaid task crypto deposit fraud 1930",
+    ),
     # Financial fraud / unauthorized debit
     (
         re.compile(r"\b(paise?\s+(kat|nikal|ud|chale)\s*(gaye?|liye?)|khate?\s+se\s+paise?|account\s+se\s+paisa)\b", re.IGNORECASE),
@@ -58,8 +110,8 @@ EXPANSION_RULES = [
     ),
     # Digital arrest and impersonation
     (
-        re.compile(r"\b(digital\s*arrest|cbi\s*(call|officer)|police\s*threat|skype\s*arrest|fake\s*warrant)\b", re.IGNORECASE),
-        "digital arrest scam police cbi impersonation fake arrest video call no provision in law",
+        re.compile(r"\b(digital\s*arrest|cbi\s*(call|officer|video)|police\s*threat|skype\s*arrest|fake\s*warrant|customs\s*(parcel|arrest))\b", re.IGNORECASE),
+        "digital arrest scam police cbi impersonation fake arrest video call no provision in law hang up 1930",
     ),
     # Harassment and stalking
     (
@@ -70,6 +122,16 @@ EXPANSION_RULES = [
     (
         re.compile(r"\b(fake\s*profile|nakli\s*(id|account)|mera\s*naam\s*se\s*account|फेक\s*(प्रोफाइल|अकाउंट|आईडी)|नकली\s*(प्रोफाइल|आईडी))\b", re.IGNORECASE),
         "fake profile social media impersonation report account identity theft",
+    ),
+    # Telegram account recovery (keep this distinct from Telegram task/job scams)
+    (
+        re.compile(
+            r"(?:\btelegram\b.*\b(?:hack|hacked|recover|login|account|access)\b)|"
+            r"(?:\b(?:hack|hacked|recover|login|account|access)\b.*\btelegram\b)|"
+            r"(?:टेलीग्राम.*(?:हैक|रिकवर|लॉगिन|अकाउंट))",
+            re.IGNORECASE,
+        ),
+        "telegram hacked account recovery terminate telegram sessions two step verification telegram support official login reset",
     ),
     # Account hacking
     (
@@ -139,8 +201,8 @@ def classify_domains(query: str) -> list[str]:
     if words and words.issubset(greeting_patterns):
         return ["conversation"]
 
-    # 1. Deepfake
-    if any(k in q for k in ("deepfake", "deep fake", "morphed", "face swap", "ai video", "ai photo", "ai voice", "nakli video", "डीपफेक", "मॉर्फ")):
+    # 1. Deepfake & StopNCII
+    if any(k in q for k in ("deepfake", "deep fake", "morphed", "face swap", "ai video", "ai photo", "ai voice", "nakli video", "डीपफेक", "मॉर्फ", "stopncii", "stop ncii")):
         domains.add("deepfake")
         domains.add("social_media")
 
@@ -149,23 +211,28 @@ def classify_domains(query: str) -> list[str]:
         domains.add("sextortion")
         domains.add("harassment")
 
-    # 3. Harassment & Stalking & Fake Profile
-    if any(k in q for k in ("harass", "stalk", "dhamki", "threat", "abuse", "gali", "badtameezi", "fake profile", "impersonat", "धमकी", "गाली", "फेक प्रोफाइल", "नकली प्रोफाइल", "इंस्टाग्राम", "व्हाट्सएप", "फेसबुक")):
+    # 3. Harassment & Stalking & Fake Profile & Grievance Officers
+    if any(k in q for k in ("harass", "stalk", "dhamki", "threat", "abuse", "gali", "badtameezi", "fake profile", "impersonat", "grievance officer", "gac portal", "gac.gov.in", "धमकी", "गाली", "फेक प्रोफाइल", "नकली प्रोफाइल", "इंस्टाग्राम", "व्हाट्सएप", "फेसबुक")):
         domains.add("harassment")
         domains.add("social_media")
+        if any(k in q for k in ("grievance officer", "gac portal", "gac.gov.in")):
+            domains.add("reporting")
 
     # 4. Financial fraud (Only if money loss / transaction occurred or discussed)
     has_money_terms = any(k in q for k in (
-        "paise", "paisa", "rupee", "rs", "inr", "upi", "gpay", "phonepe", "paytm", "bank", "debit", "card",
-        "atm", "account se", "kat gaye", "chori ho gaye", "transferred", "fraud", "loot", "पैसे", "रुपए",
+        "paise", "paisa", "rupee", "upi", "gpay", "phonepe", "paytm", "bank", "debit", "card",
+        "account se", "kat gaye", "chori ho gaye", "transferred", "fraud", "loot", "पैसे", "रुपए",
         "कट गए", "खाते", "बैंक", "digital arrest", "job scam", "task scam", "investment", "trading scam",
-        "loan app", "deposit"
-    ))
+        "loan app", "deposit", "mrm", "grm", "lien", "unfreeze", "wrong upi", "aeps", "electricity bill",
+        "bijli bill", "challan"
+    )) or bool(re.search(r"\b(?:rs\.?|inr|atm)\b|\brs\s*\d+", q, re.IGNORECASE))
     # Distinguish extortion demand ("asking for money") from actual financial loss
     is_demanding_only = any(k in q for k in ("demanding money", "asking for money", "paisa mang raha", "paise mang", "पैसे मांग")) and not any(k in q for k in ("kat gaye", "bhej diye", "transferred", "paid", "de diye", "कट गए", "दे दिए"))
     
     if has_money_terms and not is_demanding_only:
         domains.add("financial_fraud")
+        if any(k in q for k in ("mrm", "grm", "lien", "unfreeze", "refund")):
+            domains.add("reporting")
 
     # 5. Account Hacking
     if any(k in q for k in ("hack", "hacked", "login nahi", "access kho", "password change", "account takeover", "हैक")):
@@ -177,12 +244,14 @@ def classify_domains(query: str) -> list[str]:
         domains.add("phishing")
 
     # 7. Malware
-    if any(k in q for k in ("apk", "anydesk", "teamviewer", "quicksupport", "malware", "virus", "screen share")):
+    if any(k in q for k in ("anydesk", "teamviewer", "quicksupport", "malware", "virus", "screen share", "challan apk")) or bool(re.search(r"\bapk\b", q, re.IGNORECASE)):
         domains.add("malware")
 
     # 8. Telecom
-    if any(k in q for k in ("sim swap", "sim block", "sim band", "chakshu", "tafcop", "farzi call", "fake call", "spam call", "mobile connection", "connection", "in my name", "registered in my name")):
+    if any(k in q for k in ("sim swap", "sim block", "sim band", "chakshu", "tafcop", "farzi call", "fake call", "spam call", "mobile connection", "connection", "in my name", "registered in my name", "call forwarding", "*21*", "*401*", "##002#")):
         domains.add("telecom")
+        if any(k in q for k in ("call forwarding", "*21*", "*401*", "##002#")):
+            domains.add("malware")
 
     # 9. Device
     if any(k in q for k in ("lost phone", "stolen phone", "phone kho", "mobile chori", "ceir", "imei")):
@@ -194,7 +263,7 @@ def classify_domains(query: str) -> list[str]:
         domains.add("local_police")
 
     # 11. Reporting & Evidence
-    if any(k in q for k in ("1930", "cybercrime.gov.in", "fir", "zero fir", "report", "complaint", "shikayat", "evidence", "saboot", "proof", "documents", "screenshot")):
+    if any(k in q for k in ("1930", "cybercrime.gov.in", "zero fir", "report", "complaint", "shikayat", "evidence", "saboot", "proof", "documents", "screenshot", "शिकायत", "दर्ज", "एफआईआर", "साइबर", "शुल्क", "फीस")) or bool(re.search(r"\bfir\b", q, re.IGNORECASE)):
         domains.add("reporting")
         domains.add("evidence")
 

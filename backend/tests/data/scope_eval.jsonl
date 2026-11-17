@@ -1,0 +1,150 @@
+{"query": "Someone debited 20000 rupees from my UPI account without my permission", "lang": "en", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "I shared OTP with a fake bank caller and money was deducted", "lang": "en", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "How do I report financial fraud on 1930 helpline?", "lang": "en", "label": "in_scope", "domain": "reporting"}
+{"query": "Where is the Alwar Cyber Crime police station located?", "lang": "en", "label": "in_scope", "domain": "local_police"}
+{"query": "Someone created a deepfake nude video of my sister and is blackmailing her", "lang": "en", "label": "in_scope", "domain": "deepfake"}
+{"query": "What is StopNCII.org and how does it prevent morphed photos from spreading?", "lang": "en", "label": "in_scope", "domain": "deepfake"}
+{"query": "A loan app is threatening to send morphed photos to my contact list", "lang": "en", "label": "in_scope", "domain": "harassment"}
+{"query": "My WhatsApp account was hacked using an OTP scam", "lang": "en", "label": "in_scope", "domain": "account_hacking"}
+{"query": "My Instagram account was taken over and hacker is asking money from followers", "lang": "en", "label": "in_scope", "domain": "account_hacking"}
+{"query": "I lost my Android smartphone, how do I block its IMEI on CEIR portal?", "lang": "en", "label": "in_scope", "domain": "device"}
+{"query": "Someone is posing as police on Skype and threatening me with digital arrest", "lang": "en", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "I received an APK file on WhatsApp promising electricity bill update", "lang": "en", "label": "in_scope", "domain": "malware"}
+{"query": "How do I deactivate call forwarding on my Airtel SIM using *401*?", "lang": "en", "label": "in_scope", "domain": "telecom"}
+{"query": "Someone withdrew 10000 rupees using AePS fingerprint biometric clone", "lang": "en", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "I accidentally transferred money to the wrong UPI ID, how to reverse it?", "lang": "en", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "How do I get my frozen bank account unfreezed through MRM portal?", "lang": "en", "label": "in_scope", "domain": "reporting"}
+{"query": "What is the difference between an NCRP portal complaint and an FIR?", "lang": "en", "label": "in_scope", "domain": "reporting"}
+{"query": "What digital evidence should I keep ready before going to police station?", "lang": "en", "label": "in_scope", "domain": "evidence"}
+{"query": "How to report sextortion and extortion calls on cybercrime portal?", "lang": "en", "label": "in_scope", "domain": "sextortion"}
+{"query": "How do I do domestic servant or tenant verification in Alwar?", "lang": "en", "label": "in_scope", "domain": "local_police"}
+{"query": "What is the phone number of Alwar Police Cyber Control Room?", "lang": "en", "label": "in_scope", "domain": "local_police"}
+{"query": "I got an SMS saying my electricity will be cut tonight update KYC", "lang": "en", "label": "in_scope", "domain": "phishing"}
+{"query": "A fake part-time job Telegram group scammed me of 50000 rupees", "lang": "en", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "Someone cloned my Facebook profile and is asking money from my friends", "lang": "en", "label": "in_scope", "domain": "social_media"}
+{"query": "How do I report cyber stalking and harassment on social media?", "lang": "en", "label": "in_scope", "domain": "harassment"}
+{"query": "How to make a delicious chocolate brownie at home?", "lang": "en", "label": "out_of_scope", "domain": "cooking"}
+{"query": "What is the current score in the India vs Australia cricket match?", "lang": "en", "label": "out_of_scope", "domain": "sports"}
+{"query": "Can you explain the theory of special relativity in simple words?", "lang": "en", "label": "out_of_scope", "domain": "physics"}
+{"query": "Write a python function to sort a binary search tree", "lang": "en", "label": "out_of_scope", "domain": "coding"}
+{"query": "Who is the Prime Minister of Canada right now?", "lang": "en", "label": "out_of_scope", "domain": "politics"}
+{"query": "Tell me a funny joke about doctors and patients", "lang": "en", "label": "out_of_scope", "domain": "entertainment"}
+{"query": "What are the best tourist places to visit in Jaipur during winter?", "lang": "en", "label": "out_of_scope", "domain": "tourism"}
+{"query": "What are the symptoms of high blood pressure and how to treat it?", "lang": "en", "label": "out_of_scope", "domain": "health"}
+{"query": "How do I change the engine oil of my Honda City car?", "lang": "en", "label": "out_of_scope", "domain": "automotive"}
+{"query": "What is the weather forecast for Alwar tomorrow morning?", "lang": "en", "label": "out_of_scope", "domain": "weather"}
+{"query": "What is the plot summary of the movie Inception?", "lang": "en", "label": "out_of_scope", "domain": "movies"}
+{"query": "How to plant tomatoes in a rooftop vegetable garden?", "lang": "en", "label": "out_of_scope", "domain": "gardening"}
+{"query": "Can you solve this algebraic equation 3x plus 5 equals 20?", "lang": "en", "label": "out_of_scope", "domain": "mathematics"}
+{"query": "What is the latest share price of Reliance Industries on NSE?", "lang": "en", "label": "out_of_scope", "domain": "finance"}
+{"query": "Which team won the FIFA football world cup in 2022?", "lang": "en", "label": "out_of_scope", "domain": "sports"}
+{"query": "Someone is calling me repeatedly", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "I clicked on a strange link on my phone", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "My phone stopped working suddenly", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "How do I file a general complaint?", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Can you give me police station contact details?", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "I received an unexpected message today", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Someone took something from me", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Please help me urgently", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Is this message safe or dangerous?", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "How do I talk to an officer?", "lang": "en", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "मेरे बैंक खाते से यूपीआई के जरिए बिना ओटीपी के 25000 रुपये कट गए हैं", "lang": "hi", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "फर्जी बैंक अधिकारी बनकर कॉल आया और ओटीपी पूछते ही पैसे कट गए", "lang": "hi", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "1930 नेशनल साइबर हेल्पलाइन पर शिकायत कैसे दर्ज कराएं?", "lang": "hi", "label": "in_scope", "domain": "reporting"}
+{"query": "अलवर साइबर अपराध थाना कहां स्थित है और संपर्क नंबर क्या है?", "lang": "hi", "label": "in_scope", "domain": "local_police"}
+{"query": "किसी ने मेरी फोटो से अश्लील डीपफेक वीडियो बनाकर ब्लैकमेल करना शुरू कर दिया", "lang": "hi", "label": "in_scope", "domain": "deepfake"}
+{"query": "स्टॉपएनसीआईआई पोर्टल पर फोटो की हैश कैसे बनाई जाती है?", "lang": "hi", "label": "in_scope", "domain": "deepfake"}
+{"query": "लोन ऐप वाले फर्जी फोटो बनाकर रिश्तेदारों को भेजने की धमकी दे रहे हैं", "lang": "hi", "label": "in_scope", "domain": "harassment"}
+{"query": "मेरा व्हाट्सएप अकाउंट हैक हो गया है और हैकर पैसे मांग रहा है", "lang": "hi", "label": "in_scope", "domain": "account_hacking"}
+{"query": "मेरे इंस्टाग्राम खाते पर किसी अनजान ने कब्जा कर लिया है", "lang": "hi", "label": "in_scope", "domain": "account_hacking"}
+{"query": "मेरा मोबाइल फोन खो गया है संचार साथी पोर्टल पर आईएमईआई कैसे ब्लॉक करें?", "lang": "hi", "label": "in_scope", "domain": "device"}
+{"query": "सीबीआई अधिकारी बनकर वीडियो कॉल पर डिजिटल अरेस्ट की धमकी दे रहे हैं", "lang": "hi", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "व्हाट्सएप पर बिजली बिल अपडेट करने के नाम पर एपीके फाइल भेजी गई है", "lang": "hi", "label": "in_scope", "domain": "malware"}
+{"query": "कॉल फॉरवर्डिंग कैसे बंद करें स्टार 401 स्टार वाला फ्रॉड हुआ है", "lang": "hi", "label": "in_scope", "domain": "telecom"}
+{"query": "एईपीएस बायोमेट्रिक क्लोन बनाकर अंगूठे से बैंक से पैसे निकाल लिए गए", "lang": "hi", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "गलत यूपीआई आईडी पर पैसे ट्रांसफर हो गए हैं पैसे वापस कैसे मिलेंगे?", "lang": "hi", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "साइबर सेल द्वारा होल्ड या फ्रीज किया गया बैंक खाता कैसे खुलवाएं?", "lang": "hi", "label": "in_scope", "domain": "reporting"}
+{"query": "एनसीआरपी पोर्टल शिकायत और पुलिस थाने की एफआईआर में क्या अंतर है?", "lang": "hi", "label": "in_scope", "domain": "reporting"}
+{"query": "थाने जाने से पहले कौन से डिजिटल साक्ष्य और स्क्रीनशॉट तैयार रखने चाहिए?", "lang": "hi", "label": "in_scope", "domain": "evidence"}
+{"query": "सेक्सटॉर्शन और वीडियो कॉल ब्लैकमेलिंग की शिकायत कहां दर्ज कराएं?", "lang": "hi", "label": "in_scope", "domain": "sextortion"}
+{"query": "अलवर में किरायेदार और घरेलू नौकर का पुलिस सत्यापन कैसे होता है?", "lang": "hi", "label": "in_scope", "domain": "local_police"}
+{"query": "अलवर साइबर कंट्रोल रूम का हेल्पलाइन नंबर क्या है?", "lang": "hi", "label": "in_scope", "domain": "local_police"}
+{"query": "मैसेज आया है कि आज रात बिजली काट दी जाएगी तुरंत संपर्क करें", "lang": "hi", "label": "in_scope", "domain": "phishing"}
+{"query": "घर बैठे पार्ट टाइम जॉब के नाम पर टेलीग्राम ग्रुप में फ्रॉड हो गया", "lang": "hi", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "मेरी फेसबुक प्रोफाइल की कॉपी बनाकर किसी ने दोस्तों से पैसे मांगे", "lang": "hi", "label": "in_scope", "domain": "social_media"}
+{"query": "सोशल मीडिया पर लगातार साइबर स्टॉकिंग और गाली-गलौज हो रही है", "lang": "hi", "label": "in_scope", "domain": "harassment"}
+{"query": "घर पर स्वादिष्ट गुलाब जामुन बनाने की सही विधि क्या है?", "lang": "hi", "label": "out_of_scope", "domain": "cooking"}
+{"query": "आज के क्रिकेट मैच में भारत का कितना स्कोर हुआ है?", "lang": "hi", "label": "out_of_scope", "domain": "sports"}
+{"query": "सौरमंडल के सभी ग्रहों के नाम और उनकी दूरी बताइए", "lang": "hi", "label": "out_of_scope", "domain": "astronomy"}
+{"query": "पाइथन प्रोग्रामिंग में फॉर लूप कैसे काम करता है?", "lang": "hi", "label": "out_of_scope", "domain": "coding"}
+{"query": "भारत के वर्तमान राष्ट्रपति कौन हैं और उनका कार्यकाल कब तक है?", "lang": "hi", "label": "out_of_scope", "domain": "politics"}
+{"query": "अकबर और बीरबल का कोई मजेदार किस्सा सुनाइए", "lang": "hi", "label": "out_of_scope", "domain": "entertainment"}
+{"query": "अलवर में सिलीसेढ़ झील घूमने का सबसे अच्छा समय कौन सा है?", "lang": "hi", "label": "out_of_scope", "domain": "tourism"}
+{"query": "सर्दी जुकाम ठीक करने के घरेलू आयुर्वेदिक उपाय क्या हैं?", "lang": "hi", "label": "out_of_scope", "domain": "health"}
+{"query": "मोटरसाइकिल का माइलेज कैसे बढ़ाएं और पेट्रोल कैसे बचाएं?", "lang": "hi", "label": "out_of_scope", "domain": "automotive"}
+{"query": "कल अलवर जिले में बारिश होगी या धूप निकलेगी?", "lang": "hi", "label": "out_of_scope", "domain": "weather"}
+{"query": "शोले फिल्म किस साल में रिलीज हुई थी और इसके निर्देशक कौन थे?", "lang": "hi", "label": "out_of_scope", "domain": "movies"}
+{"query": "गेहूं की अच्छी फसल के लिए कौन सी खाद डालनी चाहिए?", "lang": "hi", "label": "out_of_scope", "domain": "agriculture"}
+{"query": "कक्षा 10वीं के गणित के त्रिकोणमिति के सूत्र समझाइए", "lang": "hi", "label": "out_of_scope", "domain": "mathematics"}
+{"query": "शेयर बाजार में म्यूचुअल फंड में निवेश करने का तरीका क्या है?", "lang": "hi", "label": "out_of_scope", "domain": "finance"}
+{"query": "पेरिस ओलंपिक में भारत ने कुल कितने पदक जीते थे?", "lang": "hi", "label": "out_of_scope", "domain": "sports"}
+{"query": "कोई मुझे बार-बार फोन करके परेशान कर रहा है", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "मेरे फोन पर एक अजीब सा लिंक आया था मैंने खोल दिया", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "मेरा मोबाइल अचानक से बंद हो गया है चल नहीं रहा", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "थाने में शिकायत पत्र कैसे लिखना होता है?", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "थाना अधिकारी का फोन नंबर मिल सकता है क्या?", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "आज मेरे पास एक संदेश आया था", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "किसी ने मेरा कुछ नुकसान कर दिया है", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "कृपया मेरी जल्दी मदद कीजिए बहुत जरूरी है", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "यह मैसेज सही है या फर्जी लग रहा है आपको?", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "मुझे पुलिस से बात करनी है कैसे करूं?", "lang": "hi", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Mere account se abhi 30000 rupaye cut gaye UPI se kisine hack kar liya", "lang": "hinglish", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "Bank ka fake call aaya tha OTP bata diya aur paise nikal gaye", "lang": "hinglish", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "1930 par complaint kaise karein golden hour me?", "lang": "hinglish", "label": "in_scope", "domain": "reporting"}
+{"query": "Alwar cyber cell thana ka location aur contact number batao", "lang": "hinglish", "label": "in_scope", "domain": "local_police"}
+{"query": "Kisine meri photo ka deepfake video banakar blackmail kar raha hai", "lang": "hinglish", "label": "in_scope", "domain": "deepfake"}
+{"query": "StopNCII.org pe hash kaise create karein photo hatane ke liye?", "lang": "hinglish", "label": "in_scope", "domain": "deepfake"}
+{"query": "Chinese loan app wale contact list hack karke dhamki de rahe hain", "lang": "hinglish", "label": "in_scope", "domain": "harassment"}
+{"query": "Mera WhatsApp account hack ho gaya hacker sabko paise mangne ke msg bhej raha hai", "lang": "hinglish", "label": "in_scope", "domain": "account_hacking"}
+{"query": "Instagram account login nahi ho raha kisi hacker ne takeover kar liya", "lang": "hinglish", "label": "in_scope", "domain": "account_hacking"}
+{"query": "Mera phone chori ho gaya CEIR portal pe IMEI kaise block karein?", "lang": "hinglish", "label": "in_scope", "domain": "device"}
+{"query": "Police bankar Skype video call pe bola digital arrest me ho 2 lakh mang rahe hain", "lang": "hinglish", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "WhatsApp pe bijli bill update karne ki APK file aayi thi phone hang ho gaya", "lang": "hinglish", "label": "in_scope", "domain": "malware"}
+{"query": "Call forwarding dial code *401* lag gaya hai cancel kaise karein ##002# se?", "lang": "hinglish", "label": "in_scope", "domain": "telecom"}
+{"query": "AePS biometric machine se mere khate se bina bataye paise nikal liye", "lang": "hinglish", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "Galat UPI ID pe galti se 10000 rupaye chale gaye wapas kaise aayenge?", "lang": "hinglish", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "Bank account cyber cell ne hold par daal diya freeze hatane ke liye MRM portal help", "lang": "hinglish", "label": "in_scope", "domain": "reporting"}
+{"query": "NCRP portal complaint aur police FIR me kya fark hota hai?", "lang": "hinglish", "label": "in_scope", "domain": "reporting"}
+{"query": "Police thana me cyber complaint ke liye kya proof aur document le jane hain?", "lang": "hinglish", "label": "in_scope", "domain": "evidence"}
+{"query": "Video call sextortion blackmail fraud ki complaint kahan karein?", "lang": "hinglish", "label": "in_scope", "domain": "sextortion"}
+{"query": "Alwar me tenant aur servant verification form kaise bharna hai?", "lang": "hinglish", "label": "in_scope", "domain": "local_police"}
+{"query": "Alwar police cyber control room ka desk number kya hai?", "lang": "hinglish", "label": "in_scope", "domain": "local_police"}
+{"query": "Message aaya hai electricity cut off tonight update documents immediately", "lang": "hinglish", "label": "in_scope", "domain": "phishing"}
+{"query": "Telegram pe work from home review task ke naam pe 1 lakh ka scam ho gaya", "lang": "hinglish", "label": "in_scope", "domain": "financial_fraud"}
+{"query": "Facebook profile duplicate banakar relative se paise mang rahe hain", "lang": "hinglish", "label": "in_scope", "domain": "social_media"}
+{"query": "Social media pe kisine fake account banakar character assassination shuru kar di", "lang": "hinglish", "label": "in_scope", "domain": "harassment"}
+{"query": "Biryani banane ki authentic Hyderabadi recipe batao", "lang": "hinglish", "label": "out_of_scope", "domain": "cooking"}
+{"query": "Virat Kohli ne total kitne international centuries banaye hain?", "lang": "hinglish", "label": "out_of_scope", "domain": "sports"}
+{"query": "Black hole kya hota hai aur gravitational wave kaise banti hai?", "lang": "hinglish", "label": "out_of_scope", "domain": "physics"}
+{"query": "React js me custom hook kaise banate hain code dikhao", "lang": "hinglish", "label": "out_of_scope", "domain": "coding"}
+{"query": "America me agla election kab hone wala hai?", "lang": "hinglish", "label": "out_of_scope", "domain": "politics"}
+{"query": "Ek accha sa mast comedy joke sunao", "lang": "hinglish", "label": "out_of_scope", "domain": "entertainment"}
+{"query": "Alwar se Sariska tiger reserve ghoomne ka plan kaise banayein?", "lang": "hinglish", "label": "out_of_scope", "domain": "tourism"}
+{"query": "Sir dard aur fever ke liye kaunsi medicine acchi rehti hai?", "lang": "hinglish", "label": "out_of_scope", "domain": "health"}
+{"query": "Car ka AC cooling nahi kar raha gas leak kaise check karein?", "lang": "hinglish", "label": "out_of_scope", "domain": "automotive"}
+{"query": "Alwar me kal subah mausam kaisa rahega dhoop niklegi kya?", "lang": "hinglish", "label": "out_of_scope", "domain": "weather"}
+{"query": "Pushpa 2 movie kab release ho rahi hai theatres me?", "lang": "hinglish", "label": "out_of_scope", "domain": "movies"}
+{"query": "Balka khet me sarson ki buaai ke liye best beej kaunsa hai?", "lang": "hinglish", "label": "out_of_scope", "domain": "agriculture"}
+{"query": "Class 12th physics ke integration ke sawal solve karo", "lang": "hinglish", "label": "out_of_scope", "domain": "mathematics"}
+{"query": "Crypto bitcoin me invest karna chahiye ya gold me?", "lang": "hinglish", "label": "out_of_scope", "domain": "finance"}
+{"query": "IPL 2026 ka final match kis stadium me hoga?", "lang": "hinglish", "label": "out_of_scope", "domain": "sports"}
+{"query": "Kisine call karke ajeeb si baat boli thi", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Ek link pe touch ho gaya tha screen pe", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Mera mobile switch off ho gaya chal nahi raha", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Complaint karne ka tareeka bataiye", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Police ka number chahiye tha", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Ek message aaya tha mere number pe", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Mera nuksaan ho gaya hai help chahiye", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Emergency hai urgent help karo please", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "Ye scam hai kya mujhe samajh nahi aa raha", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}
+{"query": "SHO saheb se contact kaise hoga?", "lang": "hinglish", "label": "needs_clarification", "domain": "ambiguous"}

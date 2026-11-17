@@ -1,5 +1,4 @@
 import asyncio
-import base64
 import io
 import logging
 import re
@@ -13,7 +12,21 @@ from app.config import Settings
 log = logging.getLogger(__name__)
 
 TTS_SAMPLE_RATE = 24000  # Default sample rate for mono PCM wrapped by pcm_to_wav
-ALLOWED_AUDIO_MIME = {"audio/wav", "audio/x-wav", "audio/mp3", "audio/mpeg", "audio/ogg", "audio/flac", "audio/aac"}
+
+# Audio MIME types accepted by /api/voice and forwarded to the Gemini STT model.
+# Gemini supports: audio/wav, audio/ogg, audio/webm (confirmed aistudio.google.com/docs/audio).
+# audio/webm added 2026-11-16 — Chrome/Android MediaRecorder produces audio/webm;codecs=opus by
+# default. The codec suffix is stripped before this check (see main.py MIME parsing).
+ALLOWED_AUDIO_MIME = {
+    "audio/wav",
+    "audio/x-wav",
+    "audio/webm",   # Chrome, Android, Firefox (MediaRecorder default)
+    "audio/ogg",    # Firefox alternative
+    "audio/mp3",
+    "audio/mpeg",
+    "audio/flac",
+    "audio/aac",
+}
 
 STT_PROMPT = (
     "Transcribe this audio verbatim. The speaker may use Hindi, English, or a Hindi-English mix (Hinglish). "
@@ -96,19 +109,48 @@ class Speech:
         return ""
 
     async def synthesize(self, text: str) -> bytes:
+        """Convert text to speech using Gemini TTS via generate_content().
+
+        SDK: google-genai 2.30.1
+        Method: client.models.generate_content() with response_modalities=["AUDIO"]
+        Ref: https://googleapis.github.io/python-genai/
+
+        The model returns raw 16-bit mono PCM bytes (not base64) in
+        response.parts[i].inline_data.data. pcm_to_wav() wraps these into
+        a standard WAV container at TTS_SAMPLE_RATE (24000 Hz).
+
+        Previous implementation (removed 2026-11-16) used client.interactions.create()
+        which does not exist in google-genai 2.x and raised AttributeError on every call.
+        """
         clean_text = clean_for_speech(text) or text
+
         def _call():
-            return self._client.interactions.create(
+            return self._client.models.generate_content(
                 model=self._s.tts_model,
-                input=[{"type": "user_input", "content": [{"type": "text", "text": clean_text}]}],
-                response_format={"type": "audio"},
-                generation_config={"speech_config": [{"voice": self._s.tts_voice}]},
+                contents=clean_text,
+                config=types.GenerateContentConfig(
+                    response_modalities=["AUDIO"],
+                    speech_config=types.SpeechConfig(
+                        voice_config=types.VoiceConfig(
+                            prebuilt_voice_config=types.PrebuiltVoiceConfig(
+                                voice_name=self._s.tts_voice
+                            )
+                        )
+                    ),
+                ),
             )
 
         for attempt in range(2):
             try:
                 r = await asyncio.to_thread(_call)
-                return base64.b64decode(r.output_audio.data)
+                # SDK returns raw PCM bytes (NOT base64) in part.inline_data.data
+                for part in r.parts:
+                    if part.inline_data and part.inline_data.data:
+                        return pcm_to_wav(part.inline_data.data)
+                # Response had no audio parts — not a transient error, do not retry
+                raise RuntimeError("TTS response contained no audio parts")
+            except RuntimeError:
+                raise  # re-raise immediately, do not retry
             except Exception as e:
                 log.warning("tts attempt %d failed: %s", attempt + 1, e)
                 if attempt == 1:

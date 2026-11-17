@@ -18,7 +18,17 @@ dependencies = [
 
 [dependency-groups]
 dev = ["pytest", "httpx"]
+eval = [
+  "deepeval==4.3.4",
+  "ragas==0.4.4",
+  "arize-phoenix==20.19.0",
+  "arize-phoenix-otel==0.17.1",
+]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "evaluation/tests"]
 pythonpath = ["."]
+addopts = "-m 'not integration'"
+markers = [
+    "integration: marks tests as real Gemini API tests requiring GOOGLE_API_KEY (deselected by default)",
+]

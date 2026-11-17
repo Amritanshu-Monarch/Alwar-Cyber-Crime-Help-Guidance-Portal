@@ -2,7 +2,24 @@
 Unicode tokenization, local Alwar mapping, and anti-hallucination grounding.
 """
 
-import pytest
+import sys
+from pathlib import Path
+
+# Ensure backend root is on sys.path
+backend_dir = Path(__file__).resolve().parent.parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+
+try:
+    import pytest
+except ImportError:
+    class _MockPytest:
+        @staticmethod
+        def fixture(*args, **kwargs):
+            def decorator(f):
+                return f
+            return decorator
+    pytest = _MockPytest()  # type: ignore
 
 from app.agent import tools
 from app.agent.facts import LOCALITY_TO_STATION, STATIONS
@@ -71,6 +88,7 @@ def kb():
     return k
 
 
+@pytest.mark.integration
 def test_retrieval_test_1_deepfake_no_financial_contamination(kb):
     hits = kb.search("Someone made a deepfake video of me.")
     assert hits, "Expected retrieval hits for deepfake query"
@@ -81,6 +99,7 @@ def test_retrieval_test_1_deepfake_no_financial_contamination(kb):
     assert not any("Bank statement" in h["text"] for h in hits)
 
 
+@pytest.mark.integration
 def test_retrieval_test_2_upi_financial_fraud(kb):
     hits = kb.search("Mere UPI se 50000 rupaye kat gaye.")
     assert hits, "Expected retrieval hits for UPI fraud"
@@ -88,6 +107,7 @@ def test_retrieval_test_2_upi_financial_fraud(kb):
     assert any("1930" in h["text"] for h in hits)
 
 
+@pytest.mark.integration
 def test_retrieval_test_3_hindi_fake_profile(kb):
     hits = kb.search("मेरे इंस्टाग्राम की फेक प्रोफाइल बनाई गई है")
     assert hits, "Expected retrieval hits for fake profile query"
@@ -95,6 +115,7 @@ def test_retrieval_test_3_hindi_fake_profile(kb):
     assert any("fake-profile" in s or "cyber-harassment" in s for s in sources)
 
 
+@pytest.mark.integration
 def test_retrieval_test_4_malicious_apk(kb):
     hits = kb.search("Someone installed a malicious APK on my phone.")
     assert hits, "Expected retrieval hits for APK malware query"
@@ -102,12 +123,14 @@ def test_retrieval_test_4_malicious_apk(kb):
     assert any("Airplane Mode" in h["text"] or "AnyDesk" in h["text"] for h in hits)
 
 
+@pytest.mark.integration
 def test_retrieval_test_5_harassment_threat(kb):
     hits = kb.search("Kisi ne WhatsApp par dhamki di.")
     assert hits, "Expected retrieval hits for harassment query"
     assert any(h["domain"] in ("harassment", "social_media", "local_police") for h in hits)
 
 
+@pytest.mark.integration
 def test_retrieval_test_6_deepfake_demanding_money_not_bank_fraud(kb):
     hits = kb.search("Someone made a deepfake video and is demanding money.")
     assert hits, "Expected retrieval hits for deepfake extortion query"
@@ -115,11 +138,13 @@ def test_retrieval_test_6_deepfake_demanding_money_not_bank_fraud(kb):
     assert all(h["domain"] != "financial_fraud" for h in hits)
 
 
+@pytest.mark.integration
 def test_retrieval_test_7_conversation_returns_empty(kb):
     hits = kb.search("Hi")
     assert hits == []
 
 
+@pytest.mark.integration
 def test_retrieval_test_8_off_topic_pizza_recipe_rejected(kb):
     hits = kb.search("What is the best pizza recipe?")
     assert hits == []
@@ -158,3 +183,88 @@ def test_mixed_complaint_letter_deepfake_extortion():
     # Enclosures must preserve media evidence and extortion details
     assert "deepfake video" in letter.lower()
     assert "extortion demand" in letter.lower()
+
+
+@pytest.mark.integration
+def test_retrieval_mrm_portal_recovery(kb):
+    hits = kb.search("mere paise freeze ho gaye mrm portal se kaise milenge")
+    assert hits, "Expected retrieval hits for MRM portal"
+    sources = [h["source"] for h in hits]
+    assert any("mrm_portal_recovery" in s for s in sources)
+    assert any("1930" in h["text"] or "NCRP" in h["text"] for h in hits)
+
+
+@pytest.mark.integration
+def test_retrieval_digital_arrest(kb):
+    hits = kb.search("Someone dressed as police on Skype video call says I am under digital arrest")
+    assert hits, "Expected retrieval hits for digital arrest"
+    sources = [h["source"] for h in hits]
+    assert any("digital_arrest_scam" in s or "bank-transfer-fraud" in s for s in sources)
+
+
+@pytest.mark.integration
+def test_retrieval_call_forwarding_scam(kb):
+    hits = kb.search("how to stop call forwarding *401*")
+    assert hits, "Expected retrieval hits for call forwarding"
+    sources = [h["source"] for h in hits]
+    assert any("call_forwarding_scam" in s for s in sources)
+
+
+@pytest.mark.integration
+def test_retrieval_stopncii(kb):
+    hits = kb.search("StopNCII remove morphed photos intimate image")
+    assert hits, "Expected retrieval hits for StopNCII"
+    sources = [h["source"] for h in hits]
+    assert any("morphed_photos_stopncii" in s for s in sources)
+
+
+@pytest.mark.integration
+def test_retrieval_social_media_grievance_officers(kb):
+    hits = kb.search("social media grievance officer india reporting links")
+    assert hits, "Expected retrieval hits for grievance officers"
+    sources = [h["source"] for h in hits]
+    assert any("social_media_grievance_officers" in s for s in sources)
+
+
+@pytest.mark.integration
+def test_retrieval_aeps_biometric(kb):
+    hits = kb.search("AePS biometric fingerprint money withdrawal fraud")
+    assert hits, "Expected retrieval hits for AePS fraud"
+    sources = [h["source"] for h in hits]
+    assert any("aeps_biometric_fraud" in s for s in sources)
+
+
+@pytest.mark.integration
+def test_retrieval_loan_app_harassment(kb):
+    hits = kb.search("instant loan app blackmailing contacts")
+    assert hits, "Expected retrieval hits for loan app"
+    sources = [h["source"] for h in hits]
+    assert any("loan_app_harassment" in s for s in sources)
+
+
+if __name__ == "__main__":
+    _kb = get_kb()
+    passed = 0
+    failed = 0
+    import inspect
+
+    current_module = sys.modules[__name__]
+    for name, obj in inspect.getmembers(current_module):
+        if inspect.isfunction(obj) and name.startswith("test_"):
+            sig = inspect.signature(obj)
+            try:
+                if "kb" in sig.parameters:
+                    obj(_kb)
+                else:
+                    obj()
+                passed += 1
+                print(f"PASS: {name}")
+            except Exception as e:
+                failed += 1
+                print(f"FAIL: {name}: {e}")
+
+    print(f"\nResult: {passed} passed, {failed} failed.")
+    if failed:
+        sys.exit(1)
+
+

@@ -44,3 +44,7 @@ Thumbs.db
 # Project report (internal)
 PROJECT-REPORT.md
 
+reports/
+scratch_debug.py
+test_stt_scratch.py
+run_single_test.py
