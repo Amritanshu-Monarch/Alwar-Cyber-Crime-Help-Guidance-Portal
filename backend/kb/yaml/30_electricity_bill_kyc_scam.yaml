@@ -1,0 +1,57 @@
+id: "electricity_kyc_scam"
+category: "scam_alerts"
+urgency: "high"
+title_en: "Fake Electricity Bill Disconnection & Bank/SIM KYC Update Scam"
+title_hi: "बिजली कनेक्शन कटने का फर्जी SMS और बैंक/SIM KYC अपडेट ठगी"
+summary_en: "SMS/WhatsApp saying 'Your electricity will be cut tonight at 9:30 PM' or 'Your Bank/SIM KYC expired — click link / call number' are 100% fake scams."
+summary_hi: "'आज रात 9:30 बजे बिजली कट जाएगी' या 'आपका बैंक/सिम KYC बंद होने वाला है, तुरंत इस नंबर पर कॉल करें' वाले मैसेज पूरी तरह फर्जी होते हैं।"
+keywords_en:
+  - "electricity bill scam"
+  - "power cut sms tonight scam"
+  - "bank kyc update link scam"
+  - "pan card update sms fraud"
+  - "sim kyc expire scam"
+keywords_hi:
+  - "बिजली बिल काटने का मैसेज"
+  - "केवाईसी अपडेट फ्रॉड"
+  - "पैन कार्ड अपडेट लिंक"
+  - "बैंक खाता बंद होने का मैसेज"
+keywords_hinglish:
+  - "bijli bill katne ka fake sms"
+  - "electricity disconnect message scam"
+  - "bank kyc update link par click kar diya"
+  - "pan update sms fraud"
+sample_queries:
+  - "Got SMS saying electricity will be disconnected tonight at 9:30 PM, call this mobile number"
+  - "Bijli bill ka fake message aaya aur paise kat gaye"
+  - "बैंक केवाईसी अपडेट करने का लिंक आया था उस पर क्लिक हो गया"
+answer_en:
+  - "1. Do NOT call any 10-digit personal mobile number mentioned in an SMS/WhatsApp claiming to be Electricity Board (JVVNL), Bank, or Telecom KYC."
+  - "2. Do NOT click shortened links or install any .apk / screen-sharing app sent by them."
+  - "3. Always check your electricity bill status ONLY inside your official discom portal/app or trusted bill-payment section of your regular UPI app."
+  - "4. If you ALREADY clicked a link and entered card/netbanking details or OTP: immediately disconnect internet, call 1930, block cards/netbanking via official bank helpline, and change banking passwords."
+  - "5. If you installed an APK file sent by them, follow our Android APK Cleanup Checklist immediately."
+answer_hi:
+  - "1. बिजली विभाग (JVVNL), बैंक या सिम कंपनी के नाम से आने वाले SMS/WhatsApp में दिए किसी 10 अंकों के पर्सनल मोबाइल नंबर पर बिल्कुल कॉल न करें।"
+  - "2. ऐसे मैसेज में आए किसी भी लिंक पर क्लिक न करें और न ही कोई ऐप (.apk) डाउनलोड करें।"
+  - "3. अपना बिजली बिल जांचने या भरने के लिए हमेशा आधिकारिक बिजली विभाग की वेबसाइट/ऐप या अपने नियमित पेमेंट ऐप का ही उपयोग करें।"
+  - "4. अगर आपने गलती से लिंक खोलकर कार्ड नंबर, पासवर्ड या OTP डाल दिया है: तुरंत 1930 पर कॉल करें, बैंक को बताकर कार्ड/नेटबैंकिंग बंद करवाएं और पासवर्ड बदलें।"
+  - "5. अगर उनसे मिली कोई APK फाइल फोन में इंस्टॉल कर ली है, तो तुरंत हमारी 'APK ऐप सफाई चेकलिस्ट' अपनाएं।"
+followups:
+  - intent_id: "apk_malware_cleanup"
+    label_en: "Installed an APK sent in the message?"
+    label_hi: "मैसेज में आई APK फाइल इंस्टॉल कर ली?"
+  - intent_id: "spot_phishing_quiz"
+    label_en: "Check if a message is a scam (Checklist)"
+    label_hi: "जांचें कि कोई मैसेज असली है या फर्जी"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर रिपोर्ट करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "Rajasthan Cyber Police & I4C Utility Scam Warning"

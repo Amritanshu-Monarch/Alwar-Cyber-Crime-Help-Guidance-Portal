@@ -1,0 +1,58 @@
+id: "thana_finder_help"
+category: "portals_reporting"
+urgency: "normal"
+title_en: "Find Nearest Police Station (Thana) & Alwar Cyber Cell"
+title_hi: "अलवर में नजदीकी पुलिस थाना और साइबर सेल कैसे खोजें"
+summary_en: "Use the built-in Thana Finder tab to search by your area/locality in Alwar, detect the nearest station via GPS, call directly, or open directions in Google Maps."
+summary_hi: "अलवर में अपने मोहल्ले, गांव या तहसील के अनुसार नजदीकी पुलिस थाना और साइबर सेल की जानकारी नीचे दिए 'थाना खोजें (Thana Finder)' से तुरंत प्राप्त करें।"
+keywords_en:
+  - "nearest police station alwar"
+  - "thana finder alwar"
+  - "alwar cyber cell address phone"
+  - "police station contact alwar"
+  - "where to report cyber crime in alwar"
+keywords_hi:
+  - "अलवर पुलिस थाना"
+  - "नजदीकी थाना खोजें"
+  - "अलवर साइबर सेल नंबर"
+  - "थाने का पता और फोन नंबर"
+keywords_hinglish:
+  - "alwar me najdiki thana kaise dhundhe"
+  - "alwar cyber cell contact number address"
+  - "mere area ka thana kaunsa hai"
+sample_queries:
+  - "Which police station covers my area in Alwar?"
+  - "Alwar cyber crime police station address and contact number"
+  - "मेरे इलाके का अलवर थाना और फोन नंबर बताएं"
+answer_en:
+  - "1. Open the 'Thana Finder' tab at the top of Alwar Cyber Sahayata."
+  - "2. Type your village name, area, colony, or police station (e.g., 'Bharthari', 'Ahmadpur', 'Sadar Alwar', 'Akbarpur'). Over 1,135 villages across 19 police stations in Alwar district are indexed."
+  - "3. Tap the Phone button to call the station directly, or tap 'Google Maps' to get walking/driving directions."
+  - "4. Download Complete Village Directory: You can download the complete list of 1,135 villages mapped to police stations in Excel (.xlsx) and CSV format from the References section."
+  - "5. Remember: For financial fraud within hours, ALWAYS call 1930 first and file on cybercrime.gov.in before visiting the Thana, and carry your 14-digit Acknowledgement Number + bank statement."
+  - "6. Alwar Cyber Helpline is available at 8764874306 for direct guidance."
+answer_hi:
+  - "1. इस पेज में ऊपर दिए गए 'थाना खोजें (Thana Finder)' टैब पर टैप करें।"
+  - "2. अपने गाँव का नाम, मोहल्ला या थाना लिखें (उदा. 'Bharthari', 'Ahmadpur', 'Sadar Alwar', 'Akbarpur')। अलवर जिले के 19 पुलिस थानों के अंतर्गत सभी 1,135 गांवों का डेटा इसमें शामिल है।"
+  - "3. आप सीधे वहां से थाने को कॉल कर सकते हैं या 'Google Maps' में रास्ता देख सकते हैं।"
+  - "4. संपूर्ण 1,135 गाँव व थाना सूची: संदर्भ (References) सेक्शन से पूरी सूची Excel (.xlsx) या CSV फॉर्मेट में डाउनलोड कर सकते हैं।"
+  - "5. याद रखें: पैसों की ठगी में थाने जाने से पहले तुरंत 1930 पर कॉल करके cybercrime.gov.in पर शिकायत दर्ज करें और उसकी 14 अंकों की रसीद व बैंक स्टेटमेंट साथ लेकर जाएं।"
+  - "6. अलवर साइबर हेल्पलाइन 8764874306 पर भी सीधा संपर्क किया जा सकता है।"
+followups:
+  - intent_id: "how_to_report_cybercrime"
+    label_en: "How to file online complaint first"
+    label_hi: "पहले ऑनलाइन शिकायत कैसे दर्ज करें?"
+  - intent_id: "evidence_checklist"
+    label_en: "Documents to carry to the Thana"
+    label_hi: "थाने जाते समय कौन-से दस्तावेज़ ले जाएं?"
+official_links:
+  - name_en: "National Cyber Crime Portal"
+    name_hi: "राष्ट्रीय साइबर क्राइम पोर्टल"
+    url: "https://cybercrime.gov.in"
+    verified: true
+  - name_en: "Police Emergency 112"
+    name_hi: "आपातकालीन पुलिस 112"
+    url: "tel:112"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "Alwar District Citizen Assistance Directory"

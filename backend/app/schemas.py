@@ -17,6 +17,7 @@ class AgentResult(BaseModel):
     sources: list[str] = Field(default_factory=list)
     artifacts: list[Artifact] = Field(default_factory=list)
     citation_note: str = Field(default="")
+    provider: str = Field(default="gemini")
 
 
 class ChatIn(BaseModel):
@@ -31,3 +32,4 @@ class VoiceOut(AgentResult):
 
 class TtsIn(BaseModel):
     text: str = Field(min_length=1, max_length=600)
+    lang: str = "hi"

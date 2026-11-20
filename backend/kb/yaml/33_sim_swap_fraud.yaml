@@ -1,0 +1,58 @@
+id: "sim_swap_fraud"
+category: "scam_alerts"
+urgency: "emergency"
+title_en: "SIM Swap Fraud (Sudden 'No Signal' / 'No Service' on Phone)"
+title_hi: "SIM स्वैप ठगी (अचानक नेटवर्क गायब होने पर खाता खाली होने से बचाएं)"
+summary_en: "If your mobile SIM suddenly loses signal for no reason — especially after strange missed calls or KYC messages — a fraudster may have activated a duplicate SIM/eSIM."
+summary_hi: "अगर आपके फोन में अचानक बिना वजह नेटवर्क (No Service / No Signal) चला जाए, तो हो सकता है ठग ने आपके नंबर का नया सिम या eSIM निकाल लिया हो। तुरंत जांचें!"
+keywords_en:
+  - "sim swap fraud"
+  - "sudden no signal sim hacked"
+  - "duplicate sim scam"
+  - "esim fraud"
+  - "mobile network lost money stolen"
+keywords_hi:
+  - "सिम स्वैप फ्रॉड"
+  - "अचानक नेटवर्क बंद हो गया"
+  - "डुप्लीकेट सिम ठगी"
+  - "ई-सिम फ्रॉड"
+keywords_hinglish:
+  - "sim swap fraud ho gaya"
+  - "achanak phone me network chala gaya"
+  - "no service aa raha hai aur paise kat gaye"
+sample_queries:
+  - "My SIM suddenly shows No Service and I got a bank alert on email"
+  - "SIM swap fraud kya hota hai aur turant kya kare"
+  - "मेरे फोन का नेटवर्क अचानक बंद हो गया कहीं सिम स्वैप तो नहीं हुआ"
+answer_en:
+  - "1. Check Telecom Status Immediately from Another Phone: Call your mobile operator (Jio / Airtel / Vi / BSNL) customer care right away and ask if a SIM replacement or eSIM upgrade was requested on your number."
+  - "2. Freeze Bank Accounts & Cards Immediately: If your SIM was swapped without your request, call your bank's official helpline immediately to block netbanking, UPI, and cards (because OTPs will now go to the fraudster's SIM)."
+  - "3. Call 1930 Immediately if any unauthorized bank alert appears on your email or bank app."
+  - "4. Visit your Telecom Store in person with original Aadhaar/ID right away to deactivate the fraudulent SIM and reclaim your mobile number."
+  - "5. Never forward SMS codes starting with 'eSIM' or share Aadhaar OTPs with callers claiming to upgrade your SIM from 4G to 5G."
+  - "6. File a complaint on cybercrime.gov.in and at your nearest Alwar Police Station."
+answer_hi:
+  - "1. दूसरे फोन से तुरंत सिम कंपनी को कॉल करें: अपनी टेलीकॉम कंपनी (Jio / Airtel / Vi / BSNL) को तुरंत फोन करके पूछें कि क्या आपके नंबर पर कोई नया सिम या eSIM जारी किया गया है।"
+  - "2. बैंक खाते और UPI तुरंत होल्ड कराएं: अगर आपकी मर्जी के बिना सिम बदला गया है, तो तुरंत अपने बैंक को कॉल करके नेटबैंकिंग, UPI और कार्ड ब्लॉक करवाएं क्योंकि अब बैंक के OTP ठग के पास जा सकते हैं।"
+  - "3. ईमेल या किसी दूसरे अलर्ट में पैसे कटने की खबर दिखे तो तुरंत 1930 पर कॉल करें।"
+  - "4. अपना असली आधार कार्ड लेकर तुरंत नजदीकी टेलीकॉम स्टोर जाएं, फर्जी सिम बंद कराएं और अपना नंबर वापस चालू कराएं।"
+  - "5. 4G से 5G सिम अपग्रेड या eSIM एक्टिवेशन के नाम पर कोई SMS किसी नंबर पर फॉरवर्ड न करें और न ही OTP बताएं।"
+  - "6. cybercrime.gov.in और नजदीकी अलवर पुलिस थाने में शिकायत दर्ज कराएं।"
+followups:
+  - intent_id: "upi_fraud"
+    label_en: "Money debited after SIM swap?"
+    label_hi: "सिम स्वैप के बाद पैसे कटे?"
+  - intent_id: "how_to_report_cybercrime"
+    label_en: "How to file NCRP complaint"
+    label_hi: "NCRP पर शिकायत कैसे करें?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर शिकायत करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "DoT & MHA Cyber Security Advisory"

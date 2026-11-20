@@ -2,8 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3000;
-const BACKEND_PORT = 8000;
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+const BACKEND_PORT = parseInt(process.env.BACKEND_PORT, 10) || 8000;
 const ROOT = __dirname;
 
 const MIME_TYPES = {
@@ -75,6 +75,45 @@ const server = http.createServer((req, res) => {
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);
   });
+});
+
+// Proxy WebSocket /ws/* to FastAPI backend on port 8000
+server.on('upgrade', (req, socket, head) => {
+  if (req.url.startsWith('/ws/')) {
+    const proxyReq = http.request({
+      hostname: '127.0.0.1',
+      port: BACKEND_PORT,
+      path: req.url,
+      method: req.method,
+      headers: {
+        ...req.headers,
+        host: `127.0.0.1:${BACKEND_PORT}`,
+      },
+    });
+
+    proxyReq.on('upgrade', (proxyRes, proxySocket, proxyHead) => {
+      socket.write(
+        `HTTP/${proxyRes.httpVersion} ${proxyRes.statusCode} ${proxyRes.statusMessage}\r\n` +
+          Object.keys(proxyRes.headers)
+            .map((k) => `${k}: ${proxyRes.headers[k]}`)
+            .join('\r\n') +
+          '\r\n\r\n'
+      );
+      if (proxyHead && proxyHead.length) {
+        socket.write(proxyHead);
+      }
+      proxySocket.pipe(socket);
+      socket.pipe(proxySocket);
+    });
+
+    proxyReq.on('error', () => {
+      socket.destroy();
+    });
+
+    proxyReq.end();
+  } else {
+    socket.destroy();
+  }
 });
 
 server.listen(PORT, '0.0.0.0', () => {

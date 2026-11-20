@@ -1,0 +1,3 @@
+# The project may be located in a cloud-synced Windows folder where hardlinks
+# between the project virtual environment and uv's global cache are unsupported.
+link-mode = "copy"

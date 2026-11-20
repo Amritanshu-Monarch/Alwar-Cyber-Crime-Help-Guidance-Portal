@@ -1,0 +1,57 @@
+id: "online_shopping_fraud"
+category: "scam_alerts"
+urgency: "high"
+title_en: "Online Shopping Fraud / Fake Instagram Store / Empty Parcel Scam"
+title_hi: "ऑनलाइन शॉपिंग ठगी (नकली वेबसाइट / Instagram स्टोर / खाली पार्सल)"
+summary_en: "Bought an item at huge discount from an Instagram/Facebook ad or fake site and received bricks/empty box or no delivery at all? Here is what to do."
+summary_hi: "सस्ते ऑफर के चक्कर में Instagram/Facebook पेज या अनजान वेबसाइट से सामान मंगवाया और सामान नहीं मिला या कचरा आया? जानें तुरंत क्या करें।"
+keywords_en:
+  - "online shopping fraud"
+  - "fake instagram store scam"
+  - "fake shopping website"
+  - "empty parcel fraud"
+  - "cod parcel scam"
+keywords_hi:
+  - "ऑनलाइन शॉपिंग फ्रॉड"
+  - "इंस्टाग्राम से सामान मंगाया ठगी"
+  - "खाली पार्सल आ गया"
+  - "फर्जी शॉपिंग वेबसाइट"
+keywords_hinglish:
+  - "online shopping fraud ho gaya"
+  - "instagram page se saman mangwaya aur block kar diya"
+  - "fake website par payment kar diya"
+  - "parcel me patthar ya khali dabba aaya"
+sample_queries:
+  - "I paid an Instagram clothing store via UPI and they blocked me"
+  - "Fake shopping website par paise kat gaye delivery nahi aayi"
+  - "ऑनलाइन शॉपिंग में पैसे देने के बाद सामान नहीं आया और नंबर ब्लॉक कर दिया"
+answer_en:
+  - "1. If paid online via UPI / Card / Netbanking: Call 1930 immediately (especially within hours of payment) and contact your bank to raise a chargeback/dispute."
+  - "2. Collect Evidence: Save screenshots of the website URL, Instagram/Facebook ad page, order confirmation, WhatsApp chat, courier AWB tracking number, and UTR/transaction ID."
+  - "3. Open-Box Delivery Tip: For Cash-on-Delivery (COD) parcels you didn't order, NEVER pay or share an OTP to 'cancel' — refuse it at the gate. For genuine orders, record a continuous unboxing video from sealed label."
+  - "4. Report on National Cyber Crime Portal (cybercrime.gov.in) AND also on the National Consumer Helpline (1915) if it is a registered merchant dispute."
+  - "5. Report the fake page/account inside Instagram/Facebook so others aren't cheated."
+answer_hi:
+  - "1. अगर ऑनलाइन पेमेंट (UPI / कार्ड) से पैसे दिए हैं: तुरंत 1930 पर कॉल करें और अपने बैंक को चार्ज बैक/विवाद दर्ज करने की सूचना दें।"
+  - "2. सबूत सुरक्षित रखें: फर्जी वेबसाइट का लिंक, Instagram/Facebook पेज का नाम, ऑर्डर रसीद, चैट, कूरियर नंबर और UTR/ट्रांज़ैक्शन आईडी के स्क्रीनशॉट लें।"
+  - "3. कैश ऑन डिलीवरी (COD) सावधानी: जो पार्सल आपने ऑर्डर नहीं किया उसके पैसे न दें और न ही 'कैंसल करने' के नाम पर कोई OTP बताएं। कीमती पार्सल खोलते समय हमेशा बिना कटे वीडियो (Unboxing Video) बनाएं।"
+  - "4. cybercrime.gov.in पर शिकायत दर्ज करें (तथा पंजीकृत दुकान/कंपनी के विवाद के लिए राष्ट्रीय उपभोक्ता हेल्पलाइन 1915 का भी उपयोग किया जा सकता है)।"
+  - "5. Instagram/Facebook ऐप के अंदर जाकर उस नकली दुकान के पेज को Report करें।"
+followups:
+  - intent_id: "upi_fraud"
+    label_en: "Paid via UPI? Follow 1930 checklist"
+    label_hi: "UPI से पेमेंट किया था? यह कदम देखें"
+  - intent_id: "spot_phishing_quiz"
+    label_en: "How to spot a fake website?"
+    label_hi: "फर्जी वेबसाइट की पहचान कैसे करें?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर शिकायत करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "I4C & Consumer Cyber Awareness Guidelines"

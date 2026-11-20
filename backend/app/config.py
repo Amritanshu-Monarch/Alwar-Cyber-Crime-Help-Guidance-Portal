@@ -8,24 +8,36 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Resolve .env whether uvicorn is started from repo root or backend/
+CANDIDATE_ENV_PATHS = [
+    Path.cwd() / "backend" / ".env",
+    Path.cwd() / ".env",
+    BASE_DIR / ".env",
+    BASE_DIR.parent / ".env",
+]
+RESOLVED_ENV_PATH = next((p for p in CANDIDATE_ENV_PATHS if p.is_file()), BASE_DIR / ".env")
+
 # google-adk / google-genai read GOOGLE_API_KEY straight from os.environ
-load_dotenv(BASE_DIR / ".env")
+load_dotenv(RESOLVED_ENV_PATH, override=False)
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=BASE_DIR / ".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=RESOLVED_ENV_PATH, extra="ignore")
 
     google_api_key: str = ""
 
     # Provider configuration
     # Comma-separated or list of providers to try in order on 429/timeout/5xx
     llm_provider_order: list[str] = ["gemini", "sarvam", "groq", "ollama"]
-    stt_provider: str = "gemini"  # "gemini" or "sarvam"
-    tts_provider: str = "gemini"  # "gemini" or "sarvam"
+    stt_provider: str = "sarvam"  # "sarvam" or "gemini"
+    tts_provider: str = "sarvam"  # "sarvam" or "gemini"
 
-    # Sarvam AI (Indian multilingual platform with free tier credits)
+    # Sarvam AI (Indian multilingual platform: https://www.sarvam.ai)
     sarvam_api_key: str = ""
-    sarvam_model: str = "sarvam-2b"
+    sarvam_model: str = "sarvam-105b-conversations"
+    sarvam_tts_model: str = "bulbul:v4-flash"
+    sarvam_stt_model: str = "saaras:v3"
+    sarvam_speaker: str = "kavya_hi_conversational"
 
     # Groq & OpenRouter (OpenAI-compatible fast inference)
     groq_api_key: str = ""
@@ -35,7 +47,7 @@ class Settings(BaseSettings):
 
     # Local Ollama
     ollama_base_url: str = "http://localhost:11434"
-    ollama_model: str = "llama3.2"
+    ollama_model: str = "qwen2.5-coder:3b"
 
     @field_validator("llm_provider_order", mode="before")
     @classmethod
@@ -44,14 +56,11 @@ class Settings(BaseSettings):
             return [p.strip().lower() for p in v.split(",") if p.strip()]
         return [str(p).strip().lower() for p in v]
 
-    # Changed 2026-11-16: was "gemini-3.5-flash-lite" — valid model but too weak for reliable
-    # multi-tool ADK routing (misroutes Hindi questions, drops tools under load).
-    # Now "gemini-3.8-flash" — current stable workhorse; verified at aistudio.google.com/docs/models.
-    agent_model: str = "gemini-3.8-flash"
+    # Use gemini-3.5-flash-lite as stable primary workhorse (avoids 503 high-demand spike on gemini-3.8-flash)
+    agent_model: str = "gemini-3.5-flash-lite"
 
-    # Verified 2026-11-16: gemini-3.5-flash-lite is a valid stable model and appropriate as fallback.
-    # Used automatically when the primary model is overloaded (503) or rate limited (429).
-    agent_fallback_model: str = "gemini-3.5-flash-lite"
+    # Use gemini-flash-lite-latest as verified fallback model
+    agent_fallback_model: str = "gemini-flash-lite-latest"
 
     # Changed 2026-11-16: was "gemini-3.5-flash-lite" — generic model, not optimised for transcription.
     # Now "gemini-3.5-transcribe" — dedicated stable transcription model with superior accuracy
@@ -82,8 +91,13 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5500",
         "http://localhost:5173",
         "http://localhost:8080",
+        "http://127.0.0.1:8080",
         "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
         "http://localhost:8000",
+        "http://127.0.0.1:8000",
         "http://localhost:8001",
         "http://127.0.0.1:8001",
     ]

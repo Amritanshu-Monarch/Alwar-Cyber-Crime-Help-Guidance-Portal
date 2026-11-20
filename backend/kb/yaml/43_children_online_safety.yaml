@@ -1,0 +1,62 @@
+id: "children_online_safety"
+category: "cyber_hygiene"
+urgency: "high"
+title_en: "Children's Online Safety, Gaming Scams & Cyberbullying"
+title_hi: "बच्चों की ऑनलाइन सुरक्षा, गेमिंग ठगी और साइबर बुलिंग से बचाव"
+summary_en: "Protect kids and teenagers from Free Fire/BGMI top-up scams, online grooming, stranger chats, and school cyberbullying."
+summary_hi: "बच्चों और किशोरों को ऑनलाइन गेम (Free Fire/BGMI) में डायमंड/पैसे की ठगी, अनजान लोगों की दोस्ती और ऑनलाइन धमकाने (Cyberbullying) से कैसे बचाएं।"
+keywords_en:
+  - "children online safety"
+  - "kids gaming scam"
+  - "free fire diamond scam"
+  - "child cyberbullying"
+  - "parental control phone"
+  - "online grooming child"
+keywords_hi:
+  - "बच्चों की ऑनलाइन सुरक्षा"
+  - "गेमिंग फ्रॉड"
+  - "बच्चे ने गेम में पैसे कटवा दिए"
+  - "पैरेंटल कंट्रोल"
+keywords_hinglish:
+  - "baccho ki online safety"
+  - "free fire bgmi gaming scam"
+  - "bacche ne bina bataye game me paise kharch kar diye"
+  - "child cyberbullying help"
+sample_queries:
+  - "My child spent money or got scammed in an online game"
+  - "How to protect children from online gaming scams and strangers"
+  - "बच्चों को ऑनलाइन गेमिंग ठगी और गंदे लोगों से कैसे बचाएं"
+answer_en:
+  - "1. Secure Parent Devices & UPI: Never give kids your phone with saved debit cards, Play Store one-tap purchase enabled, or shared UPI PIN."
+  - "2. Enable Parental Controls: Use Google Family Link / Play Store Parental Controls -> Require Authentication for ALL purchases, and filter mature apps/content."
+  - "3. Talk Openly Without Scolding: Tell children to immediately inform parents if any online friend asks for personal photos, home address, school name, or threatens them — assure them they will NOT be punished for speaking up."
+  - "4. Gaming Top-Up Warning: Explain that 'free diamonds/UC/skins' websites or Telegram sellers are scams that steal accounts or money."
+  - "5. If a Child Faces Exploitation, Grooming, or Bullying: Preserve screenshots immediately, do NOT delete chats, and report urgently under 'Report Cyber Crime Related to Women/Children' on cybercrime.gov.in, or call Childline 1098 / Police 112."
+answer_hi:
+  - "1. माता-पिता के फोन व UPI की सुरक्षा: बच्चों को खेलने के लिए दिए जाने वाले फोन में अपना UPI पिन कभी न बताएं और Google Play Store में 'Require authentication for purchases' (हर खरीद पर पासवर्ड) चालू रखें।"
+  - "2. पैरेंटल कंट्रोल लगाएं: Google Family Link या Play Store Parental Control से बच्चों की उम्र के अनुसार सुरक्षित ऐप्स और स्क्रीन टाइम सेट करें।"
+  - "3. बच्चों से बिना डांटे खुलकर बात करें: उन्हें समझाएं कि ऑनलाइन गेम या सोशल मीडिया पर कोई अनजान व्यक्ति निजी फोटो, घर का पता या स्कूल का नाम पूछे या डराए, तो तुरंत मम्मी-पापा को बताएं — उन पर गुस्सा न करें ताकि वे डरकर बात न छिपाएं।"
+  - "4. मुफ्त डायमंड/स्किन का लालच: बच्चों को बताएं कि Free Fire / BGMI में मुफ्त डायमंड/UC देने का दावा करने वाली साइटें और लिंक ठगी होते हैं।"
+  - "5. किसी भी शोषण, अश्लील संदेश या धमकी होने पर: तुरंत स्क्रीनशॉट संभालें (चैट डिलीट न करें) और cybercrime.gov.in के महिला/बच्चों वाले सेक्शन में, चाइल्डलाइन 1098 या पुलिस 112 पर तुरंत सूचना दें।"
+followups:
+  - intent_id: "morphed_photos_stopncii"
+    label_en: "Private photo shared or threatened?"
+    label_hi: "निजी फोटो वायरल होने का खतरा?"
+  - intent_id: "cyber_harassment_stalking"
+    label_en: "How to handle online bullying & threats"
+    label_hi: "ऑनलाइन धमकी व बुलिंग से कैसे निपटें?"
+official_links:
+  - name_en: "Report Women/Child Cyber Crime (NCRP)"
+    name_hi: "महिला/बच्चों से जुड़े साइबर अपराध की रिपोर्ट"
+    url: "https://cybercrime.gov.in"
+    verified: true
+  - name_en: "Childline India 1098"
+    name_hi: "चाइल्डलाइन 1098 पर कॉल करें"
+    url: "tel:1098"
+    verified: true
+  - name_en: "Police Emergency 112"
+    name_hi: "पुलिस आपातकालीन 112"
+    url: "tel:112"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "NCPCR & MHA Cyber Dost Child Safety Handbook"

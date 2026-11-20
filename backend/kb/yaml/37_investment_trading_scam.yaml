@@ -1,0 +1,57 @@
+id: "investment_trading_scam"
+category: "scam_alerts"
+urgency: "emergency"
+title_en: "Fake Stock Market / IPO / Crypto WhatsApp Trading Scam"
+title_hi: "फर्जी शेयर बाजार / IPO / क्रिप्टो ट्रेडिंग ग्रुप ठगी"
+summary_en: "Added to a WhatsApp/Telegram 'VIP Stock Tips' group showing huge fake profits in an unknown trading app? It is a scam — never pay 'tax' to withdraw."
+summary_hi: "WhatsApp/Telegram के किसी 'VIP ट्रेडिंग ग्रुप' में जुड़कर किसी अनजान ऐप में नकली मुनाफा देख रहे हैं? यह ठगी है — पैसे निकालने के लिए और टैक्स न भरें।"
+keywords_en:
+  - "trading scam"
+  - "whatsapp stock market group fraud"
+  - "fake ipo app scam"
+  - "crypto investment fraud"
+  - "unable to withdraw trading profit"
+keywords_hi:
+  - "शेयर बाजार ट्रेडिंग फ्रॉड"
+  - "व्हाट्सएप ट्रेडिंग ग्रुप ठगी"
+  - "क्रिप्टो इन्वेस्टमेंट स्कैम"
+  - "नकली ट्रेडिंग ऐप"
+keywords_hinglish:
+  - "whatsapp stock trading group me paise dub gaye"
+  - "fake trading app withdraw nahi ho raha"
+  - "crypto investment scam ho gaya"
+  - "ipo allotment fraud"
+sample_queries:
+  - "Joined a WhatsApp share market group and installed their trading app, now cannot withdraw"
+  - "Fake stock trading app scam me paise fas gaye"
+  - "व्हाट्सएप शेयर मार्केट ग्रुप में पैसे फंस गए हैं कैसे निकलेंगे"
+answer_en:
+  - "1. STOP INVESTING OR PAYING 'WITHDRAWAL TAX': The profit figures shown inside those cloned apps/websites are fake numbers typed by scammers. Paying 20-30% 'tax/margin' will NOT release your money."
+  - "2. Call 1930 IMMEDIATELY and list every bank transfer / UPI / IMPS transaction made into the multiple changing bank accounts they provided."
+  - "3. Uninstall the fake trading APK/app safely after taking screenshots of your wallet dashboard, group admins' numbers, and URLs."
+  - "4. File a complaint on cybercrime.gov.in right away — attach bank statements and all UTR numbers."
+  - "5. Verify before investing: Real SEBI-registered brokers ONLY accept funds in verified demat/broker accounts, NEVER into random third-party company or trader accounts via WhatsApp groups."
+answer_hi:
+  - "1. अब एक भी रुपया और जमा न करें: इन नकली ऐप्स/वेबसाइटों में दिखने वाला मुनाफा सिर्फ स्क्रीन पर दिखाए गए झूठे नंबर होते हैं। पैसे निकालने के नाम पर कोई 'टैक्स' या 'कमीशन' न भरें।"
+  - "2. तुरंत 1930 पर कॉल करें और जिन-जिन अलग-अलग बैंक खातों/UPI में आपने पैसे भेजे हैं, उन सभी के UTR नंबर दर्ज कराएं।"
+  - "3. नकली ट्रेडिंग ऐप को हटाने से पहले अपने डैशबोर्ड, ग्रुप एडमिन के नंबर, वेबसाइट लिंक और चैट के साफ स्क्रीनशॉट ले लें।"
+  - "4. बैंक स्टेटमेंट और सभी रसीदों के साथ cybercrime.gov.in पर तुरंत शिकायत दर्ज करें।"
+  - "5. भविष्य की सीख: असली शेयर बाजार निवेश केवल SEBI-पंजीकृत भरोसेमंद ब्रोकर ऐप के जरिए ही होता है — WhatsApp/Telegram पर गारंटीड मुनाफे वाले ग्रुप हमेशा ठगी होते हैं।"
+followups:
+  - intent_id: "apk_malware_cleanup"
+    label_en: "Did you install their trading APK file?"
+    label_hi: "क्या आपने उनकी APK ऐप इंस्टॉल की थी?"
+  - intent_id: "how_to_report_cybercrime"
+    label_en: "How to report multiple transfers on NCRP"
+    label_hi: "NCRP पर सभी पेमेंट कैसे रिपोर्ट करें?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर शिकायत करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "SEBI & MHA I4C Investment Scam Public Warning"

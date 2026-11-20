@@ -1,0 +1,50 @@
+id: "track_complaint_status"
+category: "portals_reporting"
+urgency: "normal"
+title_en: "How to Track Your Cyber Crime Complaint Status"
+title_hi: "अपनी साइबर शिकायत की स्थिति (Status) कैसे जांचें"
+summary_en: "Use your 14-digit Acknowledgement Number on cybercrime.gov.in to check whether your complaint is accepted, forwarded to a Police Station, or has funds put on hold."
+summary_hi: "अपने 14 अंकों के Acknowledgement Number की मदद से cybercrime.gov.in पर आसानी से देखें कि आपकी शिकायत पर क्या कार्रवाई हुई है।"
+keywords_en:
+  - "track complaint status"
+  - "check cyber complaint status"
+  - "ncrp acknowledgement number status"
+  - "1930 complaint status"
+keywords_hi:
+  - "शिकायत की स्थिति देखें"
+  - "कंप्लेंट स्टेटस कैसे चेक करें"
+  - "1930 शिकायत स्टेटस"
+keywords_hinglish:
+  - "complaint status kaise check kare"
+  - "1930 complaint track kaise kare"
+  - "cybercrime acknowledgement number se status"
+sample_queries:
+  - "How do I check the status of my 1930 cyber complaint?"
+  - "Cybercrime complaint track kaise kare"
+  - "मेरी 1930 वाली शिकायत का स्टेटस कैसे पता चलेगा"
+answer_en:
+  - "1. Open https://cybercrime.gov.in on your browser."
+  - "2. Click 'Track Your Complaint' (or Login as Citizen using the same mobile number you used while filing)."
+  - "3. Enter your 14-digit Acknowledgement Number and verify OTP."
+  - "4. Check the status section: it shows your assigned Police Station / Cyber Cell, current stage ('Under Process', 'Action Taken', etc.), and transaction hold status (if bank reported lien)."
+  - "5. If your status hasn't moved or money is on hold, note the assigned Police Station name shown on the portal and visit or contact them with your Acknowledgement Number."
+answer_hi:
+  - "1. अपने फोन ब्राउज़र में https://cybercrime.gov.in खोलें।"
+  - "2. 'Track Your Complaint' (या Citizen Login) पर क्लिक करें और वही मोबाइल नंबर डालें जिससे शिकायत दर्ज हुई थी।"
+  - "3. अपना 14 अंकों का Acknowledgement Number डालें और OTP से सत्यापित करें।"
+  - "4. अब स्क्रीन पर आपको दिखेगा कि शिकायत किस पुलिस थाने / साइबर सेल को भेजी गई है, अभी क्या स्थिति है और क्या बैंक में कोई रकम होल्ड (Lien/Put on Hold) हुई है।"
+  - "5. अगर पैसे होल्ड दिखा रहा है या आगे जानकारी चाहिए, तो पोर्टल पर दिख रहे थाने का नाम नोट करके रसीद व बैंक स्टेटमेंट के साथ वहां संपर्क करें।"
+followups:
+  - intent_id: "mrm_portal_recovery"
+    label_en: "Money is on hold — what next? (MRM Guide)"
+    label_hi: "पैसे होल्ड दिख रहे हैं — आगे क्या करें? (MRM)"
+  - intent_id: "ncrp_vs_fir"
+    label_en: "Difference between NCRP & Police FIR"
+    label_hi: "NCRP और FIR में क्या अंतर है?"
+official_links:
+  - name_en: "Track on cybercrime.gov.in"
+    name_hi: "cybercrime.gov.in पर स्टेटस देखें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "MHA NCRP Portal Citizen Guide"

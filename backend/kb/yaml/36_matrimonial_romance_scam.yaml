@@ -1,0 +1,55 @@
+id: "matrimonial_scam"
+category: "scam_alerts"
+urgency: "high"
+title_en: "Matrimonial / Romance / Fake NRI Customs Gift Scam"
+title_hi: "शादी साइट (Matrimonial) और विदेशी गिफ्ट/कस्टम ड्यूटी ठगी"
+summary_en: "Someone met on a matrimonial/dating app promises marriage or sends an expensive gift from abroad, then fake 'Airport Customs' calls demanding fees."
+summary_hi: "शादी की वेबसाइट या सोशल मीडिया पर दोस्ती करके विदेश से महंगा गिफ्ट भेजने का झांसा देना और फिर नकली 'कस्टम अधिकारी' बनकर पैसे मांगना एक बड़ा साइबर फ्रॉड है।"
+keywords_en:
+  - "matrimonial fraud"
+  - "romance scam"
+  - "nri gift customs scam"
+  - "airport customs clearance fee scam"
+  - "shaadi site fraud"
+keywords_hi:
+  - "शादी वेबसाइट ठगी"
+  - "विदेशी गिफ्ट कस्टम फ्रॉड"
+  - "मैट्रिमोनियल स्कैम"
+keywords_hinglish:
+  - "matrimonial site par fraud ho gaya"
+  - "gift bhejne ke naam par custom duty mang rahe hain"
+  - "nri rishta fraud"
+sample_queries:
+  - "Someone from a matrimonial site sent a gift from UK and customs is asking for 45000"
+  - "Shaadi app par customs gift scam ho gaya"
+  - "विदेश से गिफ्ट के नाम पर कस्टम ड्यूटी के पैसे मांग रहे हैं"
+answer_en:
+  - "1. STOP SENDING MONEY IMMEDIATELY: No real Airport Customs officer ever asks you to transfer fees into a private person's bank account or UPI ID."
+  - "2. Recognize the Pattern: Foreign doctor/engineer profile + moving fast to WhatsApp + 'surprise iPhone/gold/dollars gift parcel' + fake Delhi/Mumbai Customs phone call asking 'clearance / anti-money-laundering / RBI fee'."
+  - "3. Preserve Evidence: Save all matrimonial profile details, WhatsApp numbers, fake flight/parcel receipts, passport photos they sent, and every UTR/bank account you transferred money to."
+  - "4. If you already transferred money: Call 1930 immediately and report all bank/UPI transfers on cybercrime.gov.in."
+  - "5. Block the scammer everywhere and report their profile to the matrimonial site's safety team."
+answer_hi:
+  - "1. पैसे भेजना तुरंत बंद करें: असली एयरपोर्ट कस्टम विभाग कभी भी किसी व्यक्ति के निजी बैंक खाते या UPI में ड्यूटी/क्लियरेंस फीस जमा करने को नहीं कहता।"
+  - "2. ठगी का तरीका पहचानें: नकली विदेशी डॉक्टर/इंजीनियर प्रोफाइल -> जल्दी व्हाट्सएप पर बात -> 'विदेश से सोना/फोन/डॉलर गिफ्ट भेजा है' -> फिर नकली कस्टम कॉल आकर टैक्स/जुर्माना मांगना।"
+  - "3. सभी सबूत संभालें: मैट्रिमोनियल प्रोफाइल स्क्रीनशॉट, चैट, फर्जी पार्सल रसीद, कॉल नंबर और जितने खातों में पैसे भेजे उनके UTR नंबर सुरक्षित रखें।"
+  - "4. अगर पैसे दे चुके हैं: तुरंत 1930 पर कॉल करें और cybercrime.gov.in पर पूरी रिपोर्ट दर्ज करें।"
+  - "5. ठग का नंबर ब्लॉक करें और शादी वेबसाइट पर भी उस फर्जी प्रोफाइल की शिकायत करें।"
+followups:
+  - intent_id: "upi_fraud"
+    label_en: "Already paid via UPI/bank? Act fast"
+    label_hi: "पैसे भेज चुके हैं? तुरंत यह करें"
+  - intent_id: "evidence_checklist"
+    label_en: "What proofs to submit to police"
+    label_hi: "पुलिस को कौन से सबूत दें?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर शिकायत करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "I4C Matrimonial & Courier Customs Fraud Advisory"

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Security Posture Enhancements & CSP (safe for Tailwind CDN, FontAwesome, Government Resources) -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; connect-src 'self' http://localhost:8000 http://127.0.0.1:8000 https: wss:;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; connect-src 'self' http://localhost:* http://127.0.0.1:* ws: wss: https:;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -983,9 +983,17 @@
       <div class="flex items-center justify-between bg-slate-900 px-3.5 py-3 text-white border-b border-slate-800 flex-shrink-0">
         <div class="flex items-center gap-2 min-w-0">
           <i class="fa-solid fa-shield-halved text-amber-400 flex-shrink-0"></i>
-          <span id="ca-title" class="text-sm font-bold truncate">Cyber Help Assistant</span>
+          <span id="ca-title" class="text-sm font-bold truncate">Cyber Crime Assistance</span>
+          <span id="ca-status-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="ca-status-badge-text">Online</span>
+          </span>
         </div>
-        <div class="flex items-center gap-1 flex-shrink-0">
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button id="ca-voice-toggle" type="button" aria-label="Start Voice Conversation" title="Live Voice" class="rounded-full px-2.5 py-1 text-xs bg-blue-600 hover:bg-blue-500 text-white font-semibold transition cursor-pointer flex items-center gap-1 shadow-sm active:scale-95">
+            <i class="fa-solid fa-microphone text-xs"></i>
+            <span id="ca-voice-toggle-label">Voice</span>
+          </button>
           <button id="ca-new" type="button" aria-label="New chat" title="New chat" class="rounded p-1.5 text-xs text-slate-300 hover:text-white hover:bg-slate-700 transition cursor-pointer">
             <i class="fa-solid fa-rotate-right"></i>
           </button>
@@ -1003,18 +1011,35 @@
         <div id="ca-log" aria-live="polite" class="h-full space-y-2.5 overflow-y-auto bg-slate-50 p-3 text-sm"></div>
 
         <!-- Voice stage: shown while listening / thinking / speaking -->
-        <div id="ca-voice" class="hidden absolute inset-0 z-20 flex-col items-center justify-center gap-4 bg-slate-900/95 backdrop-blur-md p-6 text-white text-center" role="status" aria-live="assertive">
+        <div id="ca-voice" class="hidden absolute inset-0 z-20 flex-col items-center justify-center gap-3.5 bg-slate-900/95 backdrop-blur-md p-5 text-white text-center" role="status" aria-live="assertive">
+          <!-- Top quick exit controls: explicit Move to Chat & Close buttons -->
+          <button id="ca-voice-chat-top" type="button" aria-label="Move to Text Chat" title="Move to Text Chat" class="absolute top-3 left-3 px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-xs font-semibold text-slate-100 flex items-center gap-1.5 transition cursor-pointer z-30 shadow">
+            <i class="fa-solid fa-comments text-xs"></i>
+            <span id="ca-voice-chat-top-label">Text Chat</span>
+          </button>
+          <button id="ca-voice-close-top" type="button" aria-label="Close voice mode and return to chat" title="Close & Move to Chat" class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/15 hover:bg-white/25 text-slate-100 flex items-center justify-center transition cursor-pointer z-30 shadow">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+
           <div class="ca-orb-wrap">
             <span class="ca-ring"></span><span class="ca-ring" style="animation-delay:.6s"></span>
             <div id="ca-orb" class="ca-orb"><i id="ca-voice-icon" class="fa-solid fa-microphone text-3xl"></i></div>
           </div>
-          <div id="ca-bars" class="flex h-12 items-center gap-1.5" aria-hidden="true">
+          <div id="ca-bars" class="flex h-10 items-center gap-1.5" aria-hidden="true">
             <span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span><span class="ca-bar"></span>
           </div>
-          <p id="ca-voice-text" class="text-center text-sm font-semibold"></p>
-          <div class="flex gap-2">
-            <button id="ca-voice-main" type="button" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-900 hover:bg-slate-200 cursor-pointer"></button>
-            <button id="ca-voice-cancel" type="button" class="hidden rounded-full border border-white/40 px-5 py-2 text-sm font-semibold hover:bg-white/10 cursor-pointer"></button>
+          <p id="ca-voice-text" class="text-center text-sm font-semibold max-w-xs line-clamp-3 px-2 text-slate-100"></p>
+          <div id="ca-voice-transcript" class="hidden w-full max-w-xs max-h-24 overflow-y-auto px-3 py-2 rounded-xl bg-white/10 text-slate-200 text-xs leading-relaxed text-left border border-white/10 shadow-inner"></div>
+          <div class="flex flex-wrap justify-center items-center gap-2 mt-1">
+            <button id="ca-voice-main" type="button" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-900 hover:bg-slate-200 cursor-pointer shadow-md transition active:scale-95"></button>
+            <button id="ca-voice-interrupt" type="button" class="hidden rounded-full border border-sky-400/80 bg-sky-500/20 text-sky-200 px-4 py-2 text-sm font-semibold hover:bg-sky-500/30 cursor-pointer transition active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-hand text-xs"></i><span>Interrupt & Speak</span>
+            </button>
+            <button id="ca-voice-mute" type="button" class="hidden rounded-full border border-rose-400/80 bg-rose-500/20 text-rose-200 px-4 py-2 text-sm font-semibold hover:bg-rose-500/30 cursor-pointer transition active:scale-95 flex items-center gap-1.5">
+              <i class="fa-solid fa-volume-xmark text-xs"></i><span>Mute</span>
+            </button>
+            <button id="ca-voice-pause" type="button" class="hidden rounded-full border border-amber-400/80 bg-amber-500/20 text-amber-200 px-4 py-2 text-sm font-semibold hover:bg-amber-500/30 cursor-pointer transition active:scale-95"></button>
+            <button id="ca-voice-cancel" type="button" class="rounded-full border border-white/40 px-4 py-2 text-sm font-semibold hover:bg-white/10 cursor-pointer transition active:scale-95"></button>
           </div>
         </div>
       </div>
@@ -1024,11 +1049,11 @@
 
       <!-- Input Form -->
       <form id="ca-form" class="flex items-center gap-2 border-t border-slate-200 bg-white p-2.5 flex-shrink-0">
-        <button id="ca-mic" type="button" aria-label="Speak" title="Voice Search" class="h-10 w-10 sm:h-11 sm:w-11 flex-shrink-0 rounded-full bg-blue-600 text-white hover:bg-blue-700 active:scale-95 flex items-center justify-center transition cursor-pointer">
-          <i class="fa-solid fa-microphone text-base"></i>
+        <button id="ca-mic" type="button" aria-label="Start Voice Conversation" title="Voice Conversation" class="h-11 w-11 sm:h-12 sm:w-12 flex-shrink-0 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow-md active:scale-95 flex items-center justify-center transition-all cursor-pointer">
+          <i class="fa-solid fa-microphone text-lg"></i>
         </button>
-        <input id="ca-input" type="text" maxlength="1000" autocomplete="off" class="min-w-0 flex-1 rounded-xl border border-slate-300 p-2 sm:p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
-        <button id="ca-send" type="submit" aria-label="Send message" title="Send" class="h-10 w-10 sm:h-11 sm:w-11 flex-shrink-0 rounded-full bg-slate-900 text-white hover:bg-slate-700 active:scale-95 disabled:opacity-40 flex items-center justify-center transition cursor-pointer">
+        <input id="ca-input" type="text" maxlength="1000" autocomplete="off" class="min-w-0 flex-1 rounded-xl border border-slate-300 p-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+        <button id="ca-send" type="submit" aria-label="Send message" title="Send" class="h-11 w-11 sm:h-12 sm:w-12 flex-shrink-0 rounded-full bg-slate-900 text-white hover:bg-slate-700 active:scale-95 disabled:opacity-40 flex items-center justify-center transition cursor-pointer">
           <i class="fa-solid fa-paper-plane text-sm"></i>
         </button>
       </form>
@@ -1092,7 +1117,7 @@
     #ca-chips::-webkit-scrollbar { display: none; }
     @media (max-height: 480px) { #ca-chips { display: none; } }
 
-    /* Voice Wave / Orb Animations */
+    /* Voice Wave / Orb Animations & Conversational States */
     .ca-orb-wrap { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; }
     .ca-orb { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: #2563eb; transition: transform .08s linear, background .3s; }
     .ca-ring { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid rgba(96,165,250,.7); animation: ca-ring 1.8s ease-out infinite; }
@@ -1103,15 +1128,26 @@
     #ca-voice[data-state="speaking"] .ca-orb { background: #059669; }
     #ca-voice[data-state="listening"] .ca-orb { background: #dc2626; }
     #ca-voice[data-state="listening"] .ca-ring { border-color: rgba(248,113,113,.7); }
-    #ca-voice[data-state="thinking"] .ca-ring { animation-play-state: paused; opacity: 0; }
-    #ca-voice[data-state="thinking"] .ca-orb { background: #7c3aed; animation: ca-think 1.2s ease-in-out infinite; }
-    #ca-voice[data-state="thinking"] .ca-bar { animation: ca-wave 1.1s ease-in-out infinite; background: #a78bfa; }
-    #ca-voice[data-state="thinking"] .ca-bar:nth-child(2) { animation-delay: .1s; } 
-    #ca-voice[data-state="thinking"] .ca-bar:nth-child(3) { animation-delay: .2s; }
-    #ca-voice[data-state="thinking"] .ca-bar:nth-child(4) { animation-delay: .3s; } 
-    #ca-voice[data-state="thinking"] .ca-bar:nth-child(5) { animation-delay: .4s; }
-    #ca-voice[data-state="thinking"] .ca-bar:nth-child(6) { animation-delay: .5s; } 
-    #ca-voice[data-state="thinking"] .ca-bar:nth-child(7) { animation-delay: .6s; }
+    #ca-voice[data-state="requesting_permission"] .ca-orb { background: #2563eb; animation: ca-think 1s ease-in-out infinite; }
+    #ca-voice[data-state="requesting_permission"] .ca-ring { border-color: rgba(96,165,250,.7); }
+    #ca-voice[data-state="thinking"] .ca-ring,
+    #ca-voice[data-state="processing"] .ca-ring { animation-play-state: paused; opacity: 0; }
+    #ca-voice[data-state="thinking"] .ca-orb,
+    #ca-voice[data-state="processing"] .ca-orb { background: #7c3aed; animation: ca-think 1.2s ease-in-out infinite; }
+    #ca-voice[data-state="thinking"] .ca-bar,
+    #ca-voice[data-state="processing"] .ca-bar { animation: ca-wave 1.1s ease-in-out infinite; background: #a78bfa; }
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(2), #ca-voice[data-state="processing"] .ca-bar:nth-child(2) { animation-delay: .1s; } 
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(3), #ca-voice[data-state="processing"] .ca-bar:nth-child(3) { animation-delay: .2s; }
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(4), #ca-voice[data-state="processing"] .ca-bar:nth-child(4) { animation-delay: .3s; } 
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(5), #ca-voice[data-state="processing"] .ca-bar:nth-child(5) { animation-delay: .4s; }
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(6), #ca-voice[data-state="processing"] .ca-bar:nth-child(6) { animation-delay: .5s; } 
+    #ca-voice[data-state="thinking"] .ca-bar:nth-child(7), #ca-voice[data-state="processing"] .ca-bar:nth-child(7) { animation-delay: .6s; }
+    #ca-voice[data-state="paused"] .ca-orb { background: #d97706; }
+    #ca-voice[data-state="paused"] .ca-ring { animation: none; opacity: 0.25; border-color: rgba(251,191,36,.5); }
+    #ca-voice[data-state="paused"] .ca-bar { animation: none; transform: scaleY(.15); background: #f59e0b; }
+    #ca-voice[data-state="error"] .ca-orb { background: #b91c1c; }
+    #ca-voice[data-state="error"] .ca-ring { animation: none; opacity: 0.2; border-color: rgba(239,68,68,.5); }
+    #ca-voice[data-state="error"] .ca-bar { animation: none; transform: scaleY(.1); background: #ef4444; }
     @keyframes ca-ring { 0% { transform: scale(.75); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
     @keyframes ca-eq { 0%, 100% { transform: scaleY(.2); } 50% { transform: scaleY(1); } }
     @keyframes ca-wave { 0%, 100% { transform: scaleY(.2); opacity: .5; } 50% { transform: scaleY(.6); opacity: 1; } }
@@ -1126,16 +1162,17 @@
       // When deployed, you can point to your live Render backend or leave blank for instant client-side AI
       const REMOTE_BACKEND_URL = ''; // e.g. 'https://alwar-cyber-backend.onrender.com'
       const isLocalHost = ['localhost', '127.0.0.1', ''].includes(location.hostname);
-      const API = window.CYBER_AGENT_API || (isLocalHost ? (['8000', '3000'].includes(location.port) ? '' : 'http://localhost:8000') : REMOTE_BACKEND_URL);
+      const isDirectWeb = location.protocol.startsWith('http') && !['5500', '5173'].includes(location.port);
+      const API = window.CYBER_AGENT_API || (isLocalHost ? (isDirectWeb ? '' : 'http://localhost:8000') : REMOTE_BACKEND_URL);
       const SESSION_KEY = 'ca-session';
 
       const T = {
         en: {
-          fab: 'Ask Cyber Assistant', title: 'Cyber Help Assistant',
-          welcome: 'Namaste. I help with cyber crime: how to report, where to complain, which documents to carry and what to tell. Ask by typing or tap the mic.',
-          placeholder: 'Type your question…', listening: 'Listening… speak your question', thinking: 'Analyzing guidance…',
+          fab: 'Ask Cyber Assistant', title: 'Cyber Crime Assistance',
+          welcome: 'Namaste. I am your Cyber Crime Voice Assistant. How can I assist you with online fraud, complaint reporting, or cyber safety today? Tap the mic to speak.',
+          placeholder: 'Type your question…', listening: 'Listening… speak naturally', thinking: 'Analyzing guidance…',
           listen: 'Listen', stop: 'Stop', copy: 'Copy', copied: 'Copied', print: 'Print / Save PDF',
-          disclaimer: 'AI assistant for guidance only. Emergency: 112. Fraud: call 1930 now. Never share OTP or PIN.',
+          disclaimer: 'AI voice assistant for guidance only. Emergency: 112. Financial Fraud: call 1930 immediately. Never share OTP or PIN.',
           chips: [
             'I lost money in an online fraud',
             'How do I file a cyber complaint?',
@@ -1145,20 +1182,43 @@
             'Report a fake call or SMS'
           ],
           errNet: 'Cannot reach the assistant. Please check the connection or call 1930.',
-          errSpeech: 'I could not hear anything. Please try again.', 
+          errSpeech: 'I could not hear anything. Please try speaking again.', 
           errBig: 'Recording too long. Please keep it short.',
           errRate: 'Too many requests. Please wait a minute or call 1930.', 
-          errMic: 'Microphone is blocked or not supported. Please type instead.',
+          errMic: 'Microphone is blocked or not supported. Please allow microphone access or type instead.',
           errGeneric: 'The assistant is unavailable right now. Please call 1930 or 8764874306.',
-          errNoSound: 'No sound heard. Please check microphone permissions and try again.',
-          voice: { listening: 'Listening… speak now', thinking: 'Understanding your question…', speaking: 'Speaking…', send: 'Done, send', cancel: 'Cancel', stop: 'Stop' }
+          errNoSound: 'No sound heard. Please check microphone permissions and try speaking again.',
+          voice: {
+            idle: 'Voice mode idle',
+            requesting_permission: 'Requesting microphone permission…',
+            listening: 'Listening… speak naturally',
+            processing: 'Understanding your question…',
+            thinking: 'Analyzing cyber guidance…',
+            speaking: 'Assistant speaking…',
+            paused: 'Voice conversation paused',
+            error: 'Microphone blocked or unavailable',
+            inactivity: 'Paused due to inactivity. Tap Resume to speak.',
+            sendNow: 'Send Now',
+            send: 'Send Now',
+            pause: 'Pause',
+            resume: 'Resume Voice',
+            stopSpeaking: 'Stop Speaking',
+            stop: 'Stop Speaking',
+            interrupt: 'Interrupt & Speak',
+            mute: 'Stop Speaking',
+            endVoice: 'Move to Chat',
+            cancel: 'Move to Chat',
+            switchToChat: 'Text Chat',
+            tryAgain: 'Try Again',
+            close: 'Close & Chat'
+          }
         },
         hi: {
-          fab: 'साइबर सहायक से पूछें', title: 'साइबर सहायता असिस्टेंट',
-          welcome: 'नमस्ते। मैं साइबर अपराध में मदद करता हूँ: कहाँ और कैसे शिकायत करें, कौन से दस्तावेज़ ले जाएं और क्या बताएं। लिखकर पूछें या माइक दबाएं।',
+          fab: 'साइबर सहायक से पूछें', title: 'साइबर अपराध सहायता',
+          welcome: 'नमस्ते। मैं आपका साइबर अपराध वॉइस सहायक हूँ। ऑनलाइन ठगी, साइबर शिकायत या डिजिटल सुरक्षा में मैं आपकी क्या मदद कर सकता हूँ? बोलने के लिए माइक दबाएं।',
           placeholder: 'अपना सवाल लिखें…', listening: 'सुन रहा हूँ… अब बोलिए', thinking: 'जांच जारी है…',
           listen: 'सुनें', stop: 'रोकें', copy: 'कॉपी', copied: 'कॉपी हो गया', print: 'प्रिंट / PDF सेव',
-          disclaimer: 'यह केवल मार्गदर्शन हेतु AI असिस्टेंट है। आपातकाल: 112। ठगी: तुरंत 1930। OTP या PIN कभी साझा न करें।',
+          disclaimer: 'यह केवल मार्गदर्शन हेतु AI वॉइस सहायक है। आपातकाल: 112। वित्तीय ठगी: तुरंत 1930 पर कॉल करें। OTP या PIN कभी साझा न करें।',
           chips: [
             'मेरे साथ ऑनलाइन ठगी हुई है',
             'साइबर शिकायत कैसे करें?',
@@ -1168,13 +1228,36 @@
             'फर्जी कॉल या SMS रिपोर्ट करें'
           ],
           errNet: 'असिस्टेंट से संपर्क नहीं हो पाया। कृपया इंटरनेट जांचें या 1930 पर कॉल करें।',
-          errSpeech: 'कुछ सुनाई नहीं दिया। कृपया फिर कोशिश करें।', 
+          errSpeech: 'कुछ सुनाई नहीं दिया। कृपया दोबारा बोलें।', 
           errBig: 'रिकॉर्डिंग बहुत लंबी है। कृपया छोटी रखें।',
           errRate: 'बहुत अधिक अनुरोध। कृपया एक मिनट रुकें या 1930 पर कॉल करें।', 
-          errMic: 'माइक्रोफ़ोन बंद है या समर्थित नहीं है। कृपया टाइप करें।',
+          errMic: 'माइक्रोफ़ोन बंद है या अनुमति नहीं मिली। कृपया ब्राउज़र में अनुमति दें या टाइप करें।',
           errGeneric: 'असिस्टेंट अभी उपलब्ध नहीं है। कृपया 1930 या 8764874306 पर कॉल करें।',
           errNoSound: 'आवाज़ नहीं आ रही। कृपया माइक्रोफ़ोन अनुमति जांचें और दोबारा बोलें।',
-          voice: { listening: 'सुन रहा हूँ… अब बोलिए', thinking: 'आपका सवाल समझ रहा हूँ…', speaking: 'बोल रहा हूँ…', send: 'हो गया, भेजें', cancel: 'रद्द करें', stop: 'रोकें' }
+          voice: {
+            idle: 'वॉयस मोड निष्क्रिय',
+            requesting_permission: 'माइक्रोफ़ोन अनुमति ली जा रही है…',
+            listening: 'सुन रहा हूँ… अब बोलिए',
+            processing: 'आपका सवाल समझ रहा हूँ…',
+            thinking: 'साइबर गाइड तैयार हो रही है…',
+            speaking: 'उत्तर बोल रहा हूँ…',
+            paused: 'बातचीत रोकी गई',
+            error: 'माइक्रोफ़ोन बंद या अनुपलब्ध है',
+            inactivity: 'निष्क्रियता के कारण रोका गया। बोलने के लिए "फिर शुरू करें" दबाएं।',
+            sendNow: 'अभी भेजें',
+            send: 'अभी भेजें',
+            pause: 'रोकें',
+            resume: 'फिर शुरू करें',
+            stopSpeaking: 'आवाज़ रोकें',
+            stop: 'आवाज़ रोकें',
+            interrupt: 'बोलें (रोकें)',
+            mute: 'आवाज़ रोकें',
+            endVoice: 'चैट पर लौटें',
+            cancel: 'चैट पर लौटें',
+            switchToChat: 'टेक्स्ट चैट',
+            tryAgain: 'पुनः प्रयास करें',
+            close: 'बंद कर चैट करें'
+          }
         }
       };
 
@@ -1216,24 +1299,131 @@
         if (log) log.scrollTop = log.scrollHeight; 
       }
 
-      // Voice state and speech playback
-      let voiceState = null, speakToken = 0;
+      // Voice state and conversational loop variables
+      let voiceState = 'idle', speakToken = 0;
+      let voiceModeActive = false;
+      let isRecognitionRunning = false;
+      let isSubmittingVoiceTurn = false;
+      let consecutiveSilenceRestarts = 0;
+      let recognitionRestartTimer = null;
+      let currentTranscript = '';
+      let activeSpeechRec = null;
+      let mediaStreamRef = null;
+      let mediaRecorderRef = null;
+      let mediaRecorderStopTimer = null;
+      let currentChatAbortController = null;
+      let currentTtsAbortController = null;
       const player = new Audio();
 
-      function setVoice(state) {
-        voiceState = state;
+      function updateStatusBadge(state) {
+        const badge = $('ca-status-badge');
+        const textEl = $('ca-status-badge-text');
+        if (!badge || !textEl) return;
+        const isHi = lang() === 'hi';
+        if (!state || state === 'idle') {
+          badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+          textEl.textContent = isHi ? 'ऑनलाइन' : 'Online';
+        } else if (state === 'listening') {
+          badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-500/20 text-red-300 border border-red-500/30';
+          textEl.textContent = isHi ? 'सुन रहे हैं...' : 'Listening...';
+        } else if (state === 'thinking' || state === 'processing') {
+          badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30';
+          textEl.textContent = isHi ? 'सोच रहे हैं...' : 'Thinking...';
+        } else if (state === 'speaking') {
+          badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+          textEl.textContent = isHi ? 'बोल रहे हैं...' : 'Speaking...';
+        } else if (state === 'paused') {
+          badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30';
+          textEl.textContent = isHi ? 'रुका हुआ' : 'Paused';
+        } else if (state === 'error') {
+          badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-500/20 text-red-300 border border-red-500/30';
+          textEl.textContent = isHi ? 'त्रुटि' : 'Error';
+        }
+      }
+
+      function setVoice(state, customText) {
+        voiceState = state || 'idle';
+        updateStatusBadge(voiceState);
         const box = $('ca-voice');
         if (!box) return;
-        box.classList.toggle('hidden', !state);
-        box.classList.toggle('flex', !!state);
-        if (!state) { resetBars(); return; }
+        if (!state || state === 'idle') {
+          box.classList.add('hidden');
+          box.classList.remove('flex');
+          box.removeAttribute('data-state');
+          resetBars();
+          return;
+        }
+        box.classList.remove('hidden');
+        box.classList.add('flex');
         box.dataset.state = state;
         const s = t().voice;
-        $('ca-voice-icon').className = 'fa-solid text-3xl ' + { listening: 'fa-microphone', thinking: 'fa-brain', speaking: 'fa-volume-high' }[state];
-        $('ca-voice-text').textContent = s[state];
-        $('ca-voice-main').textContent = { listening: s.send, thinking: s.cancel, speaking: s.stop }[state];
-        $('ca-voice-cancel').textContent = s.cancel;
-        $('ca-voice-cancel').classList.toggle('hidden', state !== 'listening');
+        const iconEl = $('ca-voice-icon');
+        const textEl = $('ca-voice-text');
+        const transcriptEl = $('ca-voice-transcript');
+        const mainBtn = $('ca-voice-main');
+        const interruptBtn = $('ca-voice-interrupt');
+        const muteBtn = $('ca-voice-mute');
+        const pauseBtn = $('ca-voice-pause');
+        const cancelBtn = $('ca-voice-cancel');
+        const chatTopLabel = $('ca-voice-chat-top-label');
+
+        if (chatTopLabel) chatTopLabel.textContent = s.switchToChat || 'Text Chat';
+
+        const icons = {
+          requesting_permission: 'fa-microphone',
+          listening: 'fa-microphone',
+          processing: 'fa-brain',
+          thinking: 'fa-brain',
+          speaking: 'fa-volume-high',
+          paused: 'fa-pause',
+          error: 'fa-triangle-exclamation'
+        };
+        if (iconEl) iconEl.className = 'fa-solid text-3xl ' + (icons[state] || 'fa-microphone');
+        if (textEl) textEl.textContent = customText || s[state] || '';
+
+        if (cancelBtn) {
+          cancelBtn.textContent = state === 'error' ? s.close : s.endVoice;
+          cancelBtn.classList.remove('hidden');
+        }
+
+        if (state === 'requesting_permission') {
+          if (mainBtn) { mainBtn.textContent = '...'; mainBtn.disabled = true; }
+          if (interruptBtn) interruptBtn.classList.add('hidden');
+          if (muteBtn) muteBtn.classList.add('hidden');
+          if (pauseBtn) pauseBtn.classList.add('hidden');
+          if (transcriptEl) transcriptEl.classList.add('hidden');
+        } else if (state === 'listening') {
+          if (mainBtn) { mainBtn.textContent = s.sendNow; mainBtn.disabled = false; }
+          if (interruptBtn) interruptBtn.classList.add('hidden');
+          if (muteBtn) muteBtn.classList.add('hidden');
+          if (pauseBtn) { pauseBtn.textContent = s.pause; pauseBtn.classList.remove('hidden'); }
+        } else if (state === 'processing' || state === 'thinking') {
+          if (mainBtn) { mainBtn.textContent = s.processing; mainBtn.disabled = true; }
+          if (interruptBtn) interruptBtn.classList.add('hidden');
+          if (muteBtn) muteBtn.classList.add('hidden');
+          if (pauseBtn) pauseBtn.classList.add('hidden');
+        } else if (state === 'speaking') {
+          if (mainBtn) { mainBtn.textContent = s.stopSpeaking; mainBtn.disabled = false; }
+          if (interruptBtn) {
+            interruptBtn.textContent = s.interrupt || 'Interrupt & Speak';
+            interruptBtn.classList.remove('hidden');
+          }
+          if (muteBtn) {
+            muteBtn.textContent = s.mute || 'Mute';
+            muteBtn.classList.remove('hidden');
+          }
+          if (pauseBtn) { pauseBtn.textContent = s.pause; pauseBtn.classList.remove('hidden'); }
+        } else if (state === 'paused') {
+          if (mainBtn) { mainBtn.textContent = s.resume; mainBtn.disabled = false; }
+          if (interruptBtn) interruptBtn.classList.add('hidden');
+          if (muteBtn) muteBtn.classList.add('hidden');
+          if (pauseBtn) pauseBtn.classList.add('hidden');
+        } else if (state === 'error') {
+          if (mainBtn) { mainBtn.textContent = s.tryAgain; mainBtn.disabled = false; }
+          if (interruptBtn) interruptBtn.classList.add('hidden');
+          if (muteBtn) muteBtn.classList.add('hidden');
+          if (pauseBtn) pauseBtn.classList.add('hidden');
+        }
       }
 
       function resetBars() {
@@ -1244,54 +1434,167 @@
 
       function stopSpeaking() {
         speakToken++;
-        player.pause();
-        if ('speechSynthesis' in window) speechSynthesis.cancel();
-        if (voiceState === 'speaking') setVoice(null);
-      }
-
-      async function speak(text) {
-        stopSpeaking();
-        const token = speakToken;
-        const spoken = (text || '')
-          .replace(/\*\*([^*]+)\*\*/g, '$1')
-          .replace(/\*([^*]+)\*/g, '$1')
-          .replace(/#{1,6}\s*/g, '')
-          .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
-          .replace(/[`_~]/g, '')
-          .replace(/^[•\-\*]\s+/gm, '')
-          .replace(/\b\d{4,}\b/g, (m) => m.split('').join(' '))
-          .trim();
-        if (!spoken) return;
-        
-        setVoice('speaking');
-
-        // Try backend TTS if configured, else browser SpeechSynthesis
-        if (API) {
-          try {
-            const res = await fetch(API + '/api/tts', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ text: spoken })
-            });
-            if (!res.ok) throw new Error('tts');
-            const url = URL.createObjectURL(await res.blob());
-            if (token !== speakToken) { URL.revokeObjectURL(url); return; }
-            player.onended = player.onerror = () => { URL.revokeObjectURL(url); if (token === speakToken) setVoice(null); };
-            player.src = url;
-            await player.play();
-            return;
-          } catch (e) {
-            // fallback to browser
-          }
+        audioQueue = [];
+        isPlayingAudioQueue = false;
+        if (currentTtsAbortController) {
+          try { currentTtsAbortController.abort(); } catch (e) {}
+          currentTtsAbortController = null;
         }
-
+        player.onended = null;
+        player.onerror = null;
+        try { player.pause(); } catch (e) {}
+        try { player.src = ''; } catch (e) {}
         if ('speechSynthesis' in window) {
-          const u = new SpeechSynthesisUtterance(spoken);
-          u.lang = lang() === 'hi' ? 'hi-IN' : 'en-IN';
-          u.onend = u.onerror = () => { if (token === speakToken) setVoice(null); };
-          speechSynthesis.speak(u);
-        } else {
+          try { window.speechSynthesis.cancel(); } catch (e) {}
+        }
+        if (voiceState === 'speaking' && !voiceModeActive) {
           setVoice(null);
         }
+      }
+
+      function cleanForSpeechAudio(text) {
+        if (!text) return '';
+        let s = cleanUserFacingText(text);
+        s = s.replace(/\*\*([^*]+)\*\*/g, '$1')
+             .replace(/\*([^*]+)\*/g, '$1')
+             .replace(/#{1,6}\s*/g, '')
+             .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+             .replace(/[`_~]/g, '')
+             .replace(/^[•\-\*]\s+/gm, '')
+             .replace(/^\d+\.\s+/gm, '');
+        s = s.replace(/\bcybercrime\.gov\.in\b/gi, 'cyber crime dot gov dot in')
+             .replace(/\bstopncii\.org\b/gi, 'stop n c i i dot org')
+             .replace(/\bsancharsaathi\.gov\.in\b/gi, 'sanchar saathi dot gov dot in')
+             .replace(/\bscores\.gov\.in\b/gi, 'scores dot gov dot in')
+             .replace(/\bpolice\.rajasthan\.gov\.in\b/gi, 'police dot rajasthan dot gov dot in');
+        s = s.replace(/\b\d{4,}\b/g, (m) => m.split('').join(' '));
+        return s.trim();
+      }
+
+      function primeAudio() {
+        try {
+          if (!player) player = new Audio();
+          player.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+          const p = player.play();
+          if (p && typeof p.then === 'function') {
+            p.then(() => {
+              try { player.pause(); player.currentTime = 0; } catch (e) {}
+            }).catch(() => {});
+          }
+        } catch (e) {}
+
+        if ('speechSynthesis' in window) {
+          try {
+            window.speechSynthesis.resume();
+          } catch (e) {}
+        }
+      }
+
+      async function speak(text, onComplete) {
+        stopSpeaking();
+        const token = ++speakToken;
+        const spoken = cleanForSpeechAudio(text);
+        if (!spoken) {
+          if (typeof onComplete === 'function') onComplete();
+          if (voiceModeActive && voiceState !== 'paused') {
+            setTimeout(() => { if (voiceModeActive && voiceState !== 'paused' && token === speakToken) startListening(); }, 350);
+          }
+          return;
+        }
+
+        setVoice('speaking');
+        const transcriptEl = $('ca-voice-transcript');
+        if (transcriptEl) {
+          transcriptEl.textContent = cleanUserFacingText(text);
+          transcriptEl.classList.remove('hidden');
+        }
+
+        const finishSpeaking = () => {
+          if (token !== speakToken) return;
+          if (typeof onComplete === 'function') onComplete();
+          if (voiceModeActive && voiceState !== 'paused') {
+            setTimeout(() => {
+              if (voiceModeActive && voiceState !== 'paused' && token === speakToken) {
+                startListening();
+              }
+            }, 350);
+          } else if (!voiceModeActive) {
+            setVoice(null);
+          }
+        };
+
+        // 1. Try backend TTS endpoint (/api/tts)
+        const ttsUrl = (typeof API !== 'undefined' && API ? API : '') + '/api/tts';
+        try {
+          const ttsController = new AbortController();
+          currentTtsAbortController = ttsController;
+          const res = await fetch(ttsUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: spoken, lang: lang() }),
+            signal: ttsController.signal
+          });
+          currentTtsAbortController = null;
+          if (token !== speakToken) return;
+          if (!res.ok) throw new Error('tts_failed_' + res.status);
+          const blob = await res.blob();
+          if (token !== speakToken) return;
+          const url = URL.createObjectURL(blob);
+          player.onended = () => {
+            URL.revokeObjectURL(url);
+            if (token !== speakToken) return;
+            finishSpeaking();
+          };
+          player.onerror = () => {
+            URL.revokeObjectURL(url);
+            if (token !== speakToken) return;
+            fallbackSpeechSynthesis(spoken, token, finishSpeaking);
+          };
+          player.src = url;
+          try {
+            await player.play();
+            return;
+          } catch (playErr) {
+            URL.revokeObjectURL(url);
+            if (token !== speakToken) return;
+            fallbackSpeechSynthesis(spoken, token, finishSpeaking);
+            return;
+          }
+        } catch (e) {
+          currentTtsAbortController = null;
+          if (token !== speakToken) return;
+        }
+
+        if (token !== speakToken) return;
+        // 2. Fallback to browser SpeechSynthesis
+        fallbackSpeechSynthesis(spoken, token, finishSpeaking);
+      }
+
+      function fallbackSpeechSynthesis(spoken, token, finishSpeaking) {
+        if (token !== speakToken) return;
+        if ('speechSynthesis' in window) {
+          try {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(spoken);
+            const hasDevanagari = /[\u0900-\u097F]/.test(spoken);
+            u.lang = hasDevanagari ? 'hi-IN' : (lang() === 'hi' ? 'hi-IN' : 'en-IN');
+            u.rate = 1.0;
+            u.pitch = 1.0;
+            u.onend = () => {
+              if (token !== speakToken) return;
+              finishSpeaking();
+            };
+            u.onerror = () => {
+              if (token !== speakToken) return;
+              finishSpeaking();
+            };
+            window.speechSynthesis.resume();
+            window.speechSynthesis.speak(u);
+            return;
+          } catch (e) {}
+        }
+        if (token !== speakToken) return;
+        finishSpeaking();
       }
 
       function printText(text, title) {
@@ -1336,11 +1639,32 @@
         return card;
       }
 
-      function addBubble(role, text, artifacts) {
+      function cleanUserFacingText(text) {
+        if (!text) return '';
+        let clean = String(text);
+        // Remove bracketed system prompts/directives
+        clean = clean.replace(/\[(?:Reply in|VOICE CALL DIRECTIVE|TRIAGE DIRECTIVE|OFFICIAL KNOWLEDGE|CRITICAL)[^\]]*\]/gi, '');
+        // Remove lines referencing sources, citations or knowledge-base
+        clean = clean.replace(/^(?:#{1,6}\s*)?(?:Sources?|Verified Sources?|Knowledge[- ]?base(?: references)?|स्रोत|आधिकारिक ज्ञानकोष से सत्यापित)[^\n]*$/gim, '');
+        // Remove lines containing yaml or md files
+        clean = clean.replace(/^[^\n]*\b[\w-]+\.(?:yaml|yml|md)\b[^\n]*$/gim, '');
+        // Remove inline yaml or md mentions
+        clean = clean.replace(/`?[\w-]+\.(?:yaml|yml|md)`?/gi, '');
+        // Remove model self-identifications (e.g. "I am Gemini", "As Gemini", "Powered by Gemini")
+        clean = clean.replace(/\b(?:I am|As|powered by|using)\s+(?:Gemini|Sarvam|Ollama|Llama|GPT)[\w\s.-]*/gi, '');
+        // Remove tool call traces
+        clean = clean.replace(/^(?:Calling|Executed|Tool call:?)\s+[\w_]+[^\n]*$/gim, '');
+        // Clean multi-newlines
+        clean = clean.replace(/\n{3,}/g, '\n\n').trim();
+        return clean;
+      }
+
+      function addBubble(role, text, artifacts, citationNote, isFallback, provider) {
+        // 📌 Internal metadata, citations, and provider badges are stripped to ensure clean conversation UI
         const wrap = el('div', 'flex ' + (role === 'user' ? 'justify-end' : 'justify-start'));
         const bubble = el('div', 'max-w-[88%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed shadow-sm ' + (role === 'user' ? 'bg-blue-600 text-white rounded-br-sm' : 'border border-slate-200 bg-white text-slate-800 rounded-tl-sm'));
         
-        let cleanText = text || '';
+        let cleanText = cleanUserFacingText(text || '');
         const hasLetter = (artifacts || []).some(a => a.type === 'letter');
         if (hasLetter && cleanText) {
           const markers = [
@@ -1361,14 +1685,18 @@
 
         bubble.appendChild(el('p', 'whitespace-pre-wrap', cleanText));
         (artifacts || []).forEach((a) => bubble.appendChild(artifactCard(a)));
-        if (role === 'assistant') {
-          const listen = el('button', 'mt-1.5 text-xs font-semibold text-blue-700 hover:underline flex items-center gap-1 cursor-pointer', '🔊 ' + t().listen);
-          listen.type = 'button';
-          listen.onclick = () => speak(cleanText);
-          bubble.appendChild(listen);
+
+        // Subtle replay button for assistant text when NOT in live voice mode
+        if (role === 'assistant' && !voiceModeActive) {
+          const replayBtn = el('button', 'mt-1 text-xs text-slate-400 hover:text-blue-600 flex items-center gap-1 cursor-pointer transition select-none', '🔊 ' + t().listen);
+          replayBtn.type = 'button';
+          replayBtn.onclick = () => speak(cleanText);
+          bubble.appendChild(replayBtn);
         }
+
         wrap.appendChild(bubble);
-        $('ca-log').appendChild(wrap);
+        const log = $('ca-log');
+        if (log) log.appendChild(wrap);
         scrollLog();
       }
 
@@ -1423,6 +1751,7 @@
       }
 
       // ================= CLIENT-SIDE ALWAR CYBER INTELLIGENCE =================
+      // Offline Guidance / ऑफलाइन गाइड fallback engine for instant guidance
       // High-accuracy intelligence engine covering all major cyber incidents
       // Functions both as instant fallback and as full client agent for static GitHub Pages
       function getClientSideReply(query, currentLanguage) {
@@ -1456,7 +1785,30 @@
           }
         }
 
-        // 2. Part-Time Job Scam / Telegram Task Scam / Work From Home
+        // 2. Telegram account hacked / compromised (must precede Telegram task-scam matching)
+        if (match(/(telegram|टेलीग्राम)/i) && match(/(hack|hacked|compromis|login|recover|secure|access|हैक|लॉगिन|रिकवर)/i)) {
+          if (isHi) {
+            return {
+              reply: "🔒 Telegram अकाउंट रिकवरी:\n\n1. Telegram खोलकर Settings → Devices में जाएं और Terminate All Other Sessions चुनें।\n2. Settings → Privacy and Security → Two-Step Verification में मजबूत पासवर्ड और recovery email लगाएं।\n3. अगर लॉगिन नहीं हो रहा है, केवल आधिकारिक Telegram login/reset प्रक्रिया और telegram.org/support का उपयोग करें; किसी recovery agent को पैसे या OTP न दें।\n4. अपने contacts को चेतावनी दें, hacked chats और login alerts के screenshots सुरक्षित रखें। अगर ठगी, धमकी या पैसे का नुकसान हुआ है तो 1930 और cybercrime.gov.in पर रिपोर्ट करें।",
+              artifacts: [{
+                type: 'guide',
+                title: 'Telegram Hacked Account Recovery Checklist',
+                text: "1. Settings → Devices → Terminate All Other Sessions\n2. Enable Two-Step Verification and recovery email\n3. Use only official Telegram login/reset or https://telegram.org/support\n4. Never share Telegram OTP or pay recovery agents\n5. Preserve login alerts, chats and screenshots\n6. Report financial fraud or threats to 1930 and https://cybercrime.gov.in"
+              }]
+            };
+          } else {
+            return {
+              reply: "🔒 Telegram account recovery:\n\n1. Open Telegram → Settings → Devices and select Terminate All Other Sessions.\n2. Go to Settings → Privacy and Security → Two-Step Verification and add a strong password and recovery email.\n3. If you are locked out, use only Telegram's official login/reset flow or telegram.org/support; never share an OTP or pay a recovery agent.\n4. Warn your contacts and preserve login alerts, chats, and screenshots. Report financial fraud, threats, or blackmail to 1930 and cybercrime.gov.in.",
+              artifacts: [{
+                type: 'guide',
+                title: 'Telegram Hacked Account Recovery Checklist',
+                text: "1. Settings → Devices → Terminate All Other Sessions\n2. Enable Two-Step Verification and recovery email\n3. Use only official Telegram login/reset or https://telegram.org/support\n4. Never share Telegram OTP or pay recovery agents\n5. Preserve login alerts, chats and screenshots\n6. Report financial fraud or threats to 1930 and https://cybercrime.gov.in"
+              }]
+            };
+          }
+        }
+
+        // 3. Part-Time Job Scam / Telegram Task Scam / Work From Home
         if (match(/(job scam|task scam|task.*fraud|telegram|part time.*job|work from home|wfh|prepaid.*task|youtube.*like|rating.*scam|review scam|टास्क|टेलीग्राम|जॉब फ्रॉड|पार्ट टाइम)/i)) {
           if (isHi) {
             return {
@@ -1719,18 +2071,19 @@
 
       // ================= CHAT & VOICE PIPELINE =================
       async function ask(text) {
-        const clean = text.trim();
-        if (!clean || busy) return;
+        const clean = (text || '').trim();
+        if (!clean || busy) return null;
         stopSpeaking();
         addBubble('user', clean);
         $('ca-input').value = '';
 
         setBusy(true);
 
-        // If a backend URL is configured or local server available, try querying with 8s timeout
+        // If a backend URL is configured or local server available, query with safe 45s timeout (Task 2)
         if (API !== undefined && (API !== '' || isLocalHost || REMOTE_BACKEND_URL)) {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 8000);
+          currentChatAbortController = controller;
+          const timeoutId = setTimeout(() => controller.abort(), 45000);
           try {
             const endpoint = (API || '') + '/api/chat';
             const res = await fetch(endpoint, {
@@ -1740,102 +2093,849 @@
               signal: controller.signal
             });
             clearTimeout(timeoutId);
+            currentChatAbortController = null;
             if (res.ok) {
               const data = await res.json();
               if (data && data.reply) {
                 addBubble('assistant', data.reply, data.artifacts);
                 setBusy(false);
-                return;
+                if (voiceModeActive && voiceState !== 'paused' && !isSubmittingVoiceTurn) {
+                  speak(data.reply);
+                }
+                return data;
               }
+            } else {
+              addNote(lang() === 'hi' ? 'सर्वर से संपर्क में समस्या (स्थिति: ' + res.status + ')। ऑफलाइन सहायता दिखाई जा रही है:' : 'Server responded with status ' + res.status + '. Showing offline guidance:', true);
             }
           } catch (e) {
             clearTimeout(timeoutId);
-            // Backend offline, timed out, or static deployment; fall through to instant client-side intelligence
+            currentChatAbortController = null;
+            // If the user aborted deliberately to exit voice or cancel request
+            if (e && (e.name === 'AbortError' || (e.message && e.message.includes('abort')))) {
+              if (!voiceModeActive) {
+                setBusy(false);
+                return null;
+              }
+            }
+            const isTimeout = e && (e.name === 'AbortError' || (e.message && e.message.includes('abort')));
+            const errMsg = isTimeout
+              ? (lang() === 'hi' ? 'सर्वर से उत्तर में देरी हुई (टाइमआउट)। ऑफलाइन सहायता दिखाई जा रही है:' : 'Request timed out after 45s. Showing offline emergency guidance:')
+              : (lang() === 'hi' ? 'सर्वर से संपर्क नहीं हो सका। ऑफलाइन सहायता दिखाई जा रही है:' : 'Server connection failed. Showing offline emergency guidance:');
+            addNote(errMsg, true);
           }
         }
 
-        // Instant high-quality client-side reply
-        setTimeout(() => {
-          const clientData = getClientSideReply(clean, lang());
-          addBubble('assistant', clientData.reply, clientData.artifacts);
-          setBusy(false);
-        }, 200);
+        // Instant fallback client-side reply
+        const clientData = getClientSideReply(clean, lang());
+        addBubble('assistant', clientData.reply, clientData.artifacts);
+        setBusy(false);
+        if (voiceModeActive && voiceState !== 'paused' && !isSubmittingVoiceTurn && clientData && clientData.reply) {
+          speak(clientData.reply);
+        }
+        return clientData;
       }
 
-      // Voice Input handling with Web Speech API & fallback
-      function toggleRecording() {
-        if (audioRecorder) {
-          audioRecorder.stop();
-          audioRecorder = null;
-          setVoice(null);
+      // ================= CONVERSATIONAL VOICE MODE ENGINE =================
+      //
+      // Dedicated multi-turn conversational loop:
+      // User speaks -> Transcribed -> Backend Agent (RAG/Grounding/Abstention) ->
+      // Spoken Response (TTS) -> Auto-rearm Listening -> Follow-up queries without re-clicking.
+      //
+      // PRIMARY PATH (Chrome, Edge, Safari):
+      //   Web Speech API (SpeechRecognition) + /api/chat + /api/tts
+      // FALLBACK PATH (Firefox):
+      //   MediaRecorder + /api/voice (Gemini STT) + /api/tts
+
+      function buildAudioBlob(chunks, mimeType) {
+        return new Blob(chunks, { type: mimeType });
+      }
+
+      async function uploadVoice(blob, sessionId, language) {
+        const form = new FormData();
+        form.append('audio', blob, 'recording.' + (blob.type.includes('ogg') ? 'ogg' : 'webm'));
+        form.append('session_id', sessionId);
+        form.append('lang', language);
+
+        const controller = new AbortController();
+        currentChatAbortController = controller;
+        const tid = setTimeout(() => controller.abort(), 25000);
+        try {
+          const res = await fetch((API || '') + '/api/voice', {
+            method: 'POST',
+            body: form,
+            signal: controller.signal,
+          });
+          clearTimeout(tid);
+          currentChatAbortController = null;
+          if (!res.ok) {
+            const code = res.status;
+            if (code === 415) throw new Error('unsupported_audio');
+            if (code === 413) throw new Error('audio_too_large');
+            if (code === 422) throw new Error('no_speech');
+            if (code === 429) throw new Error('rate_limited');
+            throw new Error('server_error_' + code);
+          }
+          return await res.json();
+        } catch (e) {
+          clearTimeout(tid);
+          currentChatAbortController = null;
+          throw e;
+        }
+      }
+
+      // ================= CONVERSATIONAL LIVE STREAMING VOICE ENGINE =================
+      let liveWs = null;
+      let liveAudioCtx = null;
+      let liveAudioSource = null;
+      let liveAudioProcessor = null;
+      let audioQueue = [];
+      let isPlayingAudioQueue = false;
+      let lastVoiceReplyText = null;
+      let hasAudioForCurrentVoiceTurn = false;
+
+      function playAudioQueue() {
+        if (isPlayingAudioQueue || audioQueue.length === 0) return;
+        if (!voiceModeActive || voiceState === 'paused') {
+          audioQueue = [];
+          return;
+        }
+        const chunk = audioQueue.shift();
+        if (!chunk) return;
+
+        isPlayingAudioQueue = true;
+        setVoice('speaking');
+
+        try {
+          const byteChars = atob(chunk);
+          const byteNumbers = new Uint8Array(byteChars.length);
+          for (let i = 0; i < byteChars.length; i++) {
+            byteNumbers[i] = byteChars.charCodeAt(i);
+          }
+          const isWav = byteNumbers.length >= 4 &&
+            byteNumbers[0] === 0x52 && byteNumbers[1] === 0x49 &&
+            byteNumbers[2] === 0x46 && byteNumbers[3] === 0x46;
+          const mime = isWav ? 'audio/wav' : 'audio/mpeg';
+          const blob = new Blob([byteNumbers], { type: mime });
+          const url = URL.createObjectURL(blob);
+
+          player.src = url;
+          player.onended = () => {
+            URL.revokeObjectURL(url);
+            isPlayingAudioQueue = false;
+            if (audioQueue.length > 0) {
+              playAudioQueue();
+            } else if (voiceModeActive && voiceState !== 'paused') {
+              setTimeout(() => {
+                if (voiceModeActive && voiceState !== 'paused' && audioQueue.length === 0) {
+                  startListening();
+                }
+              }, 350);
+            }
+          };
+          player.onerror = () => {
+            URL.revokeObjectURL(url);
+            isPlayingAudioQueue = false;
+            if (audioQueue.length > 0) {
+              playAudioQueue();
+            } else if (voiceModeActive && voiceState !== 'paused') {
+              setTimeout(() => {
+                if (voiceModeActive && voiceState !== 'paused' && audioQueue.length === 0) {
+                  startListening();
+                }
+              }, 350);
+            }
+          };
+          player.play().catch(() => {
+            URL.revokeObjectURL(url);
+            isPlayingAudioQueue = false;
+            if (audioQueue.length > 0) {
+              playAudioQueue();
+            } else if (lastVoiceReplyText && voiceModeActive && voiceState !== 'paused') {
+              const pending = lastVoiceReplyText;
+              lastVoiceReplyText = null;
+              speak(pending);
+            }
+          });
+        } catch (e) {
+          isPlayingAudioQueue = false;
+          if (audioQueue.length > 0) playAudioQueue();
+        }
+      }
+
+      function startStreamingVoice() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          return startSpeechRecFallback();
+        }
+        const wsProto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${wsProto}//${location.host}/ws/voice?session_id=${encodeURIComponent(sessionId)}&lang=${encodeURIComponent(lang())}`;
+
+        try {
+          liveWs = new WebSocket(wsUrl);
+        } catch (e) {
+          return startSpeechRecFallback();
+        }
+
+        let wsOpened = false;
+
+        liveWs.onopen = async () => {
+          wsOpened = true;
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              audio: {
+                sampleRate: 16000,
+                channelCount: 1,
+                echoCancellation: true,
+                noiseSuppression: true,
+              },
+            });
+            mediaStreamRef = stream;
+
+            liveAudioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+            liveAudioSource = liveAudioCtx.createMediaStreamSource(stream);
+            liveAudioProcessor = liveAudioCtx.createScriptProcessor(4096, 1, 1);
+
+            liveAudioProcessor.onaudioprocess = (e) => {
+              if (!voiceModeActive || voiceState === 'paused') return;
+              const inputData = e.inputBuffer.getChannelData(0);
+
+              // Calculate RMS volume for live waveform animation
+              let sum = 0;
+              for (let i = 0; i < inputData.length; i++) {
+                sum += inputData[i] * inputData[i];
+              }
+              const rms = Math.sqrt(sum / inputData.length);
+
+              // Update waveform bars
+              const bars = document.querySelectorAll('.ca-bar');
+              const scale = Math.min(2.5, Math.max(0.2, rms * 18));
+              bars.forEach((b, idx) => {
+                const jitter = 0.7 + 0.6 * Math.sin(Date.now() / 120 + idx);
+                b.style.transform = `scaleY(${scale * jitter})`;
+              });
+
+              // Barge-in check: If agent is speaking and user speaks loud enough (rms > 0.04)
+              if (voiceState === 'speaking' && rms > 0.04) {
+                if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+                  liveWs.send(JSON.stringify({ type: 'interrupt' }));
+                }
+                stopSpeaking();
+                audioQueue = [];
+                setVoice('listening');
+                startListening();
+                return;
+              }
+
+              // Convert Float32 to 16-bit PCM and send over WebSocket
+              const pcm16 = new Int16Array(inputData.length);
+              for (let i = 0; i < inputData.length; i++) {
+                const s = Math.max(-1, Math.min(1, inputData[i]));
+                pcm16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+              }
+
+              if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+                liveWs.send(pcm16.buffer);
+              }
+            };
+
+            liveAudioSource.connect(liveAudioProcessor);
+            liveAudioProcessor.connect(liveAudioCtx.destination);
+          } catch (err) {
+            endVoiceConversation();
+            setVoice('error', t().errMic);
+            addNote(t().errMic, true);
+          }
+        };
+
+        liveWs.onmessage = (event) => {
+          try {
+            const msg = JSON.parse(event.data);
+            if (msg.type === 'ready') {
+              setVoice('listening');
+              if (!msg.sarvam_realtime) {
+                // Backend does not have Sarvam live WebSocket streaming; use browser SpeechRecognition
+                startListening();
+              }
+            } else if (msg.type === 'partial_transcript') {
+              if (msg.text) {
+                $('ca-voice-text').textContent = msg.text;
+                const transcriptBox = $('ca-voice-transcript');
+                if (transcriptBox) {
+                  transcriptBox.textContent = msg.text;
+                  transcriptBox.classList.remove('hidden');
+                }
+              }
+            } else if (msg.type === 'final_transcript') {
+              if (msg.text) {
+                $('ca-voice-text').textContent = msg.text;
+                const transcriptBox = $('ca-voice-transcript');
+                if (transcriptBox) {
+                  transcriptBox.textContent = msg.text;
+                  transcriptBox.classList.remove('hidden');
+                }
+              }
+            } else if (msg.type === 'state') {
+              setVoice(msg.state);
+              if (msg.state === 'listening' && lastVoiceReplyText && !hasAudioForCurrentVoiceTurn && voiceModeActive && voiceState !== 'paused') {
+                const pendingReply = lastVoiceReplyText;
+                lastVoiceReplyText = null;
+                speak(pendingReply);
+              }
+            } else if (msg.type === 'reply_text') {
+              lastVoiceReplyText = msg.text;
+              hasAudioForCurrentVoiceTurn = false;
+              addBubble('assistant', msg.text, []);
+            } else if (msg.type === 'audio_chunk') {
+              hasAudioForCurrentVoiceTurn = true;
+              audioQueue.push(msg.audio);
+              playAudioQueue();
+            } else if (msg.type === 'interrupted') {
+              stopSpeaking();
+              audioQueue = [];
+              lastVoiceReplyText = null;
+              setVoice('listening');
+              startListening();
+            } else if (msg.type === 'error') {
+              addNote(msg.message || t().errGeneric, true);
+              setVoice('listening');
+              startListening();
+            }
+          } catch (e) {}
+        };
+
+        liveWs.onerror = () => {
+          liveWs = null;
+          if (voiceModeActive && voiceState !== 'paused') {
+            startSpeechRecFallback();
+          }
+        };
+
+        liveWs.onclose = () => {
+          liveWs = null;
+          if (voiceModeActive && voiceState !== 'paused') {
+            startSpeechRecFallback();
+          }
+        };
+      }
+
+      function startVoiceConversation() {
+        primeAudio();
+        if (voiceModeActive) {
+          // If already active, clicking mic toggles off and moves smoothly to chat
+          endVoiceConversation();
           return;
         }
 
+        togglePanel(true);
+        voiceModeActive = true;
+        consecutiveSilenceRestarts = 0;
+        setVoice('requesting_permission');
+
+        // Style the toolbar mic button to indicate live active voice mode
+        const micEl = $('ca-mic');
+        if (micEl) {
+          micEl.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          micEl.classList.add('bg-red-600', 'hover:bg-red-700', 'animate-pulse');
+          const isHi = lang() === 'hi';
+          micEl.title = isHi ? 'वॉयस मोड बंद करें और चैट पर लौटें' : 'Stop voice mode and move to chat';
+          micEl.setAttribute('aria-label', isHi ? 'वॉयस मोड बंद करें और चैट पर लौटें' : 'Stop voice mode and move to chat');
+        }
+
+        // Try high-performance live WebSocket streaming first
+        if (typeof WebSocket !== 'undefined' && (API !== undefined || isLocalHost || location.port === '3000' || location.port === '8000')) {
+          startStreamingVoice();
+        } else {
+          startSpeechRecFallback();
+        }
+      }
+
+      function startSpeechRecFallback() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRec) {
-          stopSpeaking();
-          const rec = new SpeechRec();
-          rec.lang = lang() === 'hi' ? 'hi-IN' : 'en-IN';
-          rec.interimResults = false;
-          rec.maxAlternatives = 1;
-
-          setVoice('listening');
-          audioRecorder = rec;
-
-          rec.onresult = (e) => {
-            const transcript = e.results[0][0].transcript;
-            setVoice(null);
-            audioRecorder = null;
-            if (transcript) {
-              ask(transcript);
-            }
-          };
-
-          rec.onerror = (e) => {
-            setVoice(null);
-            audioRecorder = null;
-            if (e && e.error === 'aborted') return;
-            if (e && e.error === 'not-allowed') {
-              addNote(t().errMic, true);
-            } else {
-              addNote(t().errNoSound, true);
-            }
-          };
-
-          rec.onend = () => {
-            if (voiceState === 'listening') setVoice(null);
-            audioRecorder = null;
-          };
-
-          try {
-            rec.start();
-          } catch (e) {
-            setVoice(null);
-            audioRecorder = null;
-            addNote(t().errMic, true);
-          }
+          setTimeout(() => {
+            if (voiceModeActive && voiceState !== 'paused') startListening();
+          }, 150);
+        } else if (typeof MediaRecorder !== 'undefined' && (typeof API !== 'undefined' || isLocalHost || location.port === '3000' || location.port === '8000')) {
+          setTimeout(() => {
+            if (voiceModeActive && voiceState !== 'paused') startMediaRecorderFallback();
+          }, 150);
         } else {
+          endVoiceConversation();
+          setVoice('error', t().errMic);
           addNote(t().errMic, true);
         }
       }
 
-      $('ca-voice-main').onclick = () => {
-        if (voiceState === 'listening' && audioRecorder) {
-          audioRecorder.stop();
-          audioRecorder = null;
-          setVoice(null);
-        } else if (voiceState === 'speaking') {
+      function startListening() {
+        if (!voiceModeActive || voiceState === 'paused') return;
+        if (isRecognitionRunning) return;
+        clearTimeout(recognitionRestartTimer);
+        currentTranscript = '';
+
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRec) {
           stopSpeaking();
+          try {
+            const rec = new SpeechRec();
+            rec.lang = lang() === 'hi' ? 'hi-IN' : 'en-IN';
+            rec.interimResults = true;
+            rec.maxAlternatives = 1;
+            activeSpeechRec = rec;
+
+            rec.onstart = () => {
+              isRecognitionRunning = true;
+              setVoice('listening');
+            };
+
+            rec.onresult = (e) => {
+              let interim = '';
+              let hasFinal = false;
+              for (let i = e.resultIndex; i < e.results.length; ++i) {
+                const text = e.results[i][0].transcript;
+                if (e.results[i].isFinal) {
+                  currentTranscript = text;
+                  hasFinal = true;
+                } else {
+                  interim += text;
+                }
+              }
+              const display = (currentTranscript || interim).trim();
+              if (display) {
+                $('ca-voice-text').textContent = display;
+                const tBox = $('ca-voice-transcript');
+                if (tBox) {
+                  tBox.textContent = display;
+                  tBox.classList.remove('hidden');
+                }
+                consecutiveSilenceRestarts = 0;
+              }
+              if (hasFinal && currentTranscript.trim()) {
+                const speech = currentTranscript.trim();
+                currentTranscript = '';
+                if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+                  addBubble('user', speech);
+                  setVoice('thinking');
+                  const tBox = $('ca-voice-transcript');
+                  if (tBox) {
+                    tBox.textContent = speech;
+                    tBox.classList.remove('hidden');
+                  }
+                  liveWs.send(JSON.stringify({ type: 'text', text: speech }));
+                } else {
+                  submitVoiceTurn(speech);
+                }
+              }
+            };
+
+            rec.onerror = (e) => {
+              const err = e && e.error;
+              if (err === 'not-allowed') {
+                endVoiceConversation();
+                setVoice('error', t().errMic);
+                addNote(t().errMic, true);
+              } else if (err === 'no-speech') {
+                // Handled in onend
+              }
+            };
+
+            rec.onend = () => {
+              isRecognitionRunning = false;
+              activeSpeechRec = null;
+              if (isSubmittingVoiceTurn || voiceState === 'speaking') return;
+              if (voiceModeActive && voiceState === 'listening') {
+                if (currentTranscript.trim()) {
+                  const speech = currentTranscript.trim();
+                  currentTranscript = '';
+                  if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+                    addBubble('user', speech);
+                    setVoice('thinking');
+                    const tBox = $('ca-voice-transcript');
+                    if (tBox) {
+                      tBox.textContent = speech;
+                      tBox.classList.remove('hidden');
+                    }
+                    liveWs.send(JSON.stringify({ type: 'text', text: speech }));
+                  } else {
+                    submitVoiceTurn(speech);
+                  }
+                } else {
+                  consecutiveSilenceRestarts++;
+                  if (consecutiveSilenceRestarts >= 8) {
+                    pauseVoiceConversation(t().voice.inactivity);
+                  } else {
+                    recognitionRestartTimer = setTimeout(() => {
+                      if (voiceModeActive && voiceState === 'listening') {
+                        startListening();
+                      }
+                    }, 250);
+                  }
+                }
+              }
+            };
+
+            rec.start();
+          } catch (e) {
+            isRecognitionRunning = false;
+            activeSpeechRec = null;
+            voiceModeActive = false;
+            setVoice('error', t().errMic);
+            addNote(t().errMic, true);
+          }
+        } else if (typeof MediaRecorder !== 'undefined' && (typeof API !== 'undefined' || isLocalHost || location.port === '3000' || location.port === '8000')) {
+          startMediaRecorderFallback();
+        } else {
+          voiceModeActive = false;
+          setVoice('error', t().errMic);
+          addNote(t().errMic, true);
+        }
+      }
+
+      async function submitVoiceTurn(text) {
+        const clean = (text || '').trim();
+        if (!clean || isSubmittingVoiceTurn) return;
+        isSubmittingVoiceTurn = true;
+        consecutiveSilenceRestarts = 0;
+        clearTimeout(recognitionRestartTimer);
+
+        if (activeSpeechRec) {
+          try { activeSpeechRec.stop(); } catch (e) {}
+          activeSpeechRec = null;
+        }
+        isRecognitionRunning = false;
+
+        setVoice('thinking');
+        const tBox = $('ca-voice-transcript');
+        if (tBox) {
+          tBox.textContent = clean;
+          tBox.classList.remove('hidden');
+        }
+
+        try {
+          const res = await ask(clean);
+          if (!voiceModeActive) return;
+          if (voiceState !== 'paused' && res && res.reply) {
+            await speak(res.reply);
+          } else if (voiceState !== 'paused') {
+            setVoice('listening');
+            startListening();
+          }
+        } catch (e) {
+          if (!voiceModeActive) return;
+          addNote(t().errGeneric, true);
+          if (voiceState !== 'paused') {
+            setVoice('listening');
+            startListening();
+          }
+        } finally {
+          isSubmittingVoiceTurn = false;
+        }
+      }
+
+      function startMediaRecorderFallback() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          voiceModeActive = false;
+          setVoice('error', t().errMic);
+          return;
+        }
+        stopSpeaking();
+        setVoice('listening');
+
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+          .then((stream) => {
+            if (!voiceModeActive || voiceState === 'paused') {
+              stream.getTracks().forEach(t => t.stop());
+              return;
+            }
+            mediaStreamRef = stream;
+            let mimeType = '';
+            const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/ogg'];
+            for (const c of candidates) {
+              if (MediaRecorder.isTypeSupported(c)) { mimeType = c; break; }
+            }
+            const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+            mediaRecorderRef = recorder;
+            const chunks = [];
+
+            recorder.ondataavailable = (e) => {
+              if (e.data && e.data.size > 0) chunks.push(e.data);
+            };
+
+            recorder.onstop = async () => {
+              clearTimeout(mediaRecorderStopTimer);
+              mediaRecorderStopTimer = null;
+              stream.getTracks().forEach(t => t.stop());
+              mediaStreamRef = null;
+              mediaRecorderRef = null;
+              if (!voiceModeActive) return;
+
+              const finalMime = recorder.mimeType || mimeType || 'audio/webm';
+              const blob = buildAudioBlob(chunks, finalMime);
+              if (blob.size < 1200) {
+                if (voiceModeActive && voiceState !== 'paused') {
+                  consecutiveSilenceRestarts++;
+                  if (consecutiveSilenceRestarts >= 4) {
+                    pauseVoiceConversation(t().voice.inactivity);
+                  } else {
+                    startMediaRecorderFallback();
+                  }
+                }
+                return;
+              }
+
+              setVoice('thinking');
+              try {
+                const data = await uploadVoice(blob, sessionId, lang());
+                if (!voiceModeActive) return;
+                if (data && data.reply) {
+                  if (data.transcript) {
+                    addBubble('user', data.transcript);
+                  }
+                  addBubble('assistant', data.reply, data.artifacts);
+                  if (voiceState !== 'paused') {
+                    await speak(data.reply);
+                  }
+                } else {
+                  addNote(t().errSpeech, true);
+                  if (voiceState !== 'paused') startMediaRecorderFallback();
+                }
+              } catch (err) {
+                if (!voiceModeActive) return;
+                const msg = err && err.message || '';
+                if (msg === 'no_speech') addNote(t().errNoSound, true);
+                else addNote(t().errGeneric, true);
+                if (voiceState !== 'paused') startMediaRecorderFallback();
+              }
+            };
+
+            recorder.start();
+            clearTimeout(mediaRecorderStopTimer);
+            mediaRecorderStopTimer = setTimeout(() => {
+              if (mediaRecorderRef === recorder && recorder.state === 'recording') {
+                recorder.stop();
+              }
+            }, 8000);
+          })
+          .catch((err) => {
+            clearTimeout(mediaRecorderStopTimer);
+            mediaRecorderStopTimer = null;
+            voiceModeActive = false;
+            setVoice('error', t().errMic);
+            addNote(t().errMic, true);
+          });
+      }
+
+      function pauseVoiceConversation(reason) {
+        clearTimeout(recognitionRestartTimer);
+        clearTimeout(mediaRecorderStopTimer);
+        mediaRecorderStopTimer = null;
+        if (activeSpeechRec) {
+          try { activeSpeechRec.abort(); } catch (e) {}
+          activeSpeechRec = null;
+        }
+        if (liveWs) {
+          try {
+            if (liveWs.readyState === WebSocket.OPEN) {
+              liveWs.send(JSON.stringify({ type: 'stop' }));
+            }
+            liveWs.close();
+          } catch (e) {}
+          liveWs = null;
+        }
+        if (liveAudioProcessor) {
+          try { liveAudioProcessor.disconnect(); } catch (e) {}
+          liveAudioProcessor = null;
+        }
+        if (liveAudioSource) {
+          try { liveAudioSource.disconnect(); } catch (e) {}
+          liveAudioSource = null;
+        }
+        if (liveAudioCtx) {
+          try { liveAudioCtx.close(); } catch (e) {}
+          liveAudioCtx = null;
+        }
+        audioQueue = [];
+        isPlayingAudioQueue = false;
+        if (mediaRecorderRef) {
+          try { mediaRecorderRef.stop(); } catch (e) {}
+          mediaRecorderRef = null;
+        }
+        if (mediaStreamRef) {
+          try { mediaStreamRef.getTracks().forEach(t => t.stop()); } catch (e) {}
+          mediaStreamRef = null;
+        }
+        isRecognitionRunning = false;
+        stopSpeaking();
+        setVoice('paused', reason || t().voice.paused);
+      }
+
+      function resumeVoiceConversation() {
+        voiceModeActive = true;
+        consecutiveSilenceRestarts = 0;
+        setVoice('listening');
+        startListening();
+      }
+
+      function endVoiceConversation() {
+        voiceModeActive = false;
+        isSubmittingVoiceTurn = false;
+        consecutiveSilenceRestarts = 0;
+        clearTimeout(recognitionRestartTimer);
+        clearTimeout(mediaRecorderStopTimer);
+        mediaRecorderStopTimer = null;
+
+        if (currentChatAbortController) {
+          try { currentChatAbortController.abort(); } catch (e) {}
+          currentChatAbortController = null;
+        }
+        if (currentTtsAbortController) {
+          try { currentTtsAbortController.abort(); } catch (e) {}
+          currentTtsAbortController = null;
+        }
+
+        if (activeSpeechRec) {
+          try { activeSpeechRec.abort(); } catch (e) {}
+          activeSpeechRec = null;
+        }
+        if (liveWs) {
+          try {
+            if (liveWs.readyState === WebSocket.OPEN) {
+              liveWs.send(JSON.stringify({ type: 'stop' }));
+            }
+            liveWs.close();
+          } catch (e) {}
+          liveWs = null;
+        }
+        if (liveAudioProcessor) {
+          try { liveAudioProcessor.disconnect(); } catch (e) {}
+          liveAudioProcessor = null;
+        }
+        if (liveAudioSource) {
+          try { liveAudioSource.disconnect(); } catch (e) {}
+          liveAudioSource = null;
+        }
+        if (liveAudioCtx) {
+          try { liveAudioCtx.close(); } catch (e) {}
+          liveAudioCtx = null;
+        }
+        audioQueue = [];
+        isPlayingAudioQueue = false;
+        if (mediaRecorderRef) {
+          try { mediaRecorderRef.stop(); } catch (e) {}
+          mediaRecorderRef = null;
+        }
+        if (mediaStreamRef) {
+          try { mediaStreamRef.getTracks().forEach(t => t.stop()); } catch (e) {}
+          mediaStreamRef = null;
+        }
+        isRecognitionRunning = false;
+        stopSpeaking();
+        setVoice(null);
+
+        // Ensure text chat input is completely unlocked and accessible
+        setBusy(false);
+        const inputEl = $('ca-input');
+        const sendEl = $('ca-send');
+        const micEl = $('ca-mic');
+        if (inputEl) inputEl.disabled = false;
+        if (sendEl) sendEl.disabled = false;
+        if (micEl) {
+          micEl.disabled = false;
+          micEl.classList.remove('bg-red-600', 'hover:bg-red-700', 'animate-pulse');
+          micEl.classList.add('bg-blue-600', 'hover:bg-blue-700');
+          const isHi = lang() === 'hi';
+          micEl.title = isHi ? 'वॉयस बातचीत शुरू करें' : 'Start Voice Conversation';
+          micEl.setAttribute('aria-label', isHi ? 'वॉयस बातचीत शुरू करें' : 'Start Voice Conversation');
+        }
+
+        // Return focus to chat input and scroll to latest messages
+        if (inputEl) {
+          setTimeout(() => {
+            try { inputEl.focus(); } catch (e) {}
+          }, 60);
+        }
+        scrollLog();
+      }
+
+      $('ca-voice-main').onclick = () => {
+        if (voiceState === 'listening') {
+          if (currentTranscript.trim()) {
+            submitVoiceTurn(currentTranscript.trim());
+          } else if (mediaRecorderRef && typeof mediaRecorderRef.stop === 'function') {
+            mediaRecorderRef.stop();
+          }
+        } else if (voiceState === 'speaking') {
+          // Interrupt speaking and immediately listen to user
+          if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+            try { liveWs.send(JSON.stringify({ type: 'interrupt' })); } catch (e) {}
+          }
+          stopSpeaking();
+          audioQueue = [];
+          lastVoiceReplyText = null;
+          if (voiceModeActive && voiceState !== 'paused') {
+            setVoice('listening');
+            startListening();
+          }
+        } else if (voiceState === 'paused') {
+          resumeVoiceConversation();
+        } else if (voiceState === 'error') {
+          startVoiceConversation();
+        }
+      };
+
+      const interruptBtn = $('ca-voice-interrupt');
+      if (interruptBtn) {
+        interruptBtn.onclick = () => {
+          if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+            liveWs.send(JSON.stringify({ type: 'interrupt' }));
+          }
+          stopSpeaking();
+          audioQueue = [];
+          if (voiceModeActive) {
+            setVoice('listening');
+            startListening();
+          }
+        };
+      }
+
+      const muteBtn = $('ca-voice-mute');
+      if (muteBtn) {
+        muteBtn.onclick = () => {
+          if (liveWs && liveWs.readyState === WebSocket.OPEN) {
+            liveWs.send(JSON.stringify({ type: 'interrupt' }));
+          }
+          stopSpeaking();
+          audioQueue = [];
+          if (voiceModeActive) {
+            setVoice('listening');
+            startListening();
+          }
+        };
+      }
+
+      $('ca-voice-pause').onclick = () => {
+        if (voiceState === 'paused') {
+          resumeVoiceConversation();
+        } else {
+          pauseVoiceConversation();
         }
       };
 
       $('ca-voice-cancel').onclick = () => {
-        if (audioRecorder) {
-          audioRecorder.abort && audioRecorder.abort();
-          audioRecorder = null;
-        }
-        setVoice(null);
+        endVoiceConversation();
       };
+
+      const closeTopBtn = $('ca-voice-close-top');
+      if (closeTopBtn) {
+        closeTopBtn.onclick = () => {
+          endVoiceConversation();
+        };
+      }
+
+      const chatTopBtn = $('ca-voice-chat-top');
+      if (chatTopBtn) {
+        chatTopBtn.onclick = () => {
+          endVoiceConversation();
+        };
+      }
 
       // ================= PANEL CONTROLS & WIRING =================
       function togglePanel(open) {
@@ -1852,12 +2952,7 @@
         if (show) {
           setTimeout(() => $('ca-input').focus(), 150);
         } else {
-          stopSpeaking();
-          if (audioRecorder) {
-            audioRecorder.abort && audioRecorder.abort();
-            audioRecorder = null;
-          }
-          setVoice(null);
+          endVoiceConversation();
         }
       }
 
@@ -1885,14 +2980,51 @@
         }
       });
 
-      $('ca-mic').onclick = toggleRecording;
+      // Pause voice if page is hidden/tab switched; end on unload
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && voiceModeActive && voiceState === 'listening') {
+          pauseVoiceConversation('Voice mode paused while tab is in background.');
+        }
+      });
+      window.addEventListener('beforeunload', () => {
+        endVoiceConversation();
+      });
+
+      $('ca-mic').onclick = () => {
+        primeAudio();
+        if (voiceModeActive) {
+          endVoiceConversation();
+        } else {
+          startVoiceConversation();
+        }
+      };
+
+      const voiceToggleBtn = $('ca-voice-toggle');
+      if (voiceToggleBtn) {
+        voiceToggleBtn.onclick = () => {
+          primeAudio();
+          if (voiceModeActive) {
+            endVoiceConversation();
+          } else {
+            startVoiceConversation();
+          }
+        };
+      }
+
+      // Pressing Escape exits voice mode and returns immediately to text chat
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && voiceModeActive) {
+          endVoiceConversation();
+        }
+      });
+
       $('ca-form').onsubmit = (e) => { 
         e.preventDefault(); 
         ask($('ca-input').value); 
       };
 
       $('ca-new').onclick = () => {
-        stopSpeaking();
+        endVoiceConversation();
         sessionId = createSessionId();
         sessionStorage.setItem(SESSION_KEY, sessionId);
         resetLog();

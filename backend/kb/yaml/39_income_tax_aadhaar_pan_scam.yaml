@@ -1,0 +1,56 @@
+id: "govt_subsidy_tax_scam"
+category: "scam_alerts"
+urgency: "high"
+title_en: "Fake Govt Scheme / Free Recharge / Income Tax Refund Scam"
+title_hi: "फर्जी सरकारी योजना, मुफ्त रिचार्ज या इनकम टैक्स रिफंड की ठगी"
+summary_en: "WhatsApp forwards promising free 3-month recharge, free laptop, PM Yojana cash, or Income Tax refund links are fake phishing/malware traps."
+summary_hi: "मुफ्त मोबाइल रिचार्ज, फ्री लैपटॉप, सरकारी योजना के पैसे या इनकम टैक्स रिफंड के नाम पर आने वाले WhatsApp लिंक और मैसेज पूरी तरह फर्जी होते हैं।"
+keywords_en:
+  - "free recharge scam"
+  - "fake government scheme link"
+  - "pm yojana scam"
+  - "income tax refund phishing sms"
+  - "free laptop whatsapp forward"
+keywords_hi:
+  - "फ्री रिचार्ज लिंक"
+  - "फर्जी सरकारी योजना"
+  - "इनकम टैक्स रिफंड मैसेज"
+  - "मुफ्त लैपटॉप योजना ठगी"
+keywords_hinglish:
+  - "free recharge whatsapp link scam"
+  - "sarkari yojana ke naam par fraud"
+  - "income tax refund fake sms link"
+sample_queries:
+  - "Got a WhatsApp message for free 3-month recharge and clicked the link"
+  - "Income tax refund SMS link scam me paise kat gaye"
+  - "फ्री रिचार्ज या सरकारी योजना के नाम पर ठगी हो गई"
+answer_en:
+  - "1. Real government schemes NEVER ask for registration fees via WhatsApp links, personal UPI IDs, or .apk downloads."
+  - "2. Do NOT forward 'share with 10 WhatsApp groups to get free recharge' messages — they harvest phone numbers and push malware/ads."
+  - "3. Income Tax refunds are ALWAYS credited directly into your pre-validated bank account — Income Tax department never sends SMS links asking for card/ATM PIN."
+  - "4. Always verify government schemes ONLY on official '.gov.in' or '.nic.in' websites or at an authorized e-Mitra / CSC center in Alwar."
+  - "5. If you already entered bank/OTP info or lost money: call 1930 immediately, inform your bank, and report at cybercrime.gov.in."
+answer_hi:
+  - "1. कोई भी असली सरकारी योजना WhatsApp लिंक, निजी UPI आईडी या .apk फाइल से पैसे नहीं मांगती।"
+  - "2. '10 लोगों को शेयर करने पर फ्री रिचार्ज/लैपटॉप मिलेगा' वाले मैसेज न खोलें और न ही आगे भेजें — इनसे वायरस और ठगी फैलती है।"
+  - "3. इनकम टैक्स रिफंड सीधे आपके बैंक खाते में आता है — विभाग कभी SMS लिंक भेजकर कार्ड नंबर या पिन नहीं मांगता।"
+  - "4. किसी भी सरकारी योजना की जांच केवल आधिकारिक '.gov.in' / '.nic.in' वेबसाइट या अपने नजदीकी ई-मित्र केंद्र पर ही करें।"
+  - "5. अगर लिंक में बैंक जानकारी/OTP डाल दिया है या पैसे कट गए हैं: तुरंत 1930 पर कॉल करें और cybercrime.gov.in पर शिकायत दर्ज करें।"
+followups:
+  - intent_id: "spot_phishing_quiz"
+    label_en: "Check a suspicious message with our Scam Quiz"
+    label_hi: "संदिग्ध मैसेज की जांच करें (चेकलिस्ट)"
+  - intent_id: "upi_fraud"
+    label_en: "Money already deducted?"
+    label_hi: "पैसे कट गए हैं?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर रिपोर्ट करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "PIB Fact Check & I4C Cyber Awareness"

@@ -1,0 +1,57 @@
+id: "challan_parcel_scam"
+category: "scam_alerts"
+urgency: "high"
+title_en: "Fake Traffic e-Challan APK & Courier Parcel Scam (India Post / FedEx)"
+title_hi: "नकली ट्रैफिक ई-चालान (e-Challan) और फर्जी कूरियर पार्सल ठगी"
+summary_en: "SMS/WhatsApp with 'Parivahan e-Challan.apk' or 'India Post / FedEx address incomplete — pay ₹25' are dangerous phishing and malware traps."
+summary_hi: "'ट्रैफिक चालान भरें' वाली .apk फाइल या 'आपका डाक/कूरियर पार्सल अटका है, पता अपडेट कर ₹25 दें' वाले SMS पूरी तरह ठगी हैं।"
+keywords_en:
+  - "e challan scam"
+  - "traffic challan apk"
+  - "india post sms scam"
+  - "courier address update scam"
+  - "fedex parcel scam"
+keywords_hi:
+  - "ई-चालान फ्रॉड"
+  - "नकली चालान मैसेज"
+  - "इंडिया पोस्ट पार्सल ठगी"
+  - "कूरियर एड्रेस अपडेट फ्रॉड"
+keywords_hinglish:
+  - "e challan apk download ho gaya"
+  - "traffic challan fake message aaya"
+  - "india post parcel address update scam"
+  - "courier ke naam par paise kat gaye"
+sample_queries:
+  - "Got a WhatsApp message with Parivahan e-Challan.apk file"
+  - "India Post SMS saying update address and pay 25 rupees"
+  - "नकली ट्रैफिक चालान के नाम पर ठगी हो गई"
+answer_en:
+  - "1. NEVER install any .apk file sent via WhatsApp/SMS claiming to be 'mParivahan' or 'e-Challan' — official challans never come as .apk files."
+  - "2. NEVER pay ₹10-₹50 via unknown links claiming 'India Post / DTDC / BlueDart address incomplete' — those pages steal your card/CVV/OTP and drain thousands."
+  - "3. Check real challans ONLY on the official Ministry website (parivahan.gov.in — verify .gov.in domain) and courier tracking ONLY on official courier apps/websites."
+  - "4. If you ALREADY installed an e-Challan APK: turn OFF internet immediately and follow the Android APK Malware Cleanup checklist."
+  - "5. If you ALREADY entered card/OTP or lost money: call 1930 immediately and block your card via your bank."
+answer_hi:
+  - "1. WhatsApp या SMS में आई कोई भी 'e-Challan.apk' या 'Parivahan.apk' फाइल कभी इंस्टॉल न करें — सरकारी चालान कभी APK फाइल में नहीं आता।"
+  - "2. 'India Post / कूरियर का पता अधूरा है, ₹10-₹25 भरें' वाले लिंक पर कभी भी कार्ड नंबर या OTP न डालें — ऐसे लिंक से पूरा खाता खाली कर लिया जाता है।"
+  - "3. असली चालान केवल आधिकारिक सरकारी वेबसाइट (.gov.in) पर और असली पार्सल केवल कूरियर कंपनी के आधिकारिक ऐप/साइट पर जांचें।"
+  - "4. अगर आपने गलती से चालान वाली APK फाइल इंस्टॉल कर ली है: तुरंत इंटरनेट बंद करें और हमारी APK सफाई चेकलिस्ट का पालन करें।"
+  - "5. अगर कार्ड डिटेल/OTP डाल दिया है या पैसे कट गए हैं: तुरंत 1930 पर कॉल करें और बैंक से कार्ड ब्लॉक कराएं।"
+followups:
+  - intent_id: "apk_malware_cleanup"
+    label_en: "Installed e-Challan APK? Clean phone now"
+    label_hi: "चालान APK इंस्टॉल हो गई? तुरंत सफाई कदम देखें"
+  - intent_id: "card_atm_fraud"
+    label_en: "Entered card details on phishing link?"
+    label_hi: "लिंक पर कार्ड विवरण डाल दिया था?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर रिपोर्ट करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "CERT-In & I4C Phishing / APK Advisory"

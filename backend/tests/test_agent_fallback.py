@@ -9,6 +9,7 @@ from app.schemas import AgentResult
 
 
 def service(**kw) -> AgentService:
+    kw.setdefault("llm_provider_order", ["gemini"])
     return AgentService(Settings(google_api_key="x", **kw))
 
 

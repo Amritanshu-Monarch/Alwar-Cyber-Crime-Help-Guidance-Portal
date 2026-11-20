@@ -1,0 +1,55 @@
+id: "fake_customer_care"
+category: "scam_alerts"
+urgency: "emergency"
+title_en: "Fake Customer Care Numbers on Google Search / Maps"
+title_hi: "गूगल से मिले फर्जी कस्टमर केयर नंबर से ठगी"
+summary_en: "Scammers plant fake helpline numbers on Google Search/Maps for banks, UPI apps, couriers, hotels, and airlines, then ask you to install AnyDesk or pay ₹5 'verification'."
+summary_hi: "गूगल सर्च पर दिखने वाले बैंक, गैस एजेंसी, होटल या कूरियर के कई हेल्पलाइन नंबर ठगों के होते हैं। वे ₹5 या AnyDesk के बहाने पूरा खाता खाली कर देते हैं।"
+keywords_en:
+  - "fake customer care number"
+  - "google search helpline scam"
+  - "courier customer care fraud"
+  - "bank helpline scam on google"
+  - "5 rupees verification scam"
+keywords_hi:
+  - "फर्जी कस्टमर केयर नंबर"
+  - "गूगल से नंबर निकालकर ठगी"
+  - "हेल्पलाइन नंबर फ्रॉड"
+keywords_hinglish:
+  - "google se customer care number nikala aur fraud ho gaya"
+  - "fake helpline number scam"
+  - "refund ke naam par customer care ne paise kaat liye"
+sample_queries:
+  - "I searched Google for courier customer care number and got scammed"
+  - "Google par fake helpline number se paise kat gaye"
+  - "गूगल से कस्टमर केयर नंबर पर कॉल किया था और पैसे कट गए"
+answer_en:
+  - "1. If money was deducted or you installed an app/shared a code: Call 1930 immediately and disconnect mobile data if an unknown app was installed."
+  - "2. Call your bank's OFFICIAL helpline (found inside your bank app or printed on your debit card/passbook) to block cards/UPI."
+  - "3. Golden Rule: NEVER search Google Search or Google Maps for customer care numbers of banks, PhonePe/GPay/Paytm, electricity boards, courier companies, or hotels — scammers edit Google listings and run fake ads."
+  - "4. Always open the official mobile app directly (e.g., Help section inside PhonePe/Swiggy/Amazon/Bank app) or type the exact official website printed on your bill/card."
+  - "5. Save the fake phone number, Google link/screenshot, and transaction ID and report on cybercrime.gov.in."
+answer_hi:
+  - "1. अगर पैसे कटे हैं या कोई ऐप डाउनलोड कराया गया है: तुरंत 1930 पर कॉल करें और संदिग्ध ऐप हटाकर इंटरनेट बंद करें।"
+  - "2. अपने बैंक के असली कस्टमर केयर नंबर (जो आपके ATM कार्ड के पीछे या पासबुक पर छपा हो) पर कॉल करके कार्ड/UPI बंद कराएं।"
+  - "3. जरूरी नियम: कभी भी बैंक, PhonePe/GPay, बिजली विभाग, कूरियर, गैस एजेंसी या होटल का कस्टमर केयर नंबर गूगल सर्च या गूगल मैप्स से न खोजें — ठग वहां अपने नकली नंबर डाल देते हैं।"
+  - "4. सहायता के लिए हमेशा सीधे उस कंपनी के आधिकारिक ऐप के 'Help' सेक्शन या कार्ड/बिल पर छपे नंबर का ही इस्तेमाल करें।"
+  - "5. ठग का नंबर, पेमेंट स्क्रीनशॉट और UTR नंबर लेकर cybercrime.gov.in पर शिकायत दर्ज करें।"
+followups:
+  - intent_id: "remote_access_scam"
+    label_en: "Did they make you install AnyDesk/QuickSupport?"
+    label_hi: "क्या उन्होंने AnyDesk/स्क्रीन शेयर ऐप डाउनलोड कराया?"
+  - intent_id: "upi_fraud"
+    label_en: "Money deducted via UPI?"
+    label_hi: "UPI से पैसे कटे?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पोर्टल पर रिपोर्ट करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "I4C Cyber Dost Public Advisory"

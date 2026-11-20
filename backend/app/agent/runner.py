@@ -28,6 +28,8 @@ from app.agent.grounding import (
 from app.agent.prompts import INSTRUCTION
 from app.agent.tools import ALL_TOOLS
 from app.config import Settings
+from app.providers.base import split_into_sentences
+from app.providers.registry import ProviderRegistry
 from app.schemas import AgentResult, Artifact
 from app.services.query_expander import classify_domains
 from app.services.rag import get_kb
@@ -41,6 +43,16 @@ REPLY_LANGUAGE = {
     "hi": "[Reply in Hindi in Devanagari script. Use simple, natural spoken Hindi suitable for voice clarity. Write key numbers as digits (1930, 8764874306). Keep tool language argument as hi.]",
     "hinglish": "[Reply in Hindi written in Roman (English) letters, i.e. natural spoken Hinglish like 'Aap sabse pehle 1930 par call karein'. Keep English technical terms in Latin letters (UPI, OTP, bank statement, cybercrime.gov.in). Never use Devanagari. Keep tool language argument as hi.]",
 }
+VOICE_DIRECTIVE = (
+    "[VOICE CALL DIRECTIVE: Citizen is speaking over a live voice phone/mic call.\n"
+    "1. Give the SINGLE most urgent immediate action first (e.g. call 1930 immediately or block SIM/card).\n"
+    "2. If critical case details are missing, ask at most ONE short follow-up question (e.g. 'Paise kitne der pehle kate? UPI se ya card se?').\n"
+    "3. Keep the spoken response short and direct (1-2 crisp sentences). Do not read long numbered lists.\n"
+    "4. At the end, ask: 'Kya aapko poora step-by-step procedure chahiye?'.\n"
+    "5. Never repeat any steps the citizen already confirmed they completed.\n"
+    "6. Do not use markdown asterisks, bullet points, or raw website URLs.\n"
+    "7. Never mention file names, YAML or Markdown sources, model names (Gemini, Sarvam), internal metadata, or knowledge-base references.]"
+)
 DEVANAGARI_CHARS = re.compile(r"[\u0900-\u097F]")
 HINGLISH_WORDS = frozenset({
     "aap", "aapka", "aapke", "aapki", "apna", "apne", "apni",
@@ -127,11 +139,22 @@ def trim_to_sentence_boundary(text: str) -> str:
 
 
 def clean_reply_text(text: str) -> str:
-    """Strip leading or echoed bracketed system directives and trim mid-sentence cuts."""
+    """Strip leading or echoed bracketed system directives, internal source/knowledge-base lines,
+    YAML/MD file references, model identifiers, and trim mid-sentence cuts."""
     if not text:
         return ""
-    cleaned = re.sub(r"^\s*\[Reply in [^\]]+\]\s*", "", text, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\n\s*\[Reply in [^\]]+\]\s*", "\n", cleaned, flags=re.IGNORECASE)
+    # Strip any bracketed directives: [Reply in ...], [VOICE CALL DIRECTIVE: ...], [TRIAGE DIRECTIVE: ...], [OFFICIAL KNOWLEDGE ...]
+    cleaned = re.sub(r"\[(?:Reply in|VOICE CALL DIRECTIVE|TRIAGE DIRECTIVE|OFFICIAL KNOWLEDGE|CRITICAL)[^\]]*\]", "", text, flags=re.IGNORECASE)
+    # Strip lines that reference sources, citations or knowledge-base files
+    cleaned = re.sub(r"(?im)^(?:#{1,6}\s*)?(?:Sources?|Verified Sources?|Knowledge[- ]?base(?: references)?|स्रोत|आधिकारिक ज्ञानकोष से सत्यापित)[^\n]*$", "", cleaned)
+    # Strip lines mentioning yaml or md files
+    cleaned = re.sub(r"(?im)^[^\n]*\b[\w-]+\.(?:yaml|yml|md)\b[^\n]*$", "", cleaned)
+    # Strip inline yaml/md mentions
+    cleaned = re.sub(r"`?[\w-]+\.(?:yaml|yml|md)`?", "", cleaned, flags=re.IGNORECASE)
+    # Strip model self-identifications if echoed
+    cleaned = re.sub(r"\b(?:I am|As|powered by|using)\s+(?:Gemini|Sarvam|Ollama|Llama|GPT)[\w\s.-]*", "", cleaned, flags=re.IGNORECASE)
+    # Clean up multi-newlines
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
     cleaned = trim_to_sentence_boundary(cleaned)
     return cleaned.strip()
 
@@ -140,11 +163,13 @@ class AgentService:
     # ponytail: in-memory sessions grow unbounded and die on restart.
     # Swap InMemorySessionService for ADK DatabaseSessionService if you need persistence or eviction.
     def __init__(self, settings: Settings):
+        self._s = settings
         self._timeout = settings.agent_timeout_s
         self._primary_timeout = settings.agent_primary_timeout_s
         self._sessions = InMemorySessionService()
         self._session_context: dict[str, tuple[str, list[str], str]] = {}
         self._case_states: dict[str, SessionCaseState] = {}
+        self._provider_registry = ProviderRegistry(settings)
         models = dict.fromkeys([settings.agent_model, settings.agent_fallback_model])  # ordered, deduped
         self._runners = [
             Runner(agent=build_agent(m), app_name=APP_NAME, session_service=self._sessions)
@@ -195,12 +220,13 @@ class AgentService:
             sources=sorted(sources),
             artifacts=artifacts,
             citation_note="",
+            provider="gemini",
         )
         # Attach internal tool hits for downstream evidence attribution in ask()
         res._tool_hits = tool_hits  # type: ignore[attr-defined]
         return res
 
-    async def ask(self, session_id: str, text: str, lang: str = "en") -> AgentResult:
+    async def ask(self, session_id: str, text: str, lang: str = "en", is_voice: bool = False) -> AgentResult:
         # Dynamic conversational language detection: adapts per-turn to Hindi (Devanagari), Hinglish, or English
         # Controlled retrieval policy:
         # Non-conversational factual queries trigger domain-aware grounded knowledge injection.
@@ -302,6 +328,10 @@ class AgentService:
             user_prompt = f"{triage_directive}\n\n{user_prompt}"
             state.triage_question_asked = True
 
+        # Phase 6: Voice-first response style
+        if is_voice and domains != ["conversation"]:
+            user_prompt = f"{VOICE_DIRECTIVE}\n\n{user_prompt}"
+
         message = f"{directive}\n{user_prompt}"
 
         for i, runner in enumerate(self._runners):
@@ -341,13 +371,144 @@ class AgentService:
                 if citation_note:
                     res.citation_note = citation_note
 
+                log.info("Agent answered query for session %s using provider: %s", session_id, getattr(res, "provider", "gemini"))
                 return res
             except genai_errors.APIError as e:
-                if e.code not in FALLBACK_STATUS_CODES or is_last:
+                if e.code not in FALLBACK_STATUS_CODES:
                     raise
-                log.warning("model call failed (code=%s); retrying on fallback model", e.code)
+                if not is_last:
+                    log.warning("model call failed (code=%s); retrying on fallback model", e.code)
+                    continue
+                # Phase 5: Automatic fallback to non-Gemini provider (Sarvam, Groq, Ollama) on 429/timeout/5xx
+                if hasattr(self, "_provider_registry") and self._provider_registry:
+                    try:
+                        non_gemini = [
+                            prov
+                            for name, prov in self._provider_registry.get_llm_order()
+                            if name != "gemini"
+                        ]
+                        for prov in non_gemini:
+                            if await prov.is_healthy():
+                                try:
+                                    llm_messages = [
+                                        {"role": "system", "content": INSTRUCTION},
+                                        {"role": "user", "content": message},
+                                    ]
+                                    provider_resp = await prov.generate(
+                                        messages=llm_messages,
+                                        temperature=0.2,
+                                        max_tokens=1000,
+                                    )
+                                    if provider_resp and provider_resp.content:
+                                        res = AgentResult(
+                                            reply=clean_reply_text(provider_resp.content) or FALLBACK_REPLY,
+                                            tools_used=[],
+                                            sources=[],
+                                            artifacts=[],
+                                            citation_note="",
+                                            provider=prov.name,
+                                        )
+                                        retrieved_context_text = " ".join(h.get("text", "") for h in candidate_hits)
+                                        sanitized_reply, _ = sanitize_high_risk_claims(
+                                            res.reply,
+                                            lang=effective_lang,
+                                            user_message=text,
+                                            retrieved_context=retrieved_context_text,
+                                        )
+                                        res.reply = sanitized_reply
+                                        attributed_sources, citation_note = attribute_evidence(
+                                            reply=res.reply,
+                                            candidate_hits=candidate_hits,
+                                            domains=domains,
+                                            lang=effective_lang,
+                                            tools_used=[],
+                                        )
+                                        if attributed_sources:
+                                            res.sources = attributed_sources
+                                        if citation_note:
+                                            res.citation_note = citation_note
+                                        log.info("Agent answered query for session %s using fallback provider: %s", session_id, res.provider)
+                                        return res
+                                except Exception as fallback_err:
+                                    log.warning("Fallback provider '%s' failed: %s", getattr(prov, "name", "unknown"), fallback_err)
+                                    if hasattr(self, "_provider_registry") and self._provider_registry:
+                                        self._provider_registry.record_error(getattr(prov, "name", "unknown"), "llm_fallback", fallback_err)
+                    except Exception as fallback_err:
+                        log.warning("Provider fallback attempt failed: %s", fallback_err)
+                raise
             except TimeoutError:
-                if is_last:
-                    raise
-                log.warning("model call timed out; retrying on fallback model")
+                if not is_last:
+                    log.warning("model call timed out; retrying on fallback model")
+                    continue
+                if hasattr(self, "_provider_registry") and self._provider_registry:
+                    try:
+                        non_gemini = [
+                            prov
+                            for name, prov in self._provider_registry.get_llm_order()
+                            if name != "gemini"
+                        ]
+                        for prov in non_gemini:
+                            if await prov.is_healthy():
+                                try:
+                                    llm_messages = [
+                                        {"role": "system", "content": INSTRUCTION},
+                                        {"role": "user", "content": message},
+                                    ]
+                                    provider_resp = await prov.generate(
+                                        messages=llm_messages,
+                                        temperature=0.2,
+                                        max_tokens=1000,
+                                    )
+                                    if provider_resp and provider_resp.content:
+                                        res = AgentResult(
+                                            reply=clean_reply_text(provider_resp.content) or FALLBACK_REPLY,
+                                            tools_used=[],
+                                            sources=[],
+                                            artifacts=[],
+                                            citation_note="",
+                                            provider=prov.name,
+                                        )
+                                        retrieved_context_text = " ".join(h.get("text", "") for h in candidate_hits)
+                                        sanitized_reply, _ = sanitize_high_risk_claims(
+                                            res.reply,
+                                            lang=effective_lang,
+                                            user_message=text,
+                                            retrieved_context=retrieved_context_text,
+                                        )
+                                        res.reply = sanitized_reply
+                                        attributed_sources, citation_note = attribute_evidence(
+                                            reply=res.reply,
+                                            candidate_hits=candidate_hits,
+                                            domains=domains,
+                                            lang=effective_lang,
+                                            tools_used=[],
+                                        )
+                                        if attributed_sources:
+                                            res.sources = attributed_sources
+                                        if citation_note:
+                                            res.citation_note = citation_note
+                                        log.info("Agent answered query for session %s using fallback provider: %s", session_id, res.provider)
+                                        return res
+                                except Exception as fallback_err:
+                                    log.warning("Fallback provider '%s' failed on timeout: %s", getattr(prov, "name", "unknown"), fallback_err)
+                                    if hasattr(self, "_provider_registry") and self._provider_registry:
+                                        self._provider_registry.record_error(getattr(prov, "name", "unknown"), "llm_fallback", fallback_err)
+                    except Exception as fallback_err:
+                        log.warning("Provider fallback attempt failed on timeout: %s", fallback_err)
+                raise
         raise RuntimeError("no runners configured")  # unreachable: __init__ always builds >= 1
+
+    async def ask_stream_sentences(
+        self, session_id: str, text: str, lang: str = "en", is_voice: bool = True
+    ):
+        """Yield (sanitized_sentence, effective_lang) sentence by sentence for live voice playback.
+        Ensures safety sanitization is strictly executed on EACH sentence BEFORE yielding.
+        """
+        res = await self.ask(session_id, text, lang=lang, is_voice=is_voice)
+        sentences = split_into_sentences(res.reply)
+        effective_lang = detect_effective_language(text, fallback_lang=lang)
+        for s in sentences:
+            if not s.strip():
+                continue
+            sanitized_s, _ = sanitize_high_risk_claims(s, lang=effective_lang)
+            yield sanitized_s, effective_lang

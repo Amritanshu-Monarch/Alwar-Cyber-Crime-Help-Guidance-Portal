@@ -1,0 +1,58 @@
+id: "deepfake_voice_scam"
+category: "scam_alerts"
+urgency: "high"
+title_en: "AI Voice Cloning & Deepfake Family Emergency Scam"
+title_hi: "AI आवाज की नकल (Deepfake) और रिश्तेदार मुसीबत में होने की झूठी कॉल"
+summary_en: "Scammers clone a relative's voice from social media videos or pose as police/hospital on a video call claiming an accident/arrest and demanding instant UPI transfer."
+summary_hi: "ठग AI की मदद से आपके बेटे, भाई या रिश्तेदार की आवाज निकालकर एक्सीडेंट या पुलिस केस का नाटक करते हैं और तुरंत पैसे मंगवाते हैं। पहले असली नंबर पर कॉल कर जांचें।"
+keywords_en:
+  - "deepfake call scam"
+  - "ai voice cloning scam"
+  - "fake relative accident call"
+  - "son arrested fake call"
+  - "deepfake video scam"
+keywords_hi:
+  - "आवाज की नकल करके ठगी"
+  - "डीपफेक कॉल फ्रॉड"
+  - "बेटे के एक्सीडेंट की झूठी कॉल"
+  - "रिश्तेदार की आवाज में ठगी"
+keywords_hinglish:
+  - "deepfake voice scam"
+  - "bete ya bhai ki awaz me fake call aaya"
+  - "accident ya thane ka bol kar paise mang raha hai"
+sample_queries:
+  - "Someone called sounding just like my son saying he is in an accident and needs urgent UPI"
+  - "AI voice cloning ya deepfake call scam se kaise bache"
+  - "किसी ने मेरे रिश्तेदार की आवाज में इमरजेंसी बताकर पैसे मांगे"
+answer_en:
+  - "1. STOP & HANG UP: Do NOT send money in panic even if the voice sounds 100% identical to your family member or friend."
+  - "2. CALL BACK ON THEIR SAVED NUMBER: Immediately call your family member directly on the personal phone number saved in your phonebook (or call another family member with them) to verify where they are."
+  - "3. Ask a Family Safe-Word / Personal Question: If unsure on a call, ask a personal detail AI cannot know (e.g., family pet name, grandmother's village)."
+  - "4. Notice Deepfake Video Clues: Unnatural blinking, lip-sync delay, blurry face edges, or excuses that 'camera is broken/signal is weak'."
+  - "5. If you already transferred money: Call 1930 IMMEDIATELY and submit details on cybercrime.gov.in."
+  - "6. Keep social media videos/voice clips private where possible to limit voice cloning material."
+answer_hi:
+  - "1. घबराएं नहीं और तुरंत कॉल काटें: भले ही आवाज 100% आपके बेटे, भाई या रिश्तेदार जैसी लगे, घबराहट में तुरंत पैसे बिल्कुल न भेजें।"
+  - "2. पहले से सेव नंबर पर कॉल कर पक्का करें: तुरंत अपने फोन में पहले से सेव उनके असली नंबर पर कॉल करें (या उनके साथ रहने वाले किसी दूसरे परिजन को फोन लगाएं)।"
+  - "3. कोई निजी पारिवारिक सवाल पूछें: संदेह होने पर ऐसी निजी बात पूछें जो सिर्फ परिवार जानता हो (जैसे बचपन का नाम या गांव का नाम) — ठग या AI यह नहीं बता पाएगा।"
+  - "4. वीडियो कॉल में नकली पहचान के संकेत: अजीब ढंग से पलक झपकना, होंठ और आवाज का मेल न खाना, या 'कैमरा खराब है/नेटवर्क कम है' का बहाना बनाना।"
+  - "5. अगर पैसे भेज चुके हैं: तुरंत 1930 पर कॉल करें और cybercrime.gov.in पर शिकायत दर्ज करें।"
+  - "6. सोशल मीडिया पर अपने और परिवार के वीडियो/आवाज क्लिप सीमित (Private) रखने की कोशिश करें।"
+followups:
+  - intent_id: "upi_fraud"
+    label_en: "Already paid money? Follow 1930 steps"
+    label_hi: "पैसे भेज दिए हैं? तुरंत यह करें"
+  - intent_id: "digital_arrest_scam"
+    label_en: "Fake police call claiming relative arrested?"
+    label_hi: "रिश्तेदार की गिरफ्तारी की झूठी पुलिस कॉल?"
+official_links:
+  - name_en: "Call 1930 Helpline"
+    name_hi: "1930 पर कॉल करें"
+    url: "tel:1930"
+    verified: true
+  - name_en: "Report on NCRP"
+    name_hi: "NCRP पर रिपोर्ट करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "I4C / CERT-In AI Voice & Deepfake Scam Advisory"

@@ -1,0 +1,58 @@
+id: "cyber_harassment_stalking"
+category: "social_media"
+urgency: "high"
+title_en: "Online Harassment, Cyberstalking & Threat Messages"
+title_hi: "ऑनलाइन गाली-गलौज, पीछा करना (Cyberstalking) और धमकी से बचाव"
+summary_en: "Being harassed, threatened, or stalked across WhatsApp, Instagram, calls, or fake accounts? Preserve proof, tighten privacy, and report legally."
+summary_hi: "WhatsApp, Instagram या बार-बार अलग नंबरों से कॉल करके कोई परेशान या धमकी दे रहा है? सबूत संभालें, नंबर ब्लॉक करें और पुलिस/NCRP में शिकायत करें।"
+keywords_en:
+  - "cyber harassment"
+  - "cyberstalking"
+  - "online threats"
+  - "abusive messages whatsapp instagram"
+  - "unknown calls harassing woman"
+keywords_hi:
+  - "ऑनलाइन धमकी"
+  - "सोशल मीडिया पर परेशान करना"
+  - "साइबर स्टॉकिंग"
+  - "गंदे मैसेज भेज रहा है"
+keywords_hinglish:
+  - "koi online pareshan kar raha hai"
+  - "whatsapp instagram par dhamki de raha hai"
+  - "alag alag number se call karke harass kar raha hai"
+sample_queries:
+  - "Someone keeps harassing and threatening me from multiple WhatsApp numbers"
+  - "Online harassment aur cyber stalking ki complaint kaise kare"
+  - "कोई सोशल मीडिया पर लगातार गंदे मैसेज और धमकी दे रहा है"
+answer_en:
+  - "1. Do NOT Engage or Argue: Replying often encourages harassers. Silence and evidence collection work best."
+  - "2. Capture Complete Proof: Screenshot abusive messages, profile URLs, call logs, and all phone numbers (make sure sender ID/number and timestamp are clearly visible)."
+  - "3. Lock Privacy Settings: Set Instagram/Facebook profiles to Private, turn off message requests from strangers, and silence unknown callers on WhatsApp (Settings -> Privacy -> Calls -> Silence unknown callers)."
+  - "4. Block & Report inside the Platform: Report the user/comments for Harassment/Bullying before blocking."
+  - "5. File Online Complaint on cybercrime.gov.in: Choose 'Report Cyber Crime Related to Women/Children' (for women/minor victims) or 'Report Other Cyber Crime' and upload screenshots."
+  - "6. Immediate Danger / Physical Threat: Call 112 (Emergency Police) or 1090 (Women Helpline) or visit your local Alwar Police Station's Women Help Desk right away."
+answer_hi:
+  - "1. परेशान करने वाले से बहस या चैट न करें: जवाब देने से उनका हौसला बढ़ता है — चुपचाप सबूत इकट्ठा करें।"
+  - "2. पूरे सबूत संभालें: गंदे/धमकी भरे मैसेज, कॉल लॉग, प्रोफाइल का पूरा लिंक (URL) और मोबाइल नंबर के साफ स्क्रीनशॉट ले लें (ताकि नंबर और समय साफ दिखे)।"
+  - "3. प्राइवेसी सेटिंग सख्त करें: Instagram/Facebook को Private करें और WhatsApp में अनजान कॉल बंद करें (Settings -> Privacy -> Calls -> Silence unknown callers चालू करें)।"
+  - "4. ऐप में Report व Block करें: ब्लॉक करने से पहले 'Harassment' चुनकर प्लेटफॉर्म पर भी रिपोर्ट करें।"
+  - "5. cybercrime.gov.in पर शिकायत दर्ज करें: महिलाओं या बच्चों से जुड़े मामले में 'Report Cyber Crime Related to Women/Children' विकल्प चुनें और स्क्रीनशॉट अपलोड करें।"
+  - "6. अगर कोई तुरंत खतरा या पीछा कर रहा है: तुरंत पुलिस 112 या महिला हेल्पलाइन 1090 पर कॉल करें, या नजदीकी अलवर थाने के महिला हेल्प डेस्क जाएं।"
+followups:
+  - intent_id: "fake_profile_impersonation"
+    label_en: "Fake profile created in your name?"
+    label_hi: "आपके नाम से नकली प्रोफाइल बनाई है?"
+  - intent_id: "thana_finder_help"
+    label_en: "Find nearest Alwar Thana"
+    label_hi: "नजदीकी अलवर थाना खोजें"
+official_links:
+  - name_en: "Report on NCRP Portal"
+    name_hi: "NCRP पोर्टल पर रिपोर्ट करें"
+    url: "https://cybercrime.gov.in"
+    verified: true
+  - name_en: "Emergency Police 112"
+    name_hi: "पुलिस आपातकालीन 112"
+    url: "tel:112"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "MHA NCRP & Rajasthan Police Women Safety Guidance"

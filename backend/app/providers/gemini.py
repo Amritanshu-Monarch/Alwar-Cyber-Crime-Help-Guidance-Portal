@@ -124,7 +124,7 @@ class GeminiTTSProvider(TTSProvider):
                 model=self._s.tts_model,
                 contents=spoken_text,
                 config=types.GenerateContentConfig(
-                    response_mime_type="audio/x-raw",
+                    response_modalities=["AUDIO"],
                     speech_config=types.SpeechConfig(
                         voice_config=types.VoiceConfig(
                             prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=voice or self._s.tts_voice)
@@ -134,16 +134,15 @@ class GeminiTTSProvider(TTSProvider):
             )
 
         resp = await asyncio.to_thread(_call)
-        pcm_bytes = io.BytesIO()
+        for part in getattr(resp, "parts", []) or []:
+            if part.inline_data and part.inline_data.data:
+                return pcm_to_wav(part.inline_data.data, rate=TTS_SAMPLE_RATE)
         for cand in resp.candidates or []:
             for part in (cand.content and cand.content.parts) or []:
                 if part.inline_data and part.inline_data.data:
-                    pcm_bytes.write(part.inline_data.data)
+                    return pcm_to_wav(part.inline_data.data, rate=TTS_SAMPLE_RATE)
 
-        raw = pcm_bytes.getvalue()
-        if not raw:
-            raise RuntimeError("Gemini TTS returned no audio data")
-        return pcm_to_wav(raw, rate=TTS_SAMPLE_RATE)
+        raise RuntimeError("Gemini TTS returned no audio data")
 
     async def is_healthy(self) -> bool:
         return bool(self._s.google_api_key)

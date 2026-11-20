@@ -1,0 +1,49 @@
+id: "ncrp_vs_fir"
+category: "portals_reporting"
+urgency: "normal"
+title_en: "NCRP Online Complaint vs Police FIR — What is the Difference?"
+title_hi: "NCRP ऑनलाइन शिकायत और पुलिस FIR में क्या अंतर है?"
+summary_en: "Understand when an NCRP / 1930 online complaint is enough and when you should visit your local Police Station for a formal FIR / Zero FIR."
+summary_hi: "जानें कि 1930 / NCRP ऑनलाइन शिकायत कब काफी होती है और कब नजदीकी पुलिस थाने में औपचारिक FIR दर्ज कराना जरूरी होता है।"
+keywords_en:
+  - "ncrp vs fir"
+  - "difference between 1930 and fir"
+  - "zero fir cyber crime"
+  - "do i need police fir"
+  - "convert ncrp to fir"
+keywords_hi:
+  - "एनसीआरपी और एफआईआर में अंतर"
+  - "क्या थाने में एफआईआर जरूरी है"
+  - "जीरो एफआईआर क्या है"
+keywords_hinglish:
+  - "ncrp aur fir me kya farak hai"
+  - "1930 ke baad thane me fir karani padti hai kya"
+  - "zero fir cyber fraud"
+sample_queries:
+  - "What is the difference between an NCRP complaint and a police FIR?"
+  - "1930 par complaint karne ke baad kya thane me FIR karani hogi"
+  - "ऑनलाइन शिकायत और थाने की FIR में क्या अंतर है"
+answer_en:
+  - "1. NCRP / 1930 Complaint: This is a rapid national online complaint designed to alert banks immediately, freeze stolen money across India, and route the case digitally to your local Police Station / Cyber Cell."
+  - "2. Formal Police FIR (First Information Report): An FIR under criminal law (BNSS / IT Act) is required for formal police investigation, seizing suspect bank accounts/devices, issuing notices to banks/platforms, and court-ordered refund of held funds (especially in larger losses or ongoing extortion/hacking)."
+  - "3. Zero FIR Rights: Even if the cyber fraud happened while you were travelling or the fraudster sits in another state, ANY police station can register a 'Zero FIR' and transfer it to the concerned jurisdiction."
+  - "4. When to visit your local Thana: Bring your NCRP Acknowledgement PDF, ID, and bank statement to your nearest Police Station / Alwar Cyber Cell when loss is significant, money is held in a bank account and needs a court release order, or there is harassment/sextortion/threats."
+answer_hi:
+  - "1. NCRP / 1930 शिकायत: यह तुरंत ऑनलाइन दर्ज होने वाली शिकायत है जिसका मुख्य काम देश भर के बैंकों को अलर्ट करके ठगी की रकम को तुरंत फ्रीज़/होल्ड करना और केस को आपके नजदीकी थाने तक पहुंचाना है।"
+  - "2. पुलिस FIR (प्रथम सूचना रिपोर्ट): यह कानूनी जांच की औपचारिक प्रक्रिया है। बड़ी ठगी, ठग को पकड़ने, बैंक/सोशल मीडिया से डेटा मंगवाने और होल्ड हुए पैसे को कोर्ट के आदेश से वापस दिलाने के लिए FIR आवश्यक होती है।"
+  - "3. जीरो FIR (Zero FIR): साइबर अपराध कहीं से भी हुआ हो या ठग किसी दूसरे राज्य में बैठा हो, आप अपने नजदीकी किसी भी पुलिस थाने में शिकायत/FIR दे सकते हैं।"
+  - "4. थाने कब जाएं: 1930/ऑनलाइन शिकायत के बाद उसकी रसीद (Acknowledgement), आधार कार्ड और बैंक स्टेटमेंट लेकर अपने नजदीकी अलवर थाने या साइबर सेल में जरूर संपर्क करें ताकि आगे की कानूनी कार्रवाई और पैसा वापसी की प्रक्रिया हो सके।"
+followups:
+  - intent_id: "mrm_portal_recovery"
+    label_en: "How held funds are refunded (MRM Guide)"
+    label_hi: "होल्ड पैसे वापस मिलने की प्रक्रिया (MRM)"
+  - intent_id: "how_to_report_cybercrime"
+    label_en: "Step-by-step reporting guide"
+    label_hi: "शिकायत दर्ज करने के पूरे कदम"
+official_links:
+  - name_en: "NCRP Official Portal"
+    name_hi: "NCRP आधिकारिक पोर्टल"
+    url: "https://cybercrime.gov.in"
+    verified: true
+last_reviewed: "2025-05-01"
+source: "BPR&D / MHA Cyber Crime SOP Citizen Information"
